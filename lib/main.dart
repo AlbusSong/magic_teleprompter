@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'RealHomePage.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      title: "app_name".tr(),
+      title: "Magic Teleprompter",
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: RealHomePage(),
     );
   }
 }
@@ -130,3 +131,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+// flutter pub run build_runner watch

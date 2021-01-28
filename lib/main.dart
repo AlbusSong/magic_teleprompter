@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'RealHomePage.dart';
+import 'others/tools/SqliteTool.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 Future main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
   WidgetsFlutterBinding.ensureInitialized();
 
   // ignore: await_only_futures
@@ -19,6 +24,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SqliteTool();
+
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -42,6 +49,8 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: RealHomePage(),
+      builder: BotToastInit(),
+      navigatorObservers: [BotToastNavigatorObserver()],
     );
   }
 }

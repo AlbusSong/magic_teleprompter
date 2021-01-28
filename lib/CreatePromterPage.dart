@@ -4,6 +4,7 @@ import 'package:magic_teleprompter/others/tools/SqliteTool.dart';
 import 'others/widgets/GradientText.dart';
 import 'others/tools/HudTool.dart';
 import 'others/models/PromterModel.dart';
+import 'others/tools/AlertTool.dart';
 
 class CreatePromterPage extends StatefulWidget {
   CreatePromterPage({this.data});
@@ -26,8 +27,10 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
   void initState() {
     super.initState();
 
-    this.title = this.data.title;
-    this.content = this.data.content;
+    if (this.data != null) {
+      this.title = this.data.title;
+      this.content = this.data.content;
+    }
   }
 
   @override
@@ -192,6 +195,10 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
   }
 
   Future _tryToSave() async {
+    if (this.data != null && this.data.status == 2) {
+      HudTool.showErrorWithStatus("示例文件不可更改");
+      return;
+    }
     if (isAvailable(this.title) == false) {
       HudTool.showErrorWithStatus("请输入标题");
       return;
@@ -201,10 +208,17 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
       return;
     }
 
+    bool isOkay = await AlertTool.showStandardAlert(context, "保存?");
+    if (isOkay) {
+      _confirmToSave();
+    }
+  }
+
+  Future _confirmToSave() async {
     bool isEmpty = (this.data == null);
     if (isEmpty) {
       int the_id = await SqliteTool().createPrompter(this.title, this.content);
-      this.data = PromterModel(the_id, this.title, this.content);
+      this.data = PromterModel(the_id, this.title, this.content, 1);
     } else {
       int res = await SqliteTool()
           .updatePrompter(this.data.the_id, this.title, this.content);

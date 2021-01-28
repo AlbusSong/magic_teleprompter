@@ -28,15 +28,24 @@ class SqliteTool {
         onCreate: (Database db, int version) async {
       // When creating the db, create the table
       await db.execute(
-          'CREATE TABLE promters_table (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)');
-      print("databasedddd: $db");
+          'CREATE TABLE promters_table (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, status INT DEFAULT 1, update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)');
+      // this._createUnremovablePromter(db);
     });
+    print("databasedddd: $database");
   }
 
-  Future<int> createPrompter(String title, String content) async {
+  Future<int> _createUnremovablePromter(Database d) async {
+    int id1 = await d.rawInsert(
+        "INSERT INTO promters_table(title, content, status) VALUES(?, ?, 2)",
+        ["aaaaaaa", "bbbbbbbbbbbbbkbkbkbkbbk"]);
+    return id1;
+  }
+
+  Future<int> createPrompter(String title, String content,
+      {int status = 1}) async {
     int id1 = await database.rawInsert(
-        "INSERT INTO promters_table(title, content) VALUES(?, ?)",
-        [title, content]);
+        "INSERT INTO promters_table(title, content, status) VALUES(?, ?, ?)",
+        [title, content, status]);
     return id1;
   }
 
@@ -47,9 +56,16 @@ class SqliteTool {
     return res;
   }
 
+  Future<int> deletePrompter(int the_id) async {
+    int res = await database.rawUpdate(
+        "UPDATE promters_table SET status = 0, update_time = datetime('now','localtime') WHERE id = ?",
+        [the_id]);
+    return res;
+  }
+
   Future<List<Map>> getPromterList(int page, {int pageSize = 20}) async {
     List<Map> resultList = await database.rawQuery(
-        "SELECT * FROM promters_table ORDER BY id DESC LIMIT ? OFFSET ?;",
+        "SELECT * FROM promters_table WHERE status > 0 ORDER BY id DESC LIMIT ? OFFSET ?;",
         [pageSize, pageSize * page]);
     return resultList;
   }

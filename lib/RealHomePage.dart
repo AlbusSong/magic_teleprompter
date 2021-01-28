@@ -7,6 +7,8 @@ import 'package:magic_teleprompter/others/tools/SqliteTool.dart';
 import 'CreatePromterPage.dart';
 import 'others/tools/HudTool.dart';
 import 'others/models/PromterModel.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'others/tools/AlertTool.dart';
 
 class RealHomePage extends StatefulWidget {
   static GlobalKey<ScaffoldState> globalKey;
@@ -32,7 +34,7 @@ class _RealHomePageState extends State<RealHomePage> {
 
   Future _getDataFromLocalDB() async {
     List rawArr = await SqliteTool().getPromterList(this.page);
-    if (listLength(rawArr) == 0) {
+    if (listLength(rawArr) == 0 && this.page > 0) {
       return;
     }
 
@@ -40,9 +42,13 @@ class _RealHomePageState extends State<RealHomePage> {
     if (this.page == 0) {
       this.arrOfData.clear();
     }
-    setState(() {
-      this.arrOfData.addAll(arr);
-    });
+    this.arrOfData.addAll(arr);
+    if (this.page == 0) {
+      PromterModel exampleData = PromterModel(
+          0, "promter_example_title".tr(), "promter_example_content".tr(), 2);
+      this.arrOfData.add(exampleData);
+    }
+    setState(() {});
   }
 
   @override
@@ -112,7 +118,7 @@ class _RealHomePageState extends State<RealHomePage> {
             margin: EdgeInsets.fromLTRB(15, 20, 15, 0),
             // color: randomColor(),
             child: Text(
-              m.title,
+              avoidNull(m.title),
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: "Damascus",
@@ -137,6 +143,7 @@ class _RealHomePageState extends State<RealHomePage> {
                   ),
                   onTap: () {
                     print("delete");
+                    _tryToDelete(index);
                   },
                 ),
                 Expanded(child: SizedBox()),
@@ -200,7 +207,6 @@ class _RealHomePageState extends State<RealHomePage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(35.0)),
               onPressed: () {
-                print("kkkkkkkkkkkllllllll");
                 _tryToCreatePrompter();
               },
             ),
@@ -212,12 +218,16 @@ class _RealHomePageState extends State<RealHomePage> {
 
   Future _tryToEnterDetailPage(int index) async {
     PromterModel m = this.arrOfData[index];
-    PromterModel theData = await Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => CreatePromterPage(data: m)));
-    print("editedTheData: $theData");
+    PromterModel theEditedData = await Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (BuildContext context) => CreatePromterPage(data: m)));
+    print("theEditedData: $theEditedData");
+    if (theEditedData == null) {
+      return;
+    }
     setState(() {
-      m.title = theData.title;
-      m.content = theData.content;
+      m.title = theEditedData.title;
+      m.content = theEditedData.content;
     });
   }
 
@@ -225,8 +235,27 @@ class _RealHomePageState extends State<RealHomePage> {
     PromterModel theData = await Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => CreatePromterPage()));
     print("theData: $theData");
+    if (theData == null) {
+      return;
+    }
     setState(() {
       this.arrOfData.insert(0, theData);
     });
+  }
+
+  Future _tryToDelete(int index) async {
+    PromterModel m = this.arrOfData[index];
+    if (m.status == 2) {
+      HudTool.showErrorWithStatus("示例文件不可删除");
+      return;
+    }
+
+    bool isOkay = await AlertTool.showStandardAlert(context, "确定删除？");
+    if (isOkay) {
+      await SqliteTool().deletePrompter(m.the_id);
+      setState(() {
+        this.arrOfData.removeAt(index);
+      });
+    }
   }
 }

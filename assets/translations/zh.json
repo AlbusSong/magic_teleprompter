@@ -1,4 +1,6 @@
 {
     "app_name":"神奇提词器",
-    "test_i18n":"测试国际化"
+    "test_i18n":"测试国际化",
+    "promter_example_title":"「神奇提词器」使用范例",
+    "promter_example_content":"在编辑好您的提词内容后，点击右下角的按钮"
 }

@@ -13,10 +13,14 @@ class PromterModel extends Object {
   @JsonKey(name: 'content')
   String content;
 
+  @JsonKey(name: 'status')
+  int status;
+
   PromterModel(
     this.the_id,
     this.title,
     this.content,
+    this.status,
   );
 
   factory PromterModel.fromJson(Map<String, dynamic> srcJson) =>

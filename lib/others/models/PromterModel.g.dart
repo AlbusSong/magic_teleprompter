@@ -11,6 +11,7 @@ PromterModel _$PromterModelFromJson(Map<String, dynamic> json) {
     json['id'] as int,
     json['title'] as String,
     json['content'] as String,
+    json['status'] as int,
   );
 }
 
@@ -19,4 +20,5 @@ Map<String, dynamic> _$PromterModelToJson(PromterModel instance) =>
       'id': instance.the_id,
       'title': instance.title,
       'content': instance.content,
+      'status': instance.status,
     };

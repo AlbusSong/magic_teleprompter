@@ -9,6 +9,7 @@ import 'others/tools/HudTool.dart';
 import 'others/models/PromterModel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'others/tools/AlertTool.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class RealHomePage extends StatefulWidget {
   static GlobalKey<ScaffoldState> globalKey;
@@ -20,8 +21,11 @@ class RealHomePage extends StatefulWidget {
 }
 
 class _RealHomePageState extends State<RealHomePage> {
+  EasyRefreshController _refreshController = EasyRefreshController();
   List arrOfData = [];
   int page = 0;
+  final PromterModel _exampleData = PromterModel(
+      0, "promter_example_title".tr(), "promter_example_content".tr(), 2);
 
   @override
   void initState() {
@@ -33,8 +37,10 @@ class _RealHomePageState extends State<RealHomePage> {
   }
 
   Future _getDataFromLocalDB() async {
-    List rawArr = await SqliteTool().getPromterList(this.page);
+    List rawArr = await SqliteTool().getPromterList(this.page, pageSize: 1);
+    print("rawArr: $rawArr");
     if (listLength(rawArr) == 0 && this.page > 0) {
+      _refreshController.finishLoad(noMore: true);
       return;
     }
 
@@ -43,12 +49,11 @@ class _RealHomePageState extends State<RealHomePage> {
       this.arrOfData.clear();
     }
     this.arrOfData.addAll(arr);
-    if (this.page == 0) {
-      PromterModel exampleData = PromterModel(
-          0, "promter_example_title".tr(), "promter_example_content".tr(), 2);
-      this.arrOfData.add(exampleData);
-    }
+    this.arrOfData.remove(_exampleData);
+    this.arrOfData.add(_exampleData);
     setState(() {});
+
+    _refreshController.finishLoad();
   }
 
   @override
@@ -83,23 +88,32 @@ class _RealHomePageState extends State<RealHomePage> {
 
   Widget _buildWaterflowView() {
     return Scrollbar(
-        child: StaggeredGridView.countBuilder(
-      padding: EdgeInsets.fromLTRB(24, 30, 24, 15),
-      crossAxisCount: 4,
-      itemCount: listLength(this.arrOfData),
-      itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          child: _buildWaterflowItem(index),
-          onTap: () {
-            _tryToEnterDetailPage(index);
-          },
-        );
+        child: EasyRefresh(
+      controller: _refreshController,
+      taskIndependence: true,
+      footer: MaterialFooter(),
+      child: StaggeredGridView.countBuilder(
+        padding: EdgeInsets.fromLTRB(24, 30, 24, 15),
+        crossAxisCount: 4,
+        itemCount: listLength(this.arrOfData),
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            child: _buildWaterflowItem(index),
+            onTap: () {
+              _tryToEnterDetailPage(index);
+            },
+          );
+        },
+        staggeredTileBuilder: (int index) {
+          return StaggeredTile.fit(2);
+        },
+        mainAxisSpacing: 30.0,
+        crossAxisSpacing: 24.0,
+      ),
+      onLoad: () async {
+        this.page++;
+        _getDataFromLocalDB();
       },
-      staggeredTileBuilder: (int index) {
-        return StaggeredTile.fit(2);
-      },
-      mainAxisSpacing: 30.0,
-      crossAxisSpacing: 24.0,
     ));
   }
 

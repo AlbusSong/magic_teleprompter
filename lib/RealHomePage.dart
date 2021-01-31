@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:magic_teleprompter/others/models/PromterModel.dart';
+import 'models/PromterModel.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/SqliteTool.dart';
 import 'CreatePromterPage.dart';
 import 'others/tools/HudTool.dart';
-import 'others/models/PromterModel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'others/tools/AlertTool.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'UsePrompterPage.dart';
 
 class RealHomePage extends StatefulWidget {
   static GlobalKey<ScaffoldState> globalKey;
@@ -170,6 +170,7 @@ class _RealHomePageState extends State<RealHomePage> {
                   ),
                   onTap: () {
                     print("use");
+                    _tryToUse(index);
                   },
                 ),
               ],
@@ -271,5 +272,28 @@ class _RealHomePageState extends State<RealHomePage> {
         this.arrOfData.removeAt(index);
       });
     }
+  }
+
+  void _tryToUse(int index) {
+    Navigator.push(context, _createUsePrompterPageRoute());
+  }
+
+  Route _createUsePrompterPageRoute() {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            UsePrompterPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(0.0, 1.0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        });
   }
 }

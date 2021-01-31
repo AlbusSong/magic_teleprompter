@@ -1,4 +1,4 @@
-package com.example.magic_teleprompter
+package com.albus.magic_teleprompter
 
 import io.flutter.embedding.android.FlutterActivity
 

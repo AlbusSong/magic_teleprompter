@@ -3,7 +3,7 @@ import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/SqliteTool.dart';
 import 'others/widgets/GradientText.dart';
 import 'others/tools/HudTool.dart';
-import 'others/models/PromterModel.dart';
+import 'models/PromterModel.dart';
 import 'others/tools/AlertTool.dart';
 
 class CreatePromterPage extends StatefulWidget {

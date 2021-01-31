@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'RealHomePage.dart';
 import 'others/tools/SqliteTool.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'others/models/Trifle.dart';
 
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
@@ -12,6 +13,8 @@ Future main() async {
 
   // ignore: await_only_futures
   await EasyLocalization.ensureInitialized();
+
+  Trifle();
 
   runApp(EasyLocalization(
       supportedLocales: [Locale('en'), Locale('zh')],

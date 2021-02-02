@@ -275,13 +275,14 @@ class _RealHomePageState extends State<RealHomePage> {
   }
 
   void _tryToUse(int index) {
-    Navigator.push(context, _createUsePrompterPageRoute());
+    Navigator.push(context, _createUsePrompterPageRoute(index));
   }
 
-  Route _createUsePrompterPageRoute() {
+  Route _createUsePrompterPageRoute(int index) {
+    PromterModel m = this.arrOfData[index];
     return PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
-            UsePrompterPage(),
+            UsePrompterPage(m),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = Offset(0.0, 1.0);
           var end = Offset.zero;

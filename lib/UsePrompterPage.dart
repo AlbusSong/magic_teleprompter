@@ -261,14 +261,21 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
             padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: GestureDetector(
               child: Image.asset(
-                "assets/images/拍摄-播放文本按钮.png",
+                (this.isBeingScrolled
+                    ? "assets/images/拍摄-暂停文本按钮.png"
+                    : "assets/images/拍摄-播放文本按钮.png"),
                 width: 24,
                 height: 24,
                 fit: BoxFit.contain,
               ),
               onTap: () {
                 print("lllll");
-                this.startTimer();
+                if (this.isBeingScrolled == false) {
+                  this.startTimer();
+                } else {
+                  this.killTimer();
+                }
+                setState(() {});
               },
             ),
           ),
@@ -476,8 +483,8 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
         return;
       }
       this.txtOffsetY += offsetPerSecond;
-      print(
-          "lllllllaaaa: ${this._txtScrollController.position.maxScrollExtent}, ${this.txtOffsetY}");
+      // print(
+      // "lllllllaaaa: ${this._txtScrollController.position.maxScrollExtent}, ${this.txtOffsetY}");
       this._txtScrollController.animateTo(this.txtOffsetY,
           duration: Duration(milliseconds: 1000), curve: Curves.linear);
     });

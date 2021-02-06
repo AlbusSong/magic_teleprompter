@@ -42,5 +42,5 @@ class TextAreaSettings {
   String textHexColorString = "FFFFFF";
   String backgroundHexColorString = "FFFFFF";
   double backgroundAlpha = 0.3;
-  double textScrollingSpeed = 10.0;
+  double textScrollingSpeed = 30.0;
 }

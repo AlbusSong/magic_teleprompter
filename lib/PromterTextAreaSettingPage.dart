@@ -292,11 +292,11 @@ class _PromterTextAreaSettingPageState
               type: MaterialType.transparency,
               child: Slider(
                 value: this.txtSettings.textScrollingSpeed,
-                min: 1.0,
-                max: 100.0,
-                label:
-                    '${this.txtSettings.textScrollingSpeed.toInt().toString()}%',
-                divisions: 100,
+                min: 10.0,
+                max: (15.0 * 60),
+                label: _generateInteligientScrollingDurationText(
+                    this.txtSettings.textScrollingSpeed.toInt()),
+                divisions: 15 * 60 - 10,
                 activeColor: Colors.red,
                 inactiveColor: hexColor("1f5f5f"),
                 onChanged: (v) {
@@ -305,7 +305,8 @@ class _PromterTextAreaSettingPageState
                     this.txtSettings.textScrollingSpeed = v;
                   });
                   NotificationCenter().postNotification(
-                      "textAreaSettingsChanged", this.txtSettings);
+                      "textAreaSettingsScrollingDurationChanged",
+                      this.txtSettings);
                 },
               ),
             ),
@@ -313,5 +314,14 @@ class _PromterTextAreaSettingPageState
         ],
       ),
     );
+  }
+
+  String _generateInteligientScrollingDurationText(int seconds) {
+    if (seconds < 60) {
+      return '${seconds}秒滚完';
+    } else {
+      int minutes = (seconds / 60.0).ceil().toInt();
+      return '${minutes}分钟内滚完';
+    }
   }
 }

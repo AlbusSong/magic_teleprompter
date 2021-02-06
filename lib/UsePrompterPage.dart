@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:camerawesome/camerawesome_plugin.dart';
@@ -26,14 +28,20 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
   _UsePrompterPageState(this.dataModel);
   PromterModel dataModel;
 
+  Timer timer;
+
   CameraController _controller;
   Future<void> _initializeControllerFuture;
+  TextEditingController _txtController;
+  ScrollController _txtScrollController;
+  double txtOffsetY = 0.0;
+  bool isBeingScrolled = false;
 
   // 文字区域
   double textAreaLeft = 20;
   double textAreaTop = 300;
   double textAreaWidth = 300;
-  double texttAreaHeight = 200;
+  double textAreaHeight = 200;
 
   // 拖动偏移
   Offset initialLocalPanOffset = Offset.zero;
@@ -56,6 +64,16 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       _initializeControllerFuture = _controller.initialize();
       _controller.prepareForVideoRecording();
     }
+    // 预估大概时间
+    this.txtSettings.textScrollingSpeed =
+        ((stringLength(this.dataModel.content) * 60.0) / 190.0);
+
+    _txtController = TextEditingController(text: dataModel.content);
+    _txtScrollController = ScrollController();
+    _txtScrollController.addListener(() {
+      print("dkksddddlsl: ${this._txtScrollController.offset}");
+      this.txtOffsetY = this._txtScrollController.offset;
+    });
 
     // observer
     NotificationCenter().addObserver("textAreaSettingsChanged", (obj) {
@@ -66,6 +84,17 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       });
       this.txtSettings.cacheLocalSettings();
     });
+
+    // textAreaSettingsScrollingDurationChanged
+    // observer
+    NotificationCenter().addObserver("textAreaSettingsScrollingDurationChanged",
+        (obj) {
+      TextAreaSettings newSettings = (obj as TextAreaSettings);
+      this.txtSettings = newSettings;
+      if (this.isBeingScrolled == true) {
+        this.startTimer();
+      }
+    });
   }
 
   @override
@@ -74,6 +103,13 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
     if (_controller != null) {
       _controller.dispose();
     }
+    if (_txtController != null) {
+      _txtController.dispose();
+    }
+    if (_txtScrollController != null) {
+      _txtScrollController.dispose();
+    }
+    this.killTimer();
     super.dispose();
   }
 
@@ -140,7 +176,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
         child: Container(
           // color: randomColor(),
           width: this.textAreaWidth,
-          height: this.texttAreaHeight,
+          height: this.textAreaHeight,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(6)),
               border: new Border.all(width: 1, color: hexColor("999999")),
@@ -180,7 +216,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
                 this.initialLocalPanOffset.dy < 32) {
               // 更改尺寸
               this.textAreaWidth -= deltaX;
-              this.texttAreaHeight -= deltaY;
+              this.textAreaHeight -= deltaY;
               this.textAreaLeft += deltaX;
               this.textAreaTop += deltaY;
             } else {
@@ -232,6 +268,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
               ),
               onTap: () {
                 print("lllll");
+                this.startTimer();
               },
             ),
           ),
@@ -260,14 +297,32 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
   Widget _buildTextAreaContent() {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
         // color: randomColor(),
-        child: Text(
-          this.dataModel.content,
-          style: TextStyle(
-              fontSize: this.txtSettings.fontSize,
-              color: hexColor(this.txtSettings.textHexColorString)),
+        child: Scrollbar(
+          thickness: 3,
+          child: TextField(
+            controller: _txtController,
+            scrollController: _txtScrollController,
+            minLines: 1,
+            maxLines: null,
+            // maxLines: 100000,
+            readOnly: true,
+            style: TextStyle(
+                fontSize: this.txtSettings.fontSize,
+                color: hexColor(this.txtSettings.textHexColorString)),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+            ),
+          ),
         ),
+
+        // child: Text(
+        //   this.dataModel.content,
+        //   style: TextStyle(
+        //       fontSize: this.txtSettings.fontSize,
+        //       color: hexColor(this.txtSettings.textHexColorString)),
+        // ),
       ),
     );
   }
@@ -392,5 +447,39 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
           );
         });
     Navigator.push(context, _router);
+  }
+
+  void killTimer() {
+    if (this.timer != null) {
+      this.timer.cancel();
+      this.timer = null;
+    }
+    this.isBeingScrolled = false;
+  }
+
+  void startTimer() {
+    this.killTimer();
+
+    this.isBeingScrolled = true;
+    // double duration = this.txtSettings.textScrollingSpeed * 10.0;
+    double totolOffsetDistance =
+        this._txtScrollController.position.maxScrollExtent +
+            this.textAreaHeight -
+            40;
+    double offsetPerSecond =
+        totolOffsetDistance / (this.txtSettings.textScrollingSpeed * 1.0);
+
+    this.timer = Timer.periodic(Duration(milliseconds: 1000), (tm) {
+      // print("llll:  ${tm.tick}");
+      if (this.txtOffsetY >= totolOffsetDistance) {
+        this.killTimer();
+        return;
+      }
+      this.txtOffsetY += offsetPerSecond;
+      print(
+          "lllllllaaaa: ${this._txtScrollController.position.maxScrollExtent}, ${this.txtOffsetY}");
+      this._txtScrollController.animateTo(this.txtOffsetY,
+          duration: Duration(milliseconds: 1000), curve: Curves.linear);
+    });
   }
 }

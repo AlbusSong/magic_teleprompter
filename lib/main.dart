@@ -5,6 +5,7 @@ import 'RealHomePage.dart';
 import 'others/tools/SqliteTool.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'others/models/Trifle.dart';
+import 'others/models/TextAreaSettings.dart';
 
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
@@ -15,6 +16,7 @@ Future main() async {
   await EasyLocalization.ensureInitialized();
 
   Trifle();
+  TextAreaSettings();
 
   runApp(EasyLocalization(
       supportedLocales: [Locale('en'), Locale('zh')],

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:camerawesome/camerawesome_plugin.dart';
 // import 'package:camerawesome/models/orientations.dart';
@@ -6,6 +7,10 @@ import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:camera/camera.dart';
 import 'others/models/Trifle.dart';
 import 'models/PromterModel.dart';
+import 'others/models/TextAreaSettings.dart';
+import 'others/tools/NotificationCenter.dart';
+
+import 'PromterTextAreaSettingPage.dart';
 
 class UsePrompterPage extends StatefulWidget {
   UsePrompterPage(this.dataModel);
@@ -35,8 +40,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
   Offset initialGlobalPanOffset = Offset.zero;
 
   // 文字设置相关
-  double fontSize = 13;
-  String textHexColorString = "ffffff";
+  TextAreaSettings txtSettings = TextAreaSettings();
 
   @override
   void initState() {
@@ -52,6 +56,16 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       _initializeControllerFuture = _controller.initialize();
       _controller.prepareForVideoRecording();
     }
+
+    // observer
+    NotificationCenter().addObserver("textAreaSettingsChanged", (obj) {
+      setState(() {
+        TextAreaSettings newSettings = (obj as TextAreaSettings);
+        this.txtSettings = newSettings;
+        print("textAreaSettingsChanged: $newSettings");
+      });
+      this.txtSettings.cacheLocalSettings();
+    });
   }
 
   @override
@@ -98,9 +112,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // AspectRatio(
-          //     aspectRatio: 1.0 / _controller.value.aspectRatio,
-          //     child: CameraPreview(_controller))
+          _buildCameraArea(),
           _buildBackBtn(),
           _buildMenuBtn(),
           _buildRecordBtnArea(),
@@ -108,6 +120,16 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
         ],
       ),
     );
+  }
+
+  Widget _buildCameraArea() {
+    if (_controller == null) {
+      return Container();
+    } else {
+      return AspectRatio(
+          aspectRatio: 1.0 / _controller.value.aspectRatio,
+          child: CameraPreview(_controller));
+    }
   }
 
   Widget _buildTextArea() {
@@ -122,7 +144,8 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(6)),
               border: new Border.all(width: 1, color: hexColor("999999")),
-              color: hexColor("ffffff", 0.3)),
+              color: hexColor(this.txtSettings.backgroundHexColorString,
+                  this.txtSettings.backgroundAlpha)),
           clipBehavior: Clip.hardEdge,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -225,6 +248,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
               ),
               onTap: () {
                 print("lllll");
+                _popTextAreaSettings();
               },
             ),
           )
@@ -241,8 +265,8 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
         child: Text(
           this.dataModel.content,
           style: TextStyle(
-              fontSize: this.fontSize,
-              color: hexColor(this.textHexColorString)),
+              fontSize: this.txtSettings.fontSize,
+              color: hexColor(this.txtSettings.textHexColorString)),
         ),
       ),
     );
@@ -347,5 +371,26 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       _controller.dispose();
     }
     Navigator.pop(context);
+  }
+
+  void _popTextAreaSettings() {
+    PageRouteBuilder _router = PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            PromterTextAreaSettingPage(this.txtSettings),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(0.0, 1.0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        });
+    Navigator.push(context, _router);
   }
 }

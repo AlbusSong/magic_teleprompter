@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:camerawesome/camerawesome_plugin.dart';
@@ -14,6 +13,7 @@ import 'others/models/TextAreaSettings.dart';
 import 'others/tools/NotificationCenter.dart';
 
 import 'PromterTextAreaSettingPage.dart';
+import 'VideoPlayerPage.dart';
 
 class UsePrompterPage extends StatefulWidget {
   UsePrompterPage(this.dataModel);
@@ -835,6 +835,8 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
     } else {
       this.killTimerForRecording();
       XFile f = await _controller.stopVideoRecording();
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) => VideoPlayerPage(f.path)));
       print("path: ${f.path}");
     }
   }

@@ -30,6 +30,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
   PromterModel dataModel;
 
   Timer timer;
+  Timer timerForRecording;
 
   CameraController _controller;
   Future<void> _initializeControllerFuture;
@@ -71,6 +72,8 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
 
   // 是否正在录制
   bool isRecording = false;
+  int startingRecordTimeStamp = 0;
+  String recordingTimeString = "00:00";
   // 录制按钮的属性
   double recordBtnSize = 42;
   double recordBtnRadius = 21;
@@ -80,16 +83,8 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
   void initState() {
     super.initState();
 
-    if (listLength(Trifle().cameras) > 0) {
-      _controller = CameraController(
-        // Get a specific camera from the list of available cameras.
-        Trifle().cameras[0],
-        // Define the resolution to use.
-        ResolutionPreset.veryHigh,
-      );
-      _initializeControllerFuture = _controller.initialize();
-      _controller.prepareForVideoRecording();
-    }
+    _resetCameraController();
+
     // 预估大概时间
     this.txtSettings.textScrollingSpeed =
         ((stringLength(this.dataModel.content) * 60.0) / 190.0);
@@ -97,7 +92,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
     _txtController = TextEditingController(text: dataModel.content);
     _txtScrollController = ScrollController();
     _txtScrollController.addListener(() {
-      print("dkksddddlsl: ${this._txtScrollController.offset}");
+      // print("dkksddddlsl: ${this._txtScrollController.offset}");
       this.txtOffsetY = this._txtScrollController.offset;
     });
 
@@ -121,6 +116,28 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
         this.startTimer();
       }
     });
+  }
+
+  Future _resetCameraController() async {
+    int count = listLength(Trifle().cameras);
+    if (count == 0) {
+      return;
+    }
+
+    int cameraIndex = 0;
+    if (count == 2 && this.isFrontCamera) {
+      cameraIndex = 1;
+    }
+
+    _controller = CameraController(
+      // Get a specific camera from the list of available cameras.
+      Trifle().cameras[cameraIndex],
+      // Define the resolution to use.
+      ResolutionPreset.veryHigh,
+    );
+    _initializeControllerFuture = _controller.initialize();
+    _controller.prepareForVideoRecording();
+    return _initializeControllerFuture;
   }
 
   @override
@@ -364,9 +381,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
                   ),
                 ),
                 onTap: () {
-                  setState(() {
-                    this.isFrontCamera = !this.isFrontCamera;
-                  });
+                  _tryToFlipCamera();
                 },
               ),
               GestureDetector(
@@ -388,9 +403,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
                   ),
                 ),
                 onTap: () {
-                  setState(() {
-                    this.isFlashLightOn = !this.isFlashLightOn;
-                  });
+                  _tryToSwitchFlashLight();
                 },
               ),
               GestureDetector(
@@ -603,7 +616,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(50.0 / 2)),
-          border: Border.all(width: 3, color: hexColor("D8D8D8", 0.5)),
+          border: Border.all(width: 3, color: hexColor("ffffff", 0.8)),
           // color: hexColor("D8D8D8", 0.5),
         ),
         child: Center(
@@ -620,18 +633,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
         ),
       ),
       onTap: () {
-        setState(() {
-          this.isRecording = !this.isRecording;
-          if (this.isRecording) {
-            this.recordBtnSize = 25;
-            this.recordBtnRadius = 6;
-            this.recordBtnColorHexString = "C9371C";
-          } else {
-            this.recordBtnSize = 42;
-            this.recordBtnRadius = 21;
-            this.recordBtnColorHexString = "69C53B";
-          }
-        });
+        _tryToRecordVideo();
       },
     );
   }
@@ -642,7 +644,7 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       height: 14,
       // color: randomColor(),
       child: Text(
-        "0:00",
+        this.recordingTimeString,
         style: TextStyle(color: Colors.white, fontSize: 10),
       ),
     );
@@ -757,6 +759,113 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       this._txtScrollController.animateTo(this.txtOffsetY,
           duration: Duration(milliseconds: 1000), curve: Curves.linear);
     });
+  }
+
+  void killTimerForRecording() {
+    if (this.timerForRecording != null) {
+      this.timerForRecording.cancel();
+      this.timerForRecording = null;
+    }
+
+    setState(() {
+      this.isRecording = false;
+      this.startingRecordTimeStamp = 0;
+      this.recordingTimeString = "00:00";
+    });
+  }
+
+  void startTimerForRecording() {
+    this.killTimerForRecording();
+
+    this.isRecording = true;
+    this.startingRecordTimeStamp = DateTime.now().millisecondsSinceEpoch;
+    this.timerForRecording = Timer.periodic(Duration(milliseconds: 100), (tm) {
+      if (tm.tick % 10 == 0) {
+        int newTimeStamp = DateTime.now().millisecondsSinceEpoch;
+        int diffSeconds = (newTimeStamp - startingRecordTimeStamp) ~/ 1000;
+        _showRecordingTime(diffSeconds);
+      }
+      print("lssdkssk: ${tm.tick}");
+    });
+  }
+
+  void _showRecordingTime(int d) {
+    if (d < 10) {
+      this.recordingTimeString = '00:0$d';
+    } else if (d < 60) {
+      this.recordingTimeString = '00:$d';
+    } else {
+      int minutes = d ~/ 60;
+      int remnantSeconds = d - minutes * 60;
+      if (minutes < 10) {
+        if (remnantSeconds < 10) {
+          this.recordingTimeString = '0$minutes:0$remnantSeconds';
+        } else {
+          this.recordingTimeString = '0$minutes:$remnantSeconds';
+        }
+      } else {
+        if (remnantSeconds < 10) {
+          this.recordingTimeString = '$minutes:0$remnantSeconds';
+        } else {
+          this.recordingTimeString = '$minutes:$remnantSeconds';
+        }
+      }
+    }
+
+    setState(() {});
+  }
+
+  Future _tryToRecordVideo() async {
+    setState(() {
+      this.isRecording = !this.isRecording;
+      if (this.isRecording) {
+        this.recordBtnSize = 25;
+        this.recordBtnRadius = 6;
+        this.recordBtnColorHexString = "C9371C";
+      } else {
+        this.recordBtnSize = 42;
+        this.recordBtnRadius = 21;
+        this.recordBtnColorHexString = "69C53B";
+      }
+    });
+
+    if (this.isRecording) {
+      _controller.startVideoRecording();
+      this.startTimerForRecording();
+    } else {
+      this.killTimerForRecording();
+      XFile f = await _controller.stopVideoRecording();
+      print("path: ${f.path}");
+    }
+  }
+
+  void _tryToSwitchFlashLight() {
+    if (this.isFrontCamera) {
+      HudTool.showInfoWithStatus("前置摄像头无闪光灯");
+      return;
+    }
+    setState(() {
+      this.isFlashLightOn = !this.isFlashLightOn;
+    });
+
+    FlashMode m = FlashMode.torch;
+    if (this.isFlashLightOn == false) {
+      m = FlashMode.off;
+    }
+    _controller.setFlashMode(m);
+    print("kkkkkk");
+  }
+
+  Future _tryToFlipCamera() async {
+    if (listLength(Trifle().cameras) == 1) {
+      HudTool.showErrorWithStatus("只有一个相机可用");
+      return;
+    }
+
+    this.isFrontCamera = !this.isFrontCamera;
+    await _resetCameraController();
+
+    setState(() {});
   }
 
   void _tryToChangeCameraRadio(int r) {

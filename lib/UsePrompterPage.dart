@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:camera/camera.dart';
+import 'package:magic_teleprompter/others/tools/HudTool.dart';
 import 'others/models/Trifle.dart';
 import 'models/PromterModel.dart';
 import 'others/models/TextAreaSettings.dart';
@@ -49,6 +50,31 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
 
   // 文字设置相关
   TextAreaSettings txtSettings = TextAreaSettings();
+
+  // 弹出相机设置条
+  bool isCameraSettingsShowing = false;
+  // 弹出视频比例设置条
+  bool isCameraRatioSettingsShowing = false;
+
+  /// 视频宽高比
+  /// 0， 全屏
+  /// 1， 9:16
+  /// 2， 3:4
+  /// 3， 1:1
+  int cameraRatio = 0;
+
+  // 闪光灯是否开启
+  bool isFlashLightOn = false;
+
+  // 是否是前置摄像头
+  bool isFrontCamera = true;
+
+  // 是否正在录制
+  bool isRecording = false;
+  // 录制按钮的属性
+  double recordBtnSize = 42;
+  double recordBtnRadius = 21;
+  String recordBtnColorHexString = "69C53B";
 
   @override
   void initState() {
@@ -144,7 +170,6 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
 
   Widget _realBody() {
     return Container(
-      // color: randomColor(),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -153,6 +178,8 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
           _buildMenuBtn(),
           _buildRecordBtnArea(),
           _buildTextArea(),
+          _buildCameraFunctionPillar(),
+          _buildCameraRatioPillar(),
         ],
       ),
     );
@@ -301,6 +328,224 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
     );
   }
 
+  Widget _buildCameraFunctionPillar() {
+    return Positioned(
+      right: 15,
+      bottom: 72,
+      width: 50,
+      child: Offstage(
+        offstage: (this.isCameraSettingsShowing == false),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(6)),
+            border: new Border.all(width: 1, color: hexColor("999999")),
+            color: hexColor("ffffff", 0.3),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              GestureDetector(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  padding: EdgeInsets.all(13),
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                        (this.isFrontCamera
+                            ? Colors.white
+                            : hexColor("bbbbbb")),
+                        BlendMode.modulate),
+                    child: Image.asset(
+                      "assets/images/拍摄-反转相机按钮.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    this.isFrontCamera = !this.isFrontCamera;
+                  });
+                },
+              ),
+              GestureDetector(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  padding: EdgeInsets.all(13),
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                        (this.isFlashLightOn
+                            ? hexColor("E8D23A")
+                            : Colors.white),
+                        BlendMode.modulate),
+                    child: Image.asset(
+                      "assets/images/拍摄-闪光灯按钮.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    this.isFlashLightOn = !this.isFlashLightOn;
+                  });
+                },
+              ),
+              GestureDetector(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  padding: EdgeInsets.all(14),
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                        this.isCameraRatioSettingsShowing
+                            ? Colors.red
+                            : Colors.white,
+                        BlendMode.modulate),
+                    child: Image.asset(
+                      "assets/images/拍摄-屏幕比例按钮.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  print("拍摄-屏幕比例");
+                  setState(() {
+                    this.isCameraRatioSettingsShowing =
+                        !this.isCameraRatioSettingsShowing;
+                  });
+                },
+              ),
+              GestureDetector(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  padding: EdgeInsets.all(13),
+                  child: Image.asset(
+                    "assets/images/拍摄-美颜滤镜按钮.png",
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
+                onTap: () {
+                  print("美颜滤镜");
+                  HudTool.showInfoWithStatus("美颜功能尚未开通\n敬请期待下一版本");
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCameraRatioPillar() {
+    return Positioned(
+      left: 15,
+      bottom: 72,
+      width: 50,
+      child: Offstage(
+        offstage: (this.isCameraRatioSettingsShowing == false),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(6)),
+            border: new Border.all(width: 1, color: hexColor("999999")),
+            color: hexColor("ffffff", 0.3),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              GestureDetector(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  padding: EdgeInsets.all(8),
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                        (this.cameraRatio == 0 ? Colors.red : Colors.white),
+                        BlendMode.modulate),
+                    child: Image.asset(
+                      "assets/images/拍摄-屏幕比例-全屏-按钮.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  _tryToChangeCameraRadio(0);
+                },
+              ),
+              GestureDetector(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  padding: EdgeInsets.all(8),
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                        (this.cameraRatio == 1 ? Colors.red : Colors.white),
+                        BlendMode.modulate),
+                    child: Image.asset(
+                      "assets/images/拍摄-屏幕比例-9-16-按钮.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  _tryToChangeCameraRadio(1);
+                },
+              ),
+              GestureDetector(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  padding: EdgeInsets.all(8),
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                        (this.cameraRatio == 2 ? Colors.red : Colors.white),
+                        BlendMode.modulate),
+                    child: Image.asset(
+                      "assets/images/拍摄-屏幕比例-3-4-按钮.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  _tryToChangeCameraRadio(2);
+                },
+              ),
+              GestureDetector(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  padding: EdgeInsets.all(8),
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                        (this.cameraRatio == 3 ? Colors.red : Colors.white),
+                        BlendMode.modulate),
+                    child: Image.asset(
+                      "assets/images/拍摄-屏幕比例-1-1-按钮.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  _tryToChangeCameraRadio(3);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildTextAreaContent() {
     return Expanded(
       child: Container(
@@ -352,24 +597,42 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
   }
 
   Widget _buildRecordBtn() {
-    return Container(
-      // color: randomColor(),
+    return GestureDetector(
       child: Container(
         width: 50,
         height: 50,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(50.0 / 2)),
-            color: hexColor("D8D8D8", 0.5)),
+          borderRadius: BorderRadius.all(Radius.circular(50.0 / 2)),
+          border: Border.all(width: 3, color: hexColor("D8D8D8", 0.5)),
+          // color: hexColor("D8D8D8", 0.5),
+        ),
         child: Center(
-          child: Container(
-            width: 44,
-            height: 44,
+          child: AnimatedContainer(
+            width: this.recordBtnSize,
+            height: this.recordBtnSize,
+            curve: Curves.linear,
+            duration: Duration(milliseconds: 500),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(44.0 / 2)),
-                color: hexColor("69C53B")),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(this.recordBtnRadius)),
+                color: hexColor(this.recordBtnColorHexString)),
           ),
         ),
       ),
+      onTap: () {
+        setState(() {
+          this.isRecording = !this.isRecording;
+          if (this.isRecording) {
+            this.recordBtnSize = 25;
+            this.recordBtnRadius = 6;
+            this.recordBtnColorHexString = "C9371C";
+          } else {
+            this.recordBtnSize = 42;
+            this.recordBtnRadius = 21;
+            this.recordBtnColorHexString = "69C53B";
+          }
+        });
+      },
     );
   }
 
@@ -400,6 +663,12 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
           ),
           onPressed: () {
             print("Go back");
+            setState(() {
+              this.isCameraSettingsShowing = !this.isCameraSettingsShowing;
+              if (this.isCameraSettingsShowing == false) {
+                this.isCameraRatioSettingsShowing = false;
+              }
+            });
           },
         ),
       ),
@@ -487,6 +756,12 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       // "lllllllaaaa: ${this._txtScrollController.position.maxScrollExtent}, ${this.txtOffsetY}");
       this._txtScrollController.animateTo(this.txtOffsetY,
           duration: Duration(milliseconds: 1000), curve: Curves.linear);
+    });
+  }
+
+  void _tryToChangeCameraRadio(int r) {
+    setState(() {
+      this.cameraRatio = r;
     });
   }
 }

@@ -15,6 +15,7 @@ import 'others/tools/NotificationCenter.dart';
 
 import 'PromterTextAreaSettingPage.dart';
 import 'VideoPlayerPage.dart';
+import 'CustomCameraPreview.dart';
 
 class UsePrompterPage extends StatefulWidget {
   UsePrompterPage(this.dataModel);
@@ -216,11 +217,16 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
     if (_controller == null) {
       return Container();
     } else {
-      return AspectRatio(
-          aspectRatio: (OrientationTool().isPortrait()
-              ? (1.0 / _controller.value.aspectRatio)
-              : _controller.value.aspectRatio),
-          child: CameraPreview(_controller));
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: CustomCameraPreview(_controller),
+      );
+      // return AspectRatio(
+      //     aspectRatio: (OrientationTool().isPortrait()
+      //         ? (1.0 / _controller.value.aspectRatio)
+      //         : _controller.value.aspectRatio),
+      //     child: CameraPreview(_controller));
     }
   }
 

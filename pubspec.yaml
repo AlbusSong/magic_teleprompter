@@ -30,7 +30,6 @@ dependencies:
   bot_toast: ^3.0.5
   flutter_easyrefresh: ^2.1.8
   flustars: ^0.3.3
-  # camerawesome: ^0.2.1+2
   camera: ^0.7.0+2
   fsuper: ^2.0.2
   shared_preferences: ^0.5.12+4

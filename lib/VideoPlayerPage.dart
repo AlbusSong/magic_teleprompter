@@ -152,12 +152,12 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   Future _tryToSaveVideo() async {
     HudTool.show();
-    bool success = await GallerySaver.saveVideo(this.localVideoPath);
-    if (success) {
-      HudTool.showInfoWithStatus("保存成功");
+    // bool success = await GallerySaver.saveVideo(this.localVideoPath);
+    if (1 == 1) {
+      // HudTool.showInfoWithStatus("保存成功");
       // _tryToGoBackAndRetake();
-      _videoFile.deleteSync();
-      Navigator.pop(context);
+      // _videoFile.deleteSync();
+      // Navigator.pop(context);
     } else {
       HudTool.showErrorWithStatus("保存失败请重试");
     }

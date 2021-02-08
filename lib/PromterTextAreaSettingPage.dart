@@ -40,8 +40,8 @@ class _PromterTextAreaSettingPageState
   }
 
   Widget _buildBody() {
-    return Container(
-      color: hexColor("000000", 0.1),
+    return Material(
+      color: Colors.transparent,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,22 +49,25 @@ class _PromterTextAreaSettingPageState
           Expanded(child: SizedBox(width: 1)),
           GestureDetector(
             child: Container(
-              // height: 200,
+              constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height - 30),
               padding: EdgeInsets.only(bottom: 80),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
                 color: hexColor("ffffff", 0.5),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildChooseTextColor(),
-                  _buildTextFontSizeSlider(),
-                  _buildChooseBackgroundColor(),
-                  _buildBackgroundAlphaSlider(),
-                  _buildTextScrollingSpeedSlider(),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildChooseTextColor(),
+                    _buildTextFontSizeSlider(),
+                    _buildChooseBackgroundColor(),
+                    _buildBackgroundAlphaSlider(),
+                    _buildTextScrollingSpeedSlider(),
+                  ],
+                ),
               ),
             ),
             onTap: () {
@@ -89,10 +92,13 @@ class _PromterTextAreaSettingPageState
     return Container(
       padding: EdgeInsets.fromLTRB(15, 20, 15, 10),
       // color: randomColor(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: widgets,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: widgets,
+        ),
       ),
     );
   }
@@ -186,10 +192,13 @@ class _PromterTextAreaSettingPageState
     return Container(
       padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
       // color: randomColor(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: widgets,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: widgets,
+        ),
       ),
     );
   }

@@ -10,6 +10,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'others/tools/AlertTool.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'UsePrompterPage.dart';
+import 'package:dough/dough.dart';
 
 class RealHomePage extends StatefulWidget {
   static GlobalKey<ScaffoldState> globalKey;
@@ -182,51 +183,58 @@ class _RealHomePageState extends State<RealHomePage> {
   }
 
   Widget _buildCreatePostButton() {
-    return Container(
-      width: 70,
-      height: 70,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 10,
-            offset: Offset(3, 3.0),
-            spreadRadius: 0,
-            color: Color(0xaa000000),
-          ),
-        ],
-        gradient: new LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.topRight,
-            colors: [hexColor("7BC1EA"), hexColor("8134B9")]),
-        borderRadius: BorderRadius.circular(35.0),
+    return DoughRecipe(
+      data: DoughRecipeData(
+        adhesion: 30,
       ),
-      child: Stack(
-        children: [
-          Center(
-            child: Image.asset(
-              "assets/images/发布按钮.png",
-              width: 36,
-              height: 36,
-              fit: BoxFit.contain,
-            ),
+      child: GyroDough(
+        child: Container(
+          width: 70,
+          height: 70,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 10,
+                offset: Offset(3, 3.0),
+                spreadRadius: 0,
+                color: Color(0xaa000000),
+              ),
+            ],
+            gradient: new LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.topRight,
+                colors: [hexColor("7BC1EA"), hexColor("8134B9")]),
+            borderRadius: BorderRadius.circular(35.0),
           ),
-          Container(
-            width: 70,
-            height: 70,
-            child: FlatButton(
-              child: null,
-              // color: hexColor("00E8EC"),
-              // highlightColor: Colors.white70,
-              // colorBrightness: Brightness.dark,
-              splashColor: Colors.white70,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(35.0)),
-              onPressed: () {
-                _tryToCreatePrompter();
-              },
-            ),
+          child: Stack(
+            children: [
+              Center(
+                child: Image.asset(
+                  "assets/images/发布按钮.png",
+                  width: 36,
+                  height: 36,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Container(
+                width: 70,
+                height: 70,
+                child: FlatButton(
+                  child: null,
+                  // color: hexColor("00E8EC"),
+                  // highlightColor: Colors.white70,
+                  // colorBrightness: Brightness.dark,
+                  splashColor: Colors.white70,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35.0)),
+                  onPressed: () {
+                    _tryToCreatePrompter();
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

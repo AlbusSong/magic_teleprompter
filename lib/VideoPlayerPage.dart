@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
@@ -8,6 +9,7 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:dough/dough.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:fbutton/fbutton.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   VideoPlayerPage(this.localVideoPath);
@@ -85,7 +87,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   _buildBackButton(),
-                  _buildExportButton(),
+                  _buildExportButton2(),
                 ],
               ),
             ),
@@ -159,14 +161,42 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     );
   }
 
+  Widget _buildExportButton2() {
+    return PressableDough(
+      child: FButton(
+        width: 80,
+        height: 80,
+        corner: FCorner.all(40),
+        text: "导出\n相册",
+        alignment: Alignment.center,
+        style: TextStyle(
+            color: hexColor("ffffff"),
+            fontSize: 18,
+            fontWeight: FontWeight.bold),
+        gradient: LinearGradient(colors: [
+          hexColor("3583C2"),
+          hexColor("88427D"),
+        ]),
+        clickLoading: true,
+        clickEffect: true,
+        loadingColor: Colors.white,
+        loadingSize: 20,
+        hideTextOnLoading: true,
+        onPressed: () {
+          _tryToSaveVideo();
+        },
+      ),
+    );
+  }
+
   Future _tryToSaveVideo() async {
-    HudTool.show();
-    // bool success = await GallerySaver.saveVideo(this.localVideoPath);
-    if (1 == 1) {
-      // HudTool.showInfoWithStatus("保存成功");
-      // _tryToGoBackAndRetake();
-      // _videoFile.deleteSync();
-      // Navigator.pop(context);
+    bool success = await GallerySaver.saveVideo(this.localVideoPath);
+    if (success) {
+      HudTool.showInfoWithStatus("保存成功");
+      _videoFile.deleteSync();
+      Future.delayed(Duration(seconds: 1), () {
+        Navigator.pop(context);
+      });
     } else {
       HudTool.showErrorWithStatus("保存失败请重试");
     }

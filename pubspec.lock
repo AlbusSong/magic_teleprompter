@@ -253,6 +253,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0-nullsafety.1"
+  fbutton:
+    dependency: "direct main"
+    description:
+      name: fbutton
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   fcontrol:
     dependency: transitive
     description:

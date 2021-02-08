@@ -698,7 +698,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
             width: this.recordBtnSize,
             height: this.recordBtnSize,
             curve: Curves.linear,
-            duration: Duration(milliseconds: 500),
+            duration: Duration(milliseconds: 300),
             decoration: BoxDecoration(
                 borderRadius:
                     BorderRadius.all(Radius.circular(this.recordBtnRadius)),

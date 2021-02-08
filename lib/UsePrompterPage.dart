@@ -27,7 +27,8 @@ class UsePrompterPage extends StatefulWidget {
   }
 }
 
-class _UsePrompterPageState extends State<UsePrompterPage> {
+class _UsePrompterPageState extends State<UsePrompterPage>
+    with TickerProviderStateMixin {
   _UsePrompterPageState(this.dataModel);
   PromterModel dataModel;
 
@@ -47,9 +48,10 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
   double textAreaWidth = 300;
   double textAreaHeight = 200;
 
-  // 拖动偏移
+  // 拖动偏移、点击事件
   Offset initialLocalPanOffset = Offset.zero;
   Offset initialGlobalPanOffset = Offset.zero;
+  Offset tapGlobalPanOffset = Offset.zero;
 
   // 文字设置相关
   TextAreaSettings txtSettings = TextAreaSettings();
@@ -81,11 +83,29 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
   double recordBtnRadius = 21;
   String recordBtnColorHexString = "69C53B";
 
+  // 动画
+  AnimationController _animController;
+  Animation<double> _focusRectAnim;
+  bool _shouldAppearFocusRect = false;
+
   @override
   void initState() {
     super.initState();
 
     _resetCameraController();
+
+    _animController =
+        AnimationController(duration: Duration(milliseconds: 200), vsync: this)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              _animController.reset();
+              setState(() {
+                this._shouldAppearFocusRect = false;
+              });
+            }
+          });
+    _focusRectAnim =
+        Tween<double>(begin: 1.25, end: 1).animate(_animController);
 
     OrientationTool().addOrientationChangeHandler((o1, o2) {
       print("o1: $o1, o2: $o2");
@@ -145,6 +165,9 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       ResolutionPreset.veryHigh,
     );
     _initializeControllerFuture = _controller.initialize();
+    _controller.cameraId;
+    // _controller.lockCaptureOrientation();
+    print("klsdkfalsdfjals: ");
     _controller.prepareForVideoRecording();
     return _initializeControllerFuture;
   }
@@ -160,6 +183,10 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
     }
     if (_txtScrollController != null) {
       _txtScrollController.dispose();
+    }
+
+    if (_animController != null) {
+      _animController.dispose();
     }
     this.killTimer();
     super.dispose();
@@ -202,10 +229,11 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
         alignment: Alignment.center,
         children: [
           _buildCameraArea(),
+          _buildFocusRect(),
+          _buildTextArea(),
           _buildBackBtn(),
           _buildMenuBtn(),
           _buildRecordBtnArea(),
-          _buildTextArea(),
           _buildCameraFunctionPillar(),
           _buildCameraRatioPillar(),
         ],
@@ -217,10 +245,18 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
     if (_controller == null) {
       return Container();
     } else {
-      return Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: CustomCameraPreview(_controller),
+      return GestureDetector(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: CustomCameraPreview(_controller),
+        ),
+        onTapDown: (TapDownDetails details) {
+          this.tapGlobalPanOffset = details.globalPosition;
+        },
+        onTap: () {
+          _tryToSetCameraFocus();
+        },
       );
       // return AspectRatio(
       //     aspectRatio: (OrientationTool().isPortrait()
@@ -228,6 +264,30 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       //         : _controller.value.aspectRatio),
       //     child: CameraPreview(_controller));
     }
+  }
+
+  Widget _buildFocusRect() {
+    return Positioned(
+      left: this.tapGlobalPanOffset.dx - 25,
+      top: this.tapGlobalPanOffset.dy - 25,
+      child: Offstage(
+        offstage: (this._shouldAppearFocusRect == false),
+        child: ScaleTransition(
+          scale: _focusRectAnim,
+          child: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(1)),
+              border: new Border.all(
+                width: 2,
+                color: hexColor("E5B353"),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildTextArea() {
@@ -892,6 +952,19 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
     setState(() {
       this.cameraRatio = r;
     });
+  }
+
+  Future _tryToSetCameraFocus() async {
+    setState(() {
+      this._shouldAppearFocusRect = true;
+    });
+    _animController.forward();
+
+    double x = this.tapGlobalPanOffset.dx / MediaQuery.of(context).size.width;
+    double y = this.tapGlobalPanOffset.dy / MediaQuery.of(context).size.height;
+    Offset focusPoint = Offset(x, y);
+    print("focusPoint: $focusPoint");
+    await _controller.setFocusPoint(focusPoint);
   }
 
   // void _tryToRePositionTextArea(DeviceOrientation o1, DeviceOrientation o2) {

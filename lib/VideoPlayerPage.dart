@@ -10,6 +10,7 @@ import 'package:chewie/chewie.dart';
 import 'package:dough/dough.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:fbutton/fbutton.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   VideoPlayerPage(this.localVideoPath);
@@ -23,7 +24,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   _VideoPlayerPageState(this.localVideoPath);
   final String localVideoPath;
 
-  // final GlobalKey<VideoViewerState> _key = GlobalKey<VideoViewerState>();
+  final SweetSheet _sweetSheet = SweetSheet();
+
   VideoPlayerController _videoController;
   ChewieController _chewieController;
 
@@ -203,6 +205,23 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   }
 
   void _tryToGoBackAndRetake() {
+    _sweetSheet.show(
+      context: context,
+      title: Text("退出重拍？"),
+      description: Text('您拍摄的此段视频文件将被删除。'),
+      color: SweetSheetColor.DANGER,
+      // icon: Icons.portable_wifi_off,
+      positive: SweetSheetAction(
+        onPressed: () {
+          Navigator.of(context).pop();
+          _goBackAndRetake();
+        },
+        title: "退出重拍",
+      ),
+    );
+  }
+
+  void _goBackAndRetake() {
     _videoFile.deleteSync();
 
     Navigator.pop(context);

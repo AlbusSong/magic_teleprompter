@@ -12,6 +12,7 @@ import 'others/models/Trifle.dart';
 import 'models/PromterModel.dart';
 import 'others/models/TextAreaSettings.dart';
 import 'others/tools/NotificationCenter.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 
 import 'PromterTextAreaSettingPage.dart';
 import 'VideoPlayerPage.dart';
@@ -31,6 +32,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     with TickerProviderStateMixin {
   _UsePrompterPageState(this.dataModel);
   PromterModel dataModel;
+
+  final SweetSheet _sweetSheet = SweetSheet();
 
   Timer timer;
   Timer timerForRecording;
@@ -766,9 +769,26 @@ class _UsePrompterPageState extends State<UsePrompterPage>
           ),
           onPressed: () {
             print("Go back");
-            _goBack();
+            _tryToGoBack();
           },
         ),
+      ),
+    );
+  }
+
+  void _tryToGoBack() {
+    _sweetSheet.show(
+      context: context,
+      title: Text("退出拍摄？"),
+      description: Text('退出拍摄'),
+      color: SweetSheetColor.WARNING,
+      // icon: Icons.portable_wifi_off,
+      positive: SweetSheetAction(
+        onPressed: () {
+          Navigator.of(context).pop();
+          _goBack();
+        },
+        title: "退出",
       ),
     );
   }

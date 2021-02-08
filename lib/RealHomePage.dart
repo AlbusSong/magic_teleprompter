@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:ui';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'models/PromterModel.dart';
@@ -185,7 +186,7 @@ class _RealHomePageState extends State<RealHomePage> {
   Widget _buildCreatePostButton() {
     return DoughRecipe(
       data: DoughRecipeData(
-        adhesion: 30,
+        adhesion: 40,
       ),
       child: GyroDough(
         child: Container(

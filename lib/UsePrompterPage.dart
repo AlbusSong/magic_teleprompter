@@ -35,8 +35,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   Timer timer;
   Timer timerForRecording;
 
-  CameraController _controller;
-  Future<void> _initializeControllerFuture;
+  CameraController _cameraController;
   TextEditingController _txtController;
   ScrollController _txtScrollController;
   double txtOffsetY = 0.0;
@@ -158,25 +157,22 @@ class _UsePrompterPageState extends State<UsePrompterPage>
       cameraIndex = 1;
     }
 
-    _controller = CameraController(
+    _cameraController = CameraController(
       // Get a specific camera from the list of available cameras.
       Trifle().cameras[cameraIndex],
       // Define the resolution to use.
       ResolutionPreset.veryHigh,
     );
-    _initializeControllerFuture = _controller.initialize();
-    _controller.cameraId;
-    // _controller.lockCaptureOrientation();
-    print("klsdkfalsdfjals: ");
-    _controller.prepareForVideoRecording();
-    return _initializeControllerFuture;
+    await _cameraController.initialize();
+    _cameraController.prepareForVideoRecording();
+    setState(() {});
   }
 
   @override
   void dispose() {
     // Dispose of the controller when the widget is disposed.
-    if (_controller != null) {
-      _controller.dispose();
+    if (_cameraController != null) {
+      _cameraController.dispose();
     }
     if (_txtController != null) {
       _txtController.dispose();
@@ -201,13 +197,13 @@ class _UsePrompterPageState extends State<UsePrompterPage>
       //   brightness: Brightness.dark,
       //   automaticallyImplyLeading: false,
       // ),
-      body: _buildBody(),
+      body: _realBody(),
     );
   }
 
   Widget _buildBody() {
     return FutureBuilder<void>(
-      future: _initializeControllerFuture,
+      // future: _initializeControllerFuture,
       builder: (context, snapshot) {
         return _realBody();
         // if (snapshot.connectionState == ConnectionState.done) {
@@ -242,14 +238,14 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   }
 
   Widget _buildCameraArea() {
-    if (_controller == null) {
+    if (_cameraController == null) {
       return Container();
     } else {
       return GestureDetector(
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: CustomCameraPreview(_controller),
+          child: CustomCameraPreview(_cameraController),
         ),
         onTapDown: (TapDownDetails details) {
           this.tapGlobalPanOffset = details.globalPosition;
@@ -260,9 +256,9 @@ class _UsePrompterPageState extends State<UsePrompterPage>
       );
       // return AspectRatio(
       //     aspectRatio: (OrientationTool().isPortrait()
-      //         ? (1.0 / _controller.value.aspectRatio)
-      //         : _controller.value.aspectRatio),
-      //     child: CameraPreview(_controller));
+      //         ? (1.0 / _cameraController.value.aspectRatio)
+      //         : _cameraController.value.aspectRatio),
+      //     child: CameraPreview(_cameraController));
     }
   }
 
@@ -778,8 +774,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   }
 
   void _goBack() {
-    if (_controller != null) {
-      _controller.dispose();
+    if (_cameraController != null) {
+      _cameraController.dispose();
     }
     Navigator.pop(context);
   }
@@ -908,11 +904,11 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     });
 
     if (this.isRecording) {
-      _controller.startVideoRecording();
+      _cameraController.startVideoRecording();
       this.startTimerForRecording();
     } else {
       this.killTimerForRecording();
-      XFile f = await _controller.stopVideoRecording();
+      XFile f = await _cameraController.stopVideoRecording();
       Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => VideoPlayerPage(f.path)));
       print("path: ${f.path}");
@@ -932,7 +928,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     if (this.isFlashLightOn == false) {
       m = FlashMode.off;
     }
-    _controller.setFlashMode(m);
+    _cameraController.setFlashMode(m);
     print("kkkkkk");
   }
 
@@ -964,7 +960,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     double y = this.tapGlobalPanOffset.dy / MediaQuery.of(context).size.height;
     Offset focusPoint = Offset(x, y);
     print("focusPoint: $focusPoint");
-    await _controller.setFocusPoint(focusPoint);
+    await _cameraController.setFocusPoint(focusPoint);
   }
 
   // void _tryToRePositionTextArea(DeviceOrientation o1, DeviceOrientation o2) {

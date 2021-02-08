@@ -34,7 +34,9 @@ class CustomCameraPreview extends StatelessWidget {
               ],
             ),
           )
-        : Container();
+        : Container(
+            color: Colors.black,
+          );
   }
 
   DeviceOrientation _getApplicableOrientation() {

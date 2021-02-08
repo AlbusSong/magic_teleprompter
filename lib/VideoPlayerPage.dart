@@ -33,15 +33,18 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
     _videoFile = File(this.localVideoPath);
 
-    _videoController = VideoPlayerController.file(_videoFile)
-      ..initialize().then((_) {
-        this._chewieController = ChewieController(
-          videoPlayerController: _videoController,
-          autoPlay: true,
-          looping: true,
-        );
-        setState(() {});
-      });
+    _initControllers();
+  }
+
+  Future _initControllers() async {
+    _videoController = VideoPlayerController.file(_videoFile);
+    await _videoController.initialize();
+    this._chewieController = ChewieController(
+      videoPlayerController: _videoController,
+      autoPlay: true,
+      looping: true,
+    );
+    setState(() {});
   }
 
   @override
@@ -57,33 +60,39 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Container(
-              height: 200,
-              margin: EdgeInsets.fromLTRB(15, 30, 15, 0),
-              child: Chewie(controller: _chewieController),
+    if (_chewieController == null) {
+      return Container(
+        color: Colors.white,
+      );
+    } else {
+      return Material(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Container(
+                height: 200,
+                margin: EdgeInsets.fromLTRB(15, 30, 15, 0),
+                child: Chewie(controller: _chewieController),
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(15, 15, 20, 15),
-            height: 80,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildBackButton(),
-                _buildExportButton(),
-              ],
+            Container(
+              margin: EdgeInsets.fromLTRB(15, 15, 20, 15),
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildBackButton(),
+                  _buildExportButton(),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildBackButton() {

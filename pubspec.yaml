@@ -39,6 +39,7 @@ dependencies:
   chewie: ^0.12.2
   dough: ^0.3.7
   gallery_saver: ^2.0.3
+  orientation: ^1.2.0
   # unicorndial: ^1.1.5
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

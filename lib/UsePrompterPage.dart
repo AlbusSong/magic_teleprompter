@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 // import 'package:camerawesome/models/orientations.dart';
 import 'package:flutter/services.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
+import 'package:magic_teleprompter/others/tools/OrientationTool.dart';
 import 'package:camera/camera.dart';
 import 'package:magic_teleprompter/others/tools/HudTool.dart';
 import 'others/models/Trifle.dart';
@@ -84,6 +85,13 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
     super.initState();
 
     _resetCameraController();
+
+    OrientationTool().addOrientationChangeHandler((o1, o2) {
+      print("o1: $o1, o2: $o2");
+      OrientationTool().forceOrientation(o2).then((v) {
+        // _tryToRePositionTextArea(o1, o2);
+      });
+    });
 
     // 预估大概时间
     this.txtSettings.textScrollingSpeed =
@@ -187,6 +195,8 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
 
   Widget _realBody() {
     return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -207,7 +217,9 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       return Container();
     } else {
       return AspectRatio(
-          aspectRatio: 1.0 / _controller.value.aspectRatio,
+          aspectRatio: (OrientationTool().isPortrait()
+              ? (1.0 / _controller.value.aspectRatio)
+              : _controller.value.aspectRatio),
           child: CameraPreview(_controller));
     }
   }
@@ -875,4 +887,22 @@ class _UsePrompterPageState extends State<UsePrompterPage> {
       this.cameraRatio = r;
     });
   }
+
+  // void _tryToRePositionTextArea(DeviceOrientation o1, DeviceOrientation o2) {
+  //   double oldScreenWidth = MediaQuery.of(context).size.width;
+  //   double oldScreenHeight = MediaQuery.of(context).size.height;
+  //   double newScreenWidth = MediaQuery.of(context).size.height;
+  //   double newScreenHeight = MediaQuery.of(context).size.width;
+  //   print(
+  //       "oldScreenWidth: $oldScreenWidth, oldScreenHeight: $oldScreenHeight, newScreenWidth: $newScreenWidth, newScreenHeight: $newScreenHeight");
+  //   if (OrientationTool().isPortrait(o2)) {
+  //   } else {
+  //     double oldRatioW = this.textAreaLeft / oldScreenWidth;
+  //     double oldRatioH = this.textAreaTop / oldScreenWidth;
+  //     setState(() {
+  //       this.textAreaLeft = oldRatioW * newScreenWidth;
+  //       this.textAreaTop = oldRatioH * newScreenHeight;
+  //     });
+  //   }
+  // }
 }

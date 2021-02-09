@@ -11,6 +11,7 @@ import 'package:dough/dough.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:fbutton/fbutton.dart';
 import 'package:sweetsheet/sweetsheet.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   VideoPlayerPage(this.localVideoPath);
@@ -191,7 +192,14 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     );
   }
 
-  Future _tryToSaveVideo() async {
+  void _tryToSaveVideo() async {
+    await [Permission.photosAddOnly].request();
+    PermissionStatus photosStatus = await Permission.photos.status;
+    if (photosStatus.isGranted == false) {
+      HudTool.showErrorWithStatus("相册写入权限未开启");
+      return;
+    }
+
     bool success = await GallerySaver.saveVideo(this.localVideoPath);
     if (success) {
       HudTool.showInfoWithStatus("保存成功");

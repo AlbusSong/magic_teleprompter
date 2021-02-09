@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:ui';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'models/PromterModel.dart';
@@ -12,6 +11,7 @@ import 'others/tools/AlertTool.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'UsePrompterPage.dart';
 import 'package:dough/dough.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class RealHomePage extends StatefulWidget {
   static GlobalKey<ScaffoldState> globalKey;
@@ -283,7 +283,19 @@ class _RealHomePageState extends State<RealHomePage> {
     }
   }
 
-  void _tryToUse(int index) {
+  Future _tryToUse(int index) async {
+    await [Permission.camera, Permission.microphone].request();
+    PermissionStatus cameraStatus = await Permission.camera.status;
+    if (cameraStatus.isGranted == false) {
+      HudTool.showErrorWithStatus("相机权限未开启");
+      return;
+    }
+    PermissionStatus microphoneStatus = await Permission.microphone.status;
+    if (microphoneStatus.isGranted == false) {
+      HudTool.showErrorWithStatus("麦克风权限未开启");
+      return;
+    }
+
     Navigator.push(context, _createUsePrompterPageRoute(index));
   }
 

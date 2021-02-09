@@ -69,6 +69,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   /// 2， 3:4
   /// 3， 1:1
   int cameraRatio = 0;
+  // 与宽高比相应的遮照高度
+  double cameraRadioMaskAreaHeight = 0;
 
   // 闪光灯是否开启
   bool isFlashLightOn = false;
@@ -113,6 +115,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
       print("o1: $o1, o2: $o2");
       OrientationTool().forceOrientation(o2).then((v) {
         // _tryToRePositionTextArea(o1, o2);
+        setState(() {});
       });
     });
 
@@ -229,6 +232,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
         children: [
           _buildCameraArea(),
           _buildFocusRect(),
+          _buildCameraEdgeArea1(),
+          _buildCameraEdgeArea2(),
           _buildTextArea(),
           _buildBackBtn(),
           _buildMenuBtn(),
@@ -289,6 +294,46 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     );
   }
 
+  Widget _buildCameraEdgeArea1() {
+    if (OrientationTool().isPortrait()) {
+      return Positioned(
+        left: 0,
+        top: 0,
+        width: MediaQuery.of(context).size.width,
+        height: this.cameraRadioMaskAreaHeight,
+        child: Container(color: Colors.black),
+      );
+    } else {
+      return Positioned(
+        left: 0,
+        top: 0,
+        width: this.cameraRadioMaskAreaHeight,
+        height: MediaQuery.of(context).size.height,
+        child: Container(color: Colors.black),
+      );
+    }
+  }
+
+  Widget _buildCameraEdgeArea2() {
+    if (OrientationTool().isPortrait()) {
+      return Positioned(
+        right: 0,
+        bottom: 0,
+        width: MediaQuery.of(context).size.width,
+        height: this.cameraRadioMaskAreaHeight,
+        child: Container(color: Colors.black),
+      );
+    } else {
+      return Positioned(
+        right: 0,
+        bottom: 0,
+        width: this.cameraRadioMaskAreaHeight,
+        height: MediaQuery.of(context).size.height,
+        child: Container(color: Colors.black),
+      );
+    }
+  }
+
   Widget _buildTextArea() {
     return Positioned(
       left: this.textAreaLeft,
@@ -300,7 +345,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
           height: this.textAreaHeight,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(6)),
-              border: new Border.all(width: 1, color: hexColor("999999")),
+              border: new Border.all(width: 1, color: hexColor("bbbbbb")),
               color: hexColor(this.txtSettings.backgroundHexColorString,
                   this.txtSettings.backgroundAlpha)),
           clipBehavior: Clip.hardEdge,
@@ -432,8 +477,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(6)),
-            border: new Border.all(width: 1, color: hexColor("999999")),
-            color: hexColor("ffffff", 0.3),
+            border: new Border.all(width: 1, color: hexColor("666666")),
+            color: hexColor("000000", 0.4),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -542,8 +587,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(6)),
-            border: new Border.all(width: 1, color: hexColor("999999")),
-            color: hexColor("ffffff", 0.3),
+            border: new Border.all(width: 1, color: hexColor("666666")),
+            color: hexColor("000000", 0.4),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -780,7 +825,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     _sweetSheet.show(
       context: context,
       title: Text("退出拍摄？"),
-      description: Text('退出拍摄'),
+      description: Text('退出拍摄，重新选词'),
       color: SweetSheetColor.WARNING,
       // icon: Icons.portable_wifi_off,
       positive: SweetSheetAction(
@@ -965,8 +1010,31 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   }
 
   void _tryToChangeCameraRadio(int r) {
+    double screenW = MediaQuery.of(context).size.width;
+    double screenH = MediaQuery.of(context).size.height;
+    if (OrientationTool().isPortrait() == false) {
+      double tmp = screenH;
+      screenH = screenW;
+      screenW = tmp;
+    }
+    double h = 0;
+    double showingAreaH = screenH;
+    if (r > 0) {
+      if (r == 1) {
+        showingAreaH = screenW * 16 / 9.0;
+      } else if (r == 2) {
+        showingAreaH = screenW * 4 / 3.0;
+      } else if (r == 3) {
+        showingAreaH = screenW;
+      }
+    }
+    h = (screenH - showingAreaH) / 2.0;
+    if (h < 0) {
+      h = 0;
+    }
     setState(() {
       this.cameraRatio = r;
+      this.cameraRadioMaskAreaHeight = h;
     });
   }
 

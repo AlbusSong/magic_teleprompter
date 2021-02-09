@@ -6,6 +6,10 @@ import 'others/tools/SqliteTool.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'others/models/Trifle.dart';
 import 'others/models/TextAreaSettings.dart';
+import 'others/tools/GlobalTool.dart';
+import 'others/tools/KMPSearch.dart';
+// import 'others/third_party/Dart-Searchify/src/Dart_Searchify_base.dart';
+import 'others/third_party/Dart-Searchify/Dart_Searchify.dart';
 
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
@@ -14,6 +18,26 @@ Future main() async {
 
   // ignore: await_only_futures
   await EasyLocalization.ensureInitialized();
+
+  // RegExp re = new RegExp(r"(\w|\s|,|')+[，,。.?!]*\s*");
+  // // get all the matches:
+  // Iterable matches = re.allMatches(ddds);
+  // // print("matches: $matches");
+  // for (Match m in matches) {
+  //   String match = m.group(0);
+  //   print("match: $match");
+  // }
+  // List allSubStrings = getAllSubStrings("我爱你", 2, true);
+  // print("allSubStrings: $allSubStrings");
+
+  Pattern pattern = Pattern("ABC");
+  String testString = "ABCABCDEFGABC";
+  print("kksldkfasdfafda: ${pattern.matches(testString, Search.KNUTH_MORRIS)}");
+
+  print("llllssl: ${kmp('ABCABCDEFGABC', 'ABC')}"); // Output: [0, 3, 10]
+  // print(
+  //     "lldkdksssss: ${kmp('AAAAAAAAAAAAAAABBCCDDAAA', 'AAAA')}"); // Output: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+  // print(kmp('AAAABBCCDDAAA', 'ABAAB'));
 
   Trifle();
   TextAreaSettings();

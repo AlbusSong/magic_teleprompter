@@ -13,6 +13,11 @@ import 'models/PromterModel.dart';
 import 'others/models/TextAreaSettings.dart';
 import 'others/tools/NotificationCenter.dart';
 import 'package:sweetsheet/sweetsheet.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+import 'package:speech_to_text_platform_interface/speech_to_text_platform_interface.dart';
+import 'others/third_party/Dart-Searchify/Dart_Searchify.dart';
 
 import 'PromterTextAreaSettingPage.dart';
 import 'VideoPlayerPage.dart';
@@ -92,11 +97,20 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   Animation<double> _focusRectAnim;
   bool _shouldAppearFocusRect = false;
 
+  // 语音识别模式还是滚动模式
+  bool _isAISpeechMode = true;
+  // 语音转文字
+  final SpeechToText speech = SpeechToText();
+  List<String> sentenceList;
+  int currentRecognitionIndex = 0;
+
   @override
   void initState() {
     super.initState();
 
     _resetCameraController();
+
+    _initTextToSpeechFunction();
 
     _animController =
         AnimationController(duration: Duration(milliseconds: 200), vsync: this)
@@ -150,6 +164,33 @@ class _UsePrompterPageState extends State<UsePrompterPage>
         this.startTimer();
       }
     });
+  }
+
+  void _initTextToSpeechFunction() async {
+    this.sentenceList = splitStringByPunctuation(this.dataModel.content);
+    print("this.sentenceList: ${this.sentenceList}");
+    bool available = await speech.initialize();
+    List localeNames = await speech.locales();
+    var systemLocale = await speech.systemLocale();
+    print("ldldldlld; ${systemLocale.localeId}, ${systemLocale.name}");
+    List cc = [];
+    for (var l in localeNames) {
+      cc.add(l.localeId);
+    }
+    // print("localeNames: $cc");
+    if (available) {
+      speech.listen(
+          onResult: _tryToHandleSpeechRecognitionResult,
+          listenFor: Duration(minutes: 15),
+          pauseFor: Duration(seconds: 20),
+          partialResults: true,
+          localeId: "zh-CN",
+          onSoundLevelChange: null,
+          cancelOnError: false,
+          listenMode: ListenMode.dictation);
+    } else {
+      print("The user has denied the use of speech recognition.");
+    }
   }
 
   Future _resetCameraController() async {
@@ -1049,6 +1090,45 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     Offset focusPoint = Offset(x, y);
     print("focusPoint: $focusPoint");
     await _cameraController.setFocusPoint(focusPoint);
+  }
+
+  void _tryToHandleSpeechRecognitionResult(SpeechRecognitionResult result) {
+    // print("alternates: ${result.alternates}");
+    // print("recognizedWords: ${result.recognizedWords}");
+    // print("SpeechRecognitionResult: $result");
+    if (stringLength(result.recognizedWords) == 0) {
+      return;
+    }
+    List allPossibleSentences =
+        splitStringByPunctuation(result.recognizedWords);
+    String currentSentence =
+        '${allPossibleSentences[listLength(allPossibleSentences) - 1]}';
+    // print("currentSentence: $currentSentence");
+    _seekPosOfCurrentSentence(currentSentence);
+  }
+
+  void _seekPosOfCurrentSentence(String currentSentence) {
+    List<String> allSubStrings = getAllSubStrings(currentSentence, 2, true);
+    // print("allSubStrings: $allSubStrings");
+    for (int i = this.currentRecognitionIndex;
+        i < listLength(this.sentenceList);
+        i++) {
+      bool found = false;
+      String originalSentence = this.sentenceList[i];
+      for (int j = 0; j < listLength(allSubStrings); j++) {
+        Pattern pattern = Pattern(allSubStrings[j]);
+        if (pattern.matches(originalSentence, Search.KNUTH_MORRIS)) {
+          found = true;
+          break;
+        }
+      }
+      if (found) {
+        this.currentRecognitionIndex = i;
+        break;
+      }
+    }
+
+    print("currentRecognitionIndex: $currentRecognitionIndex");
   }
 
   // void _tryToRePositionTextArea(DeviceOrientation o1, DeviceOrientation o2) {

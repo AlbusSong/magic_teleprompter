@@ -36,6 +36,13 @@ class _RealHomePageState extends State<RealHomePage> {
     Future.delayed(Duration(milliseconds: 1000), () {
       _getDataFromLocalDB();
     });
+
+    String ddds = "dkasdfa,dlsllls?ldksdfh";
+    ddds = ddds.trim();
+    ddds = ddds.replaceAll(",", "#&&&&#");
+    ddds = ddds.replaceAll("?", "#&&&&#");
+    List ewee = ddds.split("#&&&&#");
+    print("ewee: $ewee");
   }
 
   Future _getDataFromLocalDB() async {

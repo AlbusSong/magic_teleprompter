@@ -235,6 +235,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
       _animController.dispose();
     }
     this.killTimer();
+    this.killTimerForRecording();
     super.dispose();
   }
 
@@ -247,24 +248,29 @@ class _UsePrompterPageState extends State<UsePrompterPage>
       //   brightness: Brightness.dark,
       //   automaticallyImplyLeading: false,
       // ),
-      body: _realBody(),
+      body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
-    return FutureBuilder<void>(
-      // future: _initializeControllerFuture,
-      builder: (context, snapshot) {
-        return _realBody();
-        // if (snapshot.connectionState == ConnectionState.done) {
-        //   // If the Future is complete, display the preview.
-        //   return _realBody();
-        // } else {
-        //   // Otherwise, display a loading indicator.
-        //   return Center(child: CircularProgressIndicator());
-        // }
-      },
-    );
+    return WillPopScope(
+        child: _realBody(),
+        onWillPop: () async {
+          return false;
+        });
+    // return FutureBuilder<void>(
+    //   future: _initializeControllerFuture,
+    //   builder: (context, snapshot) {
+    //     return _realBody();
+    //     if (snapshot.connectionState == ConnectionState.done) {
+    //       // If the Future is complete, display the preview.
+    //       return _realBody();
+    //     } else {
+    //       // Otherwise, display a loading indicator.
+    //       return Center(child: CircularProgressIndicator());
+    //     }
+    //   },
+    // );
   }
 
   Widget _realBody() {

@@ -12,6 +12,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'UsePrompterPage.dart';
 import 'package:dough/dough.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 class RealHomePage extends StatefulWidget {
   static GlobalKey<ScaffoldState> globalKey;
@@ -78,11 +79,12 @@ class _RealHomePageState extends State<RealHomePage> {
   Widget _buildBody() {
     return Stack(
       children: [
+        _buildPlasmaBackground(),
         Container(
           margin: EdgeInsets.only(
               top: MediaQueryData.fromWindow(window).padding.top),
           width: MediaQuery.of(context).size.width,
-          color: Colors.white,
+          // color: Colors.white,
           child: _buildWaterflowView(),
         ),
 
@@ -92,6 +94,43 @@ class _RealHomePageState extends State<RealHomePage> {
             left: (MediaQuery.of(context).size.width - 70) / 2.0,
             child: _buildCreatePostButton())
       ],
+    );
+  }
+
+  Widget _buildPlasmaBackground() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          tileMode: TileMode.mirror,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xfff44336),
+            Color(0xff2196f3),
+          ],
+          stops: [
+            0,
+            1,
+          ],
+        ),
+        backgroundBlendMode: BlendMode.srcOver,
+      ),
+      child: PlasmaRenderer(
+        type: PlasmaType.bubbles,
+        particles: 27,
+        color: Color(0x44ffffff),
+        blur: 0.16,
+        size: 0.51,
+        speed: 1.35,
+        offset: 0,
+        blendMode: BlendMode.screen,
+        variation1: 0.31,
+        variation2: 0.3,
+        variation3: 0.13,
+        rotation: 1.05,
+      ),
     );
   }
 

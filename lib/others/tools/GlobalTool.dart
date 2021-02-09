@@ -25,7 +25,7 @@ List<String> getAllSubStrings(String fatherStr,
     for (int i = length; i >= threshold; i--) {
       for (int j = 0; j + i <= length; j++) {
         String sub = fatherStr.substring(j, j + i);
-        print("sub: $sub");
+        // print("sub: $sub");
         result.add(sub);
       }
     }

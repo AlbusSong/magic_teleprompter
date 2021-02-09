@@ -18,6 +18,7 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text_platform_interface/speech_to_text_platform_interface.dart';
 import 'others/third_party/Dart-Searchify/Dart_Searchify.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'PromterTextAreaSettingPage.dart';
 import 'VideoPlayerPage.dart';
@@ -99,6 +100,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
 
   // 语音识别模式还是滚动模式
   bool _isAISpeechMode = true;
+  // 语音模式下的滚动控制器
+  final ItemScrollController _itemScrollController = ItemScrollController();
   // 语音转文字
   final SpeechToText speech = SpeechToText();
   List<String> sentenceList;
@@ -723,34 +726,62 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   }
 
   Widget _buildTextAreaContent() {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        // color: randomColor(),
-        child: Scrollbar(
-          thickness: 3,
-          child: TextField(
-            controller: _txtController,
-            scrollController: _txtScrollController,
-            minLines: 1,
-            maxLines: null,
-            // maxLines: 100000,
-            readOnly: true,
-            style: TextStyle(
-                fontSize: this.txtSettings.fontSize,
-                color: hexColor(this.txtSettings.textHexColorString)),
-            decoration: InputDecoration(
-              border: InputBorder.none,
+    if (this._isAISpeechMode) {
+      return Expanded(
+        child: Container(
+          padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+          // color: randomColor(),
+          child: ScrollablePositionedList.builder(
+            itemScrollController: _itemScrollController,
+            itemCount: listLength(this.sentenceList),
+            itemBuilder: (context, index) {
+              return _buildSentenceItem(index);
+            },
+          ),
+        ),
+      );
+    } else {
+      return Expanded(
+        child: Container(
+          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+          // color: randomColor(),
+          child: Scrollbar(
+            thickness: 3,
+            child: TextField(
+              controller: _txtController,
+              scrollController: _txtScrollController,
+              minLines: 1,
+              maxLines: null,
+              // maxLines: 100000,
+              readOnly: true,
+              style: TextStyle(
+                  fontSize: this.txtSettings.fontSize,
+                  color: hexColor(this.txtSettings.textHexColorString)),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+              ),
             ),
           ),
         ),
+      );
+    }
+  }
 
-        // child: Text(
-        //   this.dataModel.content,
-        //   style: TextStyle(
-        //       fontSize: this.txtSettings.fontSize,
-        //       color: hexColor(this.txtSettings.textHexColorString)),
-        // ),
+  Widget _buildSentenceItem(int index) {
+    String sentenceStr = this.sentenceList[index];
+    return Container(
+      // color: randomColor(),
+      margin: EdgeInsets.only(top: 10),
+      child: Center(
+        child: Text(
+          avoidNull(sentenceStr),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: this.txtSettings.fontSize,
+              color: (this.currentRecognitionIndex != index)
+                  ? hexColor(this.txtSettings.textHexColorString)
+                  : Colors.red),
+        ),
       ),
     );
   }
@@ -1129,6 +1160,11 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     }
 
     print("currentRecognitionIndex: $currentRecognitionIndex");
+    setState(() {});
+    _itemScrollController.scrollTo(
+        index: this.currentRecognitionIndex,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.linear);
   }
 
   // void _tryToRePositionTextArea(DeviceOrientation o1, DeviceOrientation o2) {

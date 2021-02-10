@@ -1,9 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:fsuper/fsuper.dart';
-import 'package:sqflite/utils/utils.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'others/models/TextAreaSettings.dart';
 import 'others/tools/NotificationCenter.dart';
+import 'package:xlive_switch/xlive_switch.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:magic_teleprompter/others/tools/HudTool.dart';
 
 class PromterTextAreaSettingPage extends StatefulWidget {
   PromterTextAreaSettingPage(this.txtSettings);
@@ -61,6 +66,7 @@ class _PromterTextAreaSettingPageState
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    _buildChooesAISpeechMode(),
                     _buildChooseTextColor(),
                     _buildTextFontSizeSlider(),
                     _buildChooseBackgroundColor(),
@@ -73,6 +79,68 @@ class _PromterTextAreaSettingPageState
             onTap: () {
               print("aaaaaaaaaaa");
             },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChooesAISpeechMode() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(15, 20, 15, 10),
+      // color: randomColor(),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          FSuper(
+            margin: EdgeInsets.only(right: 15),
+            text: "AI跟读模式",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                decoration: TextDecoration.none),
+          ),
+          XlivSwitch(
+            value: this.txtSettings.isAISpeechMode,
+            onChanged: (val) {
+              print("val: $val");
+              _tryToSwitchTextMode();
+            },
+          ),
+          Spacer(),
+          Offstage(
+            offstage: (this.txtSettings.isAISpeechMode == false),
+            child: GestureDetector(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(10, 0, 7, 0),
+                margin: EdgeInsets.only(right: 15),
+                height: 24,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  color: hexColor("ffffff", 0.5),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      TextAreaSettings().selectedLocaleName.name,
+                      style: TextStyle(color: Colors.white, fontSize: 11),
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      size: 18,
+                      color: Colors.white,
+                    )
+                  ],
+                ),
+              ),
+              onTap: () {
+                print("_tryToChooseLanguage");
+                _tryToChooseAISpeechLanguage();
+              },
+            ),
           ),
         ],
       ),
@@ -323,6 +391,91 @@ class _PromterTextAreaSettingPageState
         ],
       ),
     );
+  }
+
+  void _tryToChooseAISpeechLanguage() {
+    // showCupertinoModalBottomSheet
+    // showMaterialModalBottomSheet
+    showBarModalBottomSheet(
+        context: context,
+        expand: true,
+        backgroundColor: Colors.black,
+        builder: (context) => Material(
+                child: CupertinoPageScaffold(
+              navigationBar: CupertinoNavigationBar(
+                  leading: Container(), middle: Text('选择语言')),
+              child: SafeArea(
+                bottom: false,
+                child: ListView.builder(
+                  // reverse: false,
+                  // shrinkWrap: true,
+                  controller: ModalScrollController.of(context),
+                  physics: ClampingScrollPhysics(),
+                  itemCount: listLength(TextAreaSettings().localeNames),
+                  itemBuilder: (BuildContext context, int index) {
+                    return _buildLanguageCell(index);
+                  },
+                ),
+              ),
+            )));
+  }
+
+  Widget _buildLanguageCell(int index) {
+    LocaleName m = TextAreaSettings().localeNames[index];
+    return GestureDetector(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        height: 45,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              (TextAreaSettings().selectedLocaleName.localeId == m.localeId
+                  ? Icons.radio_button_checked_outlined
+                  : Icons.radio_button_unchecked_outlined),
+              color:
+                  (TextAreaSettings().selectedLocaleName.localeId == m.localeId
+                      ? Colors.red
+                      : Colors.black),
+              size: 20,
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            Text(
+              m.name,
+              style: TextStyle(color: Colors.black, fontSize: 13),
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        setState(() {
+          TextAreaSettings().selectedLocaleName = m;
+        });
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  void _tryToSwitchTextMode() async {
+    await [Permission.speech].request();
+    PermissionStatus speechStatus = await Permission.speech.status;
+    print("speechStatus: $speechStatus");
+    if (speechStatus.isGranted == false) {
+      HudTool.showErrorWithStatus("AI语音识别功能未开启");
+      return;
+    } else {
+      NotificationCenter()
+          .postNotification("AISpeechRecognitionAuthorityGranted", null);
+    }
+
+    setState(() {
+      this.txtSettings.isAISpeechMode = !this.txtSettings.isAISpeechMode;
+    });
+    NotificationCenter()
+        .postNotification("textAreaSettingsChanged", this.txtSettings);
   }
 
   String _generateInteligientScrollingDurationText(int seconds) {

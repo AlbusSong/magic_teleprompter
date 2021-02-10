@@ -45,6 +45,11 @@ dependencies:
   speech_to_text: ^3.1.0
   scrollable_positioned_list: ^0.1.9
   simple_animations: ^2.5.0
+  # custom_switch: ^0.0.1
+  # getwidget: ^1.2.4
+  xlive_switch: ^1.0.5
+  # smart_select: ^4.3.2
+  modal_bottom_sheet: ^1.0.0+1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0

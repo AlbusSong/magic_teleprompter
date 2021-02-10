@@ -57,6 +57,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     if (_videoFile.existsSync()) {
       _videoFile.deleteSync();
     }
+
+    _chewieController.pause();
     _videoController.dispose();
     _chewieController.dispose();
 
@@ -218,7 +220,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       title: Text("退出重拍？"),
       description: Text('您拍摄的此段视频文件将被删除。'),
       color: SweetSheetColor.DANGER,
-      // icon: Icons.portable_wifi_off,
       positive: SweetSheetAction(
         onPressed: () {
           Navigator.of(context).pop();
@@ -230,6 +231,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   }
 
   void _goBackAndRetake() {
+    _chewieController.pause();
     _videoFile.deleteSync();
 
     Navigator.pop(context);

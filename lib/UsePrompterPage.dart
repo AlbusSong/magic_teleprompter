@@ -19,6 +19,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text_platform_interface/speech_to_text_platform_interface.dart';
 import 'others/third_party/Dart-Searchify/Dart_Searchify.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'PromterTextAreaSettingPage.dart';
 import 'VideoPlayerPage.dart';
@@ -98,12 +99,10 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   Animation<double> _focusRectAnim;
   bool _shouldAppearFocusRect = false;
 
-  // 语音识别模式还是滚动模式
-  bool _isAISpeechMode = true;
   // 语音模式下的滚动控制器
   final ItemScrollController _itemScrollController = ItemScrollController();
   // 语音转文字
-  final SpeechToText speech = SpeechToText();
+  SpeechToText speech;
   List<String> sentenceList;
   int currentRecognitionIndex = 0;
 
@@ -112,8 +111,6 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     super.initState();
 
     _resetCameraController();
-
-    _initTextToSpeechFunction();
 
     _animController =
         AnimationController(duration: Duration(milliseconds: 200), vsync: this)
@@ -167,27 +164,43 @@ class _UsePrompterPageState extends State<UsePrompterPage>
         this.startTimer();
       }
     });
+
+    _tryToInitSpeechTextFunction();
+    NotificationCenter().addObserver("AISpeechRecognitionAuthorityGranted",
+        (obj) {
+      _tryToInitSpeechTextFunction();
+    });
   }
 
-  void _initTextToSpeechFunction() async {
+  Future _tryToInitSpeechTextFunction() async {
+    PermissionStatus speechStatus = await Permission.speech.status;
+    print("speechStatus: $speechStatus");
+    if (speechStatus.isGranted == false) {
+      print("AI语音识别功能未开启");
+      return;
+    }
+
+    if (speech != null) {
+      return;
+    }
+
+    speech = SpeechToText();
     this.sentenceList = splitStringByPunctuation(this.dataModel.content);
     print("this.sentenceList: ${this.sentenceList}");
-    bool available = await speech.initialize();
-    List localeNames = await speech.locales();
-    var systemLocale = await speech.systemLocale();
+    this.txtSettings.isAISpeechAvailable = await speech.initialize();
+    this.txtSettings.localeNames = await speech.locales();
+    LocaleName systemLocale = await speech.systemLocale();
+    this.txtSettings.systemLocaleName = systemLocale;
+    this.txtSettings.selectedLocaleName = systemLocale;
     print("ldldldlld; ${systemLocale.localeId}, ${systemLocale.name}");
-    List cc = [];
-    for (var l in localeNames) {
-      cc.add(l.localeId);
-    }
-    // print("localeNames: $cc");
-    if (available) {
+
+    if (this.txtSettings.isAISpeechAvailable) {
       speech.listen(
           onResult: _tryToHandleSpeechRecognitionResult,
           listenFor: Duration(minutes: 15),
-          pauseFor: Duration(seconds: 20),
+          pauseFor: Duration(seconds: 60),
           partialResults: true,
-          localeId: "zh-CN",
+          localeId: this.txtSettings.selectedLocaleName.localeId,
           onSoundLevelChange: null,
           cancelOnError: false,
           listenMode: ListenMode.dictation);
@@ -732,7 +745,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   }
 
   Widget _buildTextAreaContent() {
-    if (this._isAISpeechMode) {
+    if (this.txtSettings.isAISpeechMode) {
       return Expanded(
         child: Container(
           padding: EdgeInsets.fromLTRB(15, 5, 15, 5),

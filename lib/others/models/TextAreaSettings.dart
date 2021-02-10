@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class TextAreaSettings {
   // 单例公开访问点
@@ -43,4 +44,10 @@ class TextAreaSettings {
   String backgroundHexColorString = "FFFFFF";
   double backgroundAlpha = 0.3;
   double textScrollingSpeed = 30.0;
+  // 语音识别模式还是滚动模式
+  bool isAISpeechAvailable = false;
+  bool isAISpeechMode = false;
+  LocaleName systemLocaleName;
+  LocaleName selectedLocaleName;
+  List<LocaleName> localeNames;
 }

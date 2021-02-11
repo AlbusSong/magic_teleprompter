@@ -14,6 +14,7 @@ import 'package:fbutton/fbutton.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:admob_flutter/admob_flutter.dart';
+import 'others/tools/AdmobTool.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   VideoPlayerPage(this.localVideoPath);
@@ -44,7 +45,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
     _initControllers();
 
-    Trifle().callback = (AdmobAdEvent e) {
+    AdmobTool().callback = (AdmobAdEvent e) {
       if (this.exportSuccess) {
         HudTool.showInfoWithStatus("保存成功");
         _videoFile.deleteSync();
@@ -218,7 +219,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       return;
     }
 
-    Trifle().interstitialAd.show();
+    AdmobTool().interstitialAd.show();
     this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
   }
 

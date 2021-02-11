@@ -9,6 +9,7 @@ import 'others/models/TextAreaSettings.dart';
 import 'others/tools/GlobalTool.dart';
 // import 'others/third_party/Dart-Searchify/src/Dart_Searchify_base.dart';
 import 'others/third_party/Dart-Searchify/Dart_Searchify.dart';
+import 'others/tools/AdmobTool.dart';
 
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
@@ -40,6 +41,7 @@ Future main() async {
 
   Trifle();
   TextAreaSettings();
+  AdmobTool();
 
   runApp(EasyLocalization(
       supportedLocales: [Locale('en'), Locale('zh')],

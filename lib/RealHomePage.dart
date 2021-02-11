@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -298,8 +299,6 @@ class _RealHomePageState extends State<RealHomePage> {
   }
 
   Future _tryToCreatePrompter() async {
-    Trifle().interstitialAd.show();
-    return;
     PromterModel theData = await Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => CreatePromterPage()));
     print("theData: $theData");

@@ -27,7 +27,7 @@ class TextAreaSettings {
     this.backgroundHexColorString =
         (pref.getString("backgroundHexColorString") ?? "FFFFFF");
     this.backgroundAlpha = (pref.getDouble("backgroundAlpha") ?? 0.3);
-    this.textScrollingSpeed = (pref.getDouble("textScrollingSpeed") ?? 10.0);
+    this.textScrollingSpeed = (pref.getDouble("textScrollingSpeed") ?? 30.0);
   }
 
   Future cacheLocalSettings() async {

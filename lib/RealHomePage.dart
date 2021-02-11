@@ -79,7 +79,7 @@ class _RealHomePageState extends State<RealHomePage> {
   Widget _buildBody() {
     return Stack(
       children: [
-        _buildPlasmaBackground(),
+        // _buildPlasmaBackground(),
         Container(
           margin: EdgeInsets.only(
               top: MediaQueryData.fromWindow(window).padding.top),

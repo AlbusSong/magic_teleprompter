@@ -454,6 +454,8 @@ class _PromterTextAreaSettingPageState
         setState(() {
           TextAreaSettings().selectedLocaleName = m;
         });
+        NotificationCenter()
+            .postNotification("textAreaSettingsAISpeechLanguageChanged", null);
         Navigator.pop(context);
       },
     );
@@ -473,9 +475,10 @@ class _PromterTextAreaSettingPageState
 
     setState(() {
       this.txtSettings.isAISpeechMode = !this.txtSettings.isAISpeechMode;
+      TextAreaSettings().isAISpeechMode = this.txtSettings.isAISpeechMode;
     });
     NotificationCenter()
-        .postNotification("textAreaSettingsChanged", this.txtSettings);
+        .postNotification("textAreaSettingsAISpeechModeChanged", null);
   }
 
   String _generateInteligientScrollingDurationText(int seconds) {

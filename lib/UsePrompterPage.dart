@@ -136,6 +136,9 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     // 预估大概时间
     this.txtSettings.textScrollingSpeed =
         ((stringLength(this.dataModel.content) * 60.0) / 190.0);
+    if (this.txtSettings.textScrollingSpeed < 10.0) {
+      this.txtSettings.textScrollingSpeed = 10.0;
+    }
 
     _txtController = TextEditingController(text: dataModel.content);
     _txtScrollController = ScrollController();
@@ -146,8 +149,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
 
     // observer
     NotificationCenter().addObserver("textAreaSettingsChanged", (obj) {
+      TextAreaSettings newSettings = (obj as TextAreaSettings);
       setState(() {
-        TextAreaSettings newSettings = (obj as TextAreaSettings);
         this.txtSettings = newSettings;
         print("textAreaSettingsChanged: $newSettings");
       });
@@ -169,6 +172,24 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     NotificationCenter().addObserver("AISpeechRecognitionAuthorityGranted",
         (obj) {
       _tryToInitSpeechTextFunction();
+    });
+
+    NotificationCenter().addObserver("textAreaSettingsAISpeechModeChanged",
+        (obj) {
+      print("AI speech mode changed");
+      setState(() {
+        this.isBeingScrolled = false;
+      });
+      this.killTimer();
+      this._tryToStopAISpeechListenning();
+    });
+
+    NotificationCenter().addObserver("textAreaSettingsAISpeechLanguageChanged",
+        (obj) {
+      print("language changed");
+      if (TextAreaSettings().isAISpeechMode && this.isBeingScrolled) {
+        _tryToStartAISpeechListenning();
+      }
     });
   }
 
@@ -195,15 +216,6 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     print("ldldldlld; ${systemLocale.localeId}, ${systemLocale.name}");
 
     if (this.txtSettings.isAISpeechAvailable) {
-      speech.listen(
-          onResult: _tryToHandleSpeechRecognitionResult,
-          listenFor: Duration(minutes: 15),
-          pauseFor: Duration(seconds: 60),
-          partialResults: true,
-          localeId: this.txtSettings.selectedLocaleName.localeId,
-          onSoundLevelChange: null,
-          cancelOnError: false,
-          listenMode: ListenMode.dictation);
     } else {
       print("The user has denied the use of speech recognition.");
     }
@@ -499,12 +511,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
               ),
               onTap: () {
                 print("lllll");
-                if (this.isBeingScrolled == false) {
-                  this.startTimer();
-                } else {
-                  this.killTimer();
-                }
-                setState(() {});
+                _playBtnClicked();
               },
             ),
           ),
@@ -933,6 +940,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     if (_cameraController != null) {
       _cameraController.dispose();
     }
+    this.txtSettings.isAISpeechMode = false;
+    this.txtSettings.selectedLocaleName = this.txtSettings.systemLocaleName;
     Navigator.pop(context);
   }
 
@@ -962,13 +971,11 @@ class _UsePrompterPageState extends State<UsePrompterPage>
       this.timer.cancel();
       this.timer = null;
     }
-    this.isBeingScrolled = false;
   }
 
   void startTimer() {
     this.killTimer();
 
-    this.isBeingScrolled = true;
     // double duration = this.txtSettings.textScrollingSpeed * 10.0;
     double totolOffsetDistance =
         this._txtScrollController.position.maxScrollExtent +
@@ -1043,6 +1050,57 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     }
 
     setState(() {});
+  }
+
+  void _playBtnClicked() {
+    if (this.isBeingScrolled == false) {
+      if (this.txtSettings.isAISpeechMode) {
+        _tryToStartAISpeechListenning();
+        setState(() {
+          this.isBeingScrolled = true;
+        });
+      } else {
+        this.startTimer();
+        setState(() {
+          this.isBeingScrolled = true;
+        });
+      }
+    } else {
+      if (this.txtSettings.isAISpeechMode) {
+        _tryToStopAISpeechListenning();
+        setState(() {
+          this.isBeingScrolled = false;
+        });
+      } else {
+        this.killTimer();
+        setState(() {
+          this.isBeingScrolled = false;
+        });
+      }
+    }
+  }
+
+  void _tryToStopAISpeechListenning() async {
+    await speech.stop();
+  }
+
+  void _tryToStartAISpeechListenning() async {
+    if (speech == null) {
+      await _tryToInitSpeechTextFunction();
+    }
+
+    if (speech.isListening) {
+      await speech.cancel();
+    }
+    await speech.listen(
+        onResult: _tryToHandleSpeechRecognitionResult,
+        listenFor: Duration(minutes: 15),
+        pauseFor: Duration(seconds: 60),
+        partialResults: true,
+        localeId: this.txtSettings.selectedLocaleName.localeId,
+        onSoundLevelChange: null,
+        cancelOnError: false,
+        listenMode: ListenMode.dictation);
   }
 
   Future _tryToRecordVideo() async {
@@ -1145,7 +1203,13 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   void _tryToHandleSpeechRecognitionResult(SpeechRecognitionResult result) {
     // print("alternates: ${result.alternates}");
     // print("recognizedWords: ${result.recognizedWords}");
-    // print("SpeechRecognitionResult: $result");
+    print("SpeechRecognitionResult: $result");
+    if (result.finalResult &&
+        this.txtSettings.isAISpeechMode &&
+        this.isBeingScrolled) {
+      _tryToStartAISpeechListenning();
+      return;
+    }
     if (stringLength(result.recognizedWords) == 0) {
       return;
     }

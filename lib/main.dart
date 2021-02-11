@@ -7,7 +7,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'others/models/Trifle.dart';
 import 'others/models/TextAreaSettings.dart';
 import 'others/tools/GlobalTool.dart';
-import 'others/tools/KMPSearch.dart';
 // import 'others/third_party/Dart-Searchify/src/Dart_Searchify_base.dart';
 import 'others/third_party/Dart-Searchify/Dart_Searchify.dart';
 

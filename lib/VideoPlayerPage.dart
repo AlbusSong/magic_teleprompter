@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:magic_teleprompter/others/models/Trifle.dart';
 import 'dart:io';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/HudTool.dart';
@@ -12,6 +13,7 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:fbutton/fbutton.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   VideoPlayerPage(this.localVideoPath);
@@ -32,6 +34,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   File _videoFile;
 
+  bool exportSuccess = false;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +43,18 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     _videoFile = File(this.localVideoPath);
 
     _initControllers();
+
+    Trifle().callback = (AdmobAdEvent e) {
+      if (this.exportSuccess) {
+        HudTool.showInfoWithStatus("保存成功");
+        _videoFile.deleteSync();
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.pop(context);
+        });
+      } else {
+        HudTool.showErrorWithStatus("保存失败请重试");
+      }
+    };
   }
 
   Future _initControllers() async {
@@ -202,16 +218,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       return;
     }
 
-    bool success = await GallerySaver.saveVideo(this.localVideoPath);
-    if (success) {
-      HudTool.showInfoWithStatus("保存成功");
-      _videoFile.deleteSync();
-      Future.delayed(Duration(seconds: 1), () {
-        Navigator.pop(context);
-      });
-    } else {
-      HudTool.showErrorWithStatus("保存失败请重试");
-    }
+    Trifle().interstitialAd.show();
+    this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
   }
 
   void _tryToGoBackAndRetake() {

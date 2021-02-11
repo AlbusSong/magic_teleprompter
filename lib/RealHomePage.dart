@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:magic_teleprompter/others/models/Trifle.dart';
 import 'models/PromterModel.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/SqliteTool.dart';
@@ -230,57 +231,52 @@ class _RealHomePageState extends State<RealHomePage> {
   }
 
   Widget _buildCreatePostButton() {
-    return DoughRecipe(
-      data: DoughRecipeData(
-        adhesion: 40,
-      ),
-      child: GyroDough(
-        child: Container(
-          width: 70,
-          height: 70,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 10,
-                offset: Offset(3, 3.0),
-                spreadRadius: 0,
-                color: Color(0xaa000000),
+    return PressableDough(
+      child: Container(
+        width: 70,
+        height: 70,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 10,
+              offset: Offset(3, 3.0),
+              spreadRadius: 0,
+              color: Color(0xaa000000),
+            ),
+          ],
+          gradient: new LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+              colors: [hexColor("7BC1EA"), hexColor("8134B9")]),
+          borderRadius: BorderRadius.circular(35.0),
+        ),
+        child: Stack(
+          children: [
+            Center(
+              child: Image.asset(
+                "assets/images/发布按钮.png",
+                width: 36,
+                height: 36,
+                fit: BoxFit.contain,
               ),
-            ],
-            gradient: new LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.topRight,
-                colors: [hexColor("7BC1EA"), hexColor("8134B9")]),
-            borderRadius: BorderRadius.circular(35.0),
-          ),
-          child: Stack(
-            children: [
-              Center(
-                child: Image.asset(
-                  "assets/images/发布按钮.png",
-                  width: 36,
-                  height: 36,
-                  fit: BoxFit.contain,
-                ),
+            ),
+            Container(
+              width: 70,
+              height: 70,
+              child: FlatButton(
+                child: null,
+                // color: hexColor("00E8EC"),
+                // highlightColor: Colors.white70,
+                // colorBrightness: Brightness.dark,
+                splashColor: Colors.white70,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35.0)),
+                onPressed: () {
+                  _tryToCreatePrompter();
+                },
               ),
-              Container(
-                width: 70,
-                height: 70,
-                child: FlatButton(
-                  child: null,
-                  // color: hexColor("00E8EC"),
-                  // highlightColor: Colors.white70,
-                  // colorBrightness: Brightness.dark,
-                  splashColor: Colors.white70,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0)),
-                  onPressed: () {
-                    _tryToCreatePrompter();
-                  },
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -302,6 +298,8 @@ class _RealHomePageState extends State<RealHomePage> {
   }
 
   Future _tryToCreatePrompter() async {
+    Trifle().interstitialAd.show();
+    return;
     PromterModel theData = await Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => CreatePromterPage()));
     print("theData: $theData");

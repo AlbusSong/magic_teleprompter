@@ -50,6 +50,8 @@ dependencies:
   xlive_switch: ^1.0.5
   # smart_select: ^4.3.2
   modal_bottom_sheet: ^1.0.0+1
+  admob_flutter: ^1.0.1
+  # firebase_admob: ^0.11.0+1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0

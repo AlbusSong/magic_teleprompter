@@ -125,7 +125,7 @@ class _PromterTextAreaSettingPageState
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      TextAreaSettings().selectedLocaleName.name,
+                      avoidNull(TextAreaSettings().selectedLocaleName.name),
                       style: TextStyle(color: Colors.white, fontSize: 11),
                     ),
                     Icon(

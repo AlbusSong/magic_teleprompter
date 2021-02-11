@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:camerawesome/camerawesome_plugin.dart';
-// import 'package:camerawesome/models/orientations.dart';
-import 'package:flutter/services.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/OrientationTool.dart';
 import 'package:camera/camera.dart';
@@ -101,6 +98,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
 
   // 语音模式下的滚动控制器
   final ItemScrollController _itemScrollController = ItemScrollController();
+  final ItemPositionsListener _itemPositionsListener =
+      ItemPositionsListener.create();
   // 语音转文字
   SpeechToText speech;
   List<String> sentenceList;
@@ -132,6 +131,11 @@ class _UsePrompterPageState extends State<UsePrompterPage>
         setState(() {});
       });
     });
+
+    // _itemPositionsListener.itemPositions.addListener(() {
+    //   print(
+    //       "_itemPositionsListener.itemPositions: ${_itemPositionsListener.itemPositions}");
+    // });
 
     // 预估大概时间
     this.txtSettings.textScrollingSpeed =
@@ -210,6 +214,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     print("this.sentenceList: ${this.sentenceList}");
     this.txtSettings.isAISpeechAvailable = await speech.initialize();
     this.txtSettings.localeNames = await speech.locales();
+    print("txtSettings.localeNames: ${txtSettings.localeNames}");
     LocaleName systemLocale = await speech.systemLocale();
     this.txtSettings.systemLocaleName = systemLocale;
     this.txtSettings.selectedLocaleName = systemLocale;
@@ -261,6 +266,10 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     }
     this.killTimer();
     this.killTimerForRecording();
+    if (this.speech != null) {
+      this.speech.stop();
+      this.speech = null;
+    }
     super.dispose();
   }
 
@@ -759,6 +768,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
           // color: randomColor(),
           child: ScrollablePositionedList.builder(
             itemScrollController: _itemScrollController,
+            itemPositionsListener: _itemPositionsListener,
             itemCount: listLength(this.sentenceList),
             itemBuilder: (context, index) {
               return _buildSentenceItem(index);
@@ -942,6 +952,10 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     }
     this.txtSettings.isAISpeechMode = false;
     this.txtSettings.selectedLocaleName = this.txtSettings.systemLocaleName;
+    if (this.speech != null) {
+      this.speech.stop();
+      this.speech = null;
+    }
     Navigator.pop(context);
   }
 
@@ -1022,7 +1036,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
         int diffSeconds = (newTimeStamp - startingRecordTimeStamp) ~/ 1000;
         _showRecordingTime(diffSeconds);
       }
-      print("lssdkssk: ${tm.tick}");
+      // print("lssdkssk: ${tm.tick}");
     });
   }
 

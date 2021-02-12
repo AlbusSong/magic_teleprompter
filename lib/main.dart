@@ -10,6 +10,7 @@ import 'others/tools/GlobalTool.dart';
 // import 'others/third_party/Dart-Searchify/src/Dart_Searchify_base.dart';
 import 'others/third_party/Dart-Searchify/Dart_Searchify.dart';
 import 'others/tools/AdmobTool.dart';
+import 'SplashPage.dart';
 
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
@@ -42,6 +43,7 @@ Future main() async {
   Trifle();
   TextAreaSettings();
   AdmobTool();
+  SqliteTool();
 
   runApp(EasyLocalization(
       supportedLocales: [Locale('en'), Locale('zh')],
@@ -54,8 +56,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SqliteTool();
-
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -78,9 +78,12 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: RealHomePage(),
+      home: SplashPage(),
       builder: BotToastInit(),
       navigatorObservers: [BotToastNavigatorObserver()],
+      routes: <String, WidgetBuilder>{
+        '/home': (_) => RealHomePage(),
+      },
     );
   }
 }

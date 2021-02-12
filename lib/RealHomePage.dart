@@ -2,7 +2,6 @@ import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:magic_teleprompter/others/models/Trifle.dart';
 import 'models/PromterModel.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/SqliteTool.dart';

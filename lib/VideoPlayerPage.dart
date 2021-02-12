@@ -46,14 +46,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     _initControllers();
 
     AdmobTool().callback = (AdmobAdEvent e) {
-      if (this.exportSuccess) {
-        HudTool.showInfoWithStatus("保存成功");
-        _videoFile.deleteSync();
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.pop(context);
-        });
-      } else {
-        HudTool.showErrorWithStatus("保存失败请重试");
+      if (e == AdmobAdEvent.closed) {
+        this._exportHandler();
       }
     };
   }
@@ -219,8 +213,26 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       return;
     }
 
-    AdmobTool().interstitialAd.show();
-    this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+    bool isLoaded = await AdmobTool().interstitialAd.isLoaded;
+    if (isLoaded) {
+      AdmobTool().interstitialAd.show();
+      this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+    } else {
+      this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+      this._exportHandler();
+    }
+  }
+
+  void _exportHandler() {
+    if (this.exportSuccess) {
+      HudTool.showInfoWithStatus("保存成功");
+      _videoFile.deleteSync();
+      Future.delayed(Duration(seconds: 1), () {
+        Navigator.popUntil(context, ModalRoute.withName('/home'));
+      });
+    } else {
+      HudTool.showErrorWithStatus("保存失败请重试");
+    }
   }
 
   void _tryToGoBackAndRetake() {

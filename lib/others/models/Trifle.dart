@@ -32,4 +32,17 @@ class Trifle {
   // 相机
   List cameras;
   CameraDescription firstCamera;
+
+  // 颜色
+  // 首页颜色
+  List<String> homeColorList = [
+    "BFDB8D",
+    "DD8383",
+    "83D2DD",
+    "CD84D7",
+    "9F0F58",
+    "416ABF",
+    "BF5741",
+    "41BF47"
+  ];
 }

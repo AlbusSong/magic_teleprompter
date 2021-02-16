@@ -2,6 +2,7 @@ import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:magic_teleprompter/others/models/Trifle.dart';
 import 'models/PromterModel.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/SqliteTool.dart';
@@ -48,7 +49,7 @@ class _RealHomePageState extends State<RealHomePage> {
   }
 
   Future _getDataFromLocalDB() async {
-    List rawArr = await SqliteTool().getPromterList(this.page, pageSize: 1);
+    List rawArr = await SqliteTool().getPromterList(this.page, pageSize: 10);
     print("rawArr: $rawArr");
     if (listLength(rawArr) == 0 && this.page > 0) {
       _refreshController.finishLoad(noMore: true);
@@ -170,7 +171,8 @@ class _RealHomePageState extends State<RealHomePage> {
     PromterModel m = this.arrOfData[index];
     return Container(
       decoration: BoxDecoration(
-        color: randomColor(),
+        color: hexColor(
+            Trifle().homeColorList[index % listLength(Trifle().homeColorList)]),
         borderRadius: BorderRadius.all(Radius.circular(13.0)),
       ),
       child: Column(
@@ -344,6 +346,7 @@ class _RealHomePageState extends State<RealHomePage> {
   Route _createUsePrompterPageRoute(int index) {
     PromterModel m = this.arrOfData[index];
     return PageRouteBuilder(
+        fullscreenDialog: true,
         pageBuilder: (context, animation, secondaryAnimation) =>
             UsePrompterPage(m),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {

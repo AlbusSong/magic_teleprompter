@@ -5,6 +5,7 @@ import 'others/widgets/GradientText.dart';
 import 'others/tools/HudTool.dart';
 import 'models/PromterModel.dart';
 import 'others/tools/AlertTool.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 
 class CreatePromterPage extends StatefulWidget {
   CreatePromterPage({this.data});
@@ -22,6 +23,8 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
   PromterModel data;
   String title;
   String content;
+
+  final SweetSheet _sweetSheet = SweetSheet();
 
   @override
   void initState() {
@@ -208,10 +211,25 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
       return;
     }
 
-    bool isOkay = await AlertTool.showStandardAlert(context, "保存?");
-    if (isOkay) {
-      _confirmToSave();
-    }
+    _sweetSheet.show(
+        context: context,
+        title: Text("保存?"),
+        description: Text(''),
+        color: SweetSheetColor.NICE,
+        // icon: Icons.portable_wifi_off,
+        positive: SweetSheetAction(
+          onPressed: () {
+            Navigator.of(context).pop();
+            _confirmToSave();
+          },
+          title: "确定",
+        ),
+        negative: SweetSheetAction(
+          title: "取消",
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ));
   }
 
   Future _confirmToSave() async {

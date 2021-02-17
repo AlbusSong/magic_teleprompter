@@ -15,6 +15,7 @@ import 'UsePrompterPage.dart';
 import 'package:dough/dough.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 
 class RealHomePage extends StatefulWidget {
   static GlobalKey<ScaffoldState> globalKey;
@@ -31,6 +32,8 @@ class _RealHomePageState extends State<RealHomePage> {
   int page = 0;
   final PromterModel _exampleData = PromterModel(
       0, "promter_example_title".tr(), "promter_example_content".tr(), 2);
+
+  final SweetSheet _sweetSheet = SweetSheet();
 
   @override
   void initState() {
@@ -311,20 +314,40 @@ class _RealHomePageState extends State<RealHomePage> {
     });
   }
 
-  Future _tryToDelete(int index) async {
+  void _tryToDelete(int index) {
     PromterModel m = this.arrOfData[index];
     if (m.status == 2) {
       HudTool.showErrorWithStatus("示例文件不可删除");
       return;
     }
 
-    bool isOkay = await AlertTool.showStandardAlert(context, "确定删除？");
-    if (isOkay) {
-      await SqliteTool().deletePrompter(m.the_id);
-      setState(() {
-        this.arrOfData.removeAt(index);
-      });
-    }
+    _sweetSheet.show(
+        context: context,
+        title: Text("删除此项?"),
+        description: Text('${m.title}'),
+        color: SweetSheetColor.DANGER,
+        // icon: Icons.portable_wifi_off,
+        positive: SweetSheetAction(
+          onPressed: () {
+            Navigator.of(context).pop();
+            _confirmToDelete(index);
+          },
+          title: "确定",
+        ),
+        negative: SweetSheetAction(
+          title: "取消",
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ));
+  }
+
+  Future _confirmToDelete(int index) async {
+    PromterModel m = this.arrOfData[index];
+    await SqliteTool().deletePrompter(m.the_id);
+    setState(() {
+      this.arrOfData.removeAt(index);
+    });
   }
 
   Future _tryToUse(int index) async {

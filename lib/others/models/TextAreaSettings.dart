@@ -41,7 +41,7 @@ class TextAreaSettings {
 
   double fontSize = 13.0;
   String textHexColorString = "FFFFFF";
-  String backgroundHexColorString = "FFFFFF";
+  String backgroundHexColorString = "000000";
   double backgroundAlpha = 0.3;
   double textScrollingSpeed = 30.0;
   // 语音识别模式还是滚动模式

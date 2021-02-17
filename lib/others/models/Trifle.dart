@@ -49,11 +49,22 @@ class Trifle {
   final List<String> textColorStrings = [
     "FFFFFF",
     "EDC055",
-    "27B3BF",
-    "BF27AA",
-    "E67366",
+    "CF4B4B",
+    "B3CF4B",
+    "3DCBB8",
+    "3D6BCB",
+    "963DCC",
+    "000000"
+  ];
+
+  final List<String> backgroundColorStrings = [
+    "000000",
+    "963DCC",
+    "CF4B4B",
+    "3DCBB8",
+    "B3CF4B",
+    "3D6BCB",
     "EDC055",
-    "27B3BF",
-    "BF27AA"
+    "FFFFFF",
   ];
 }

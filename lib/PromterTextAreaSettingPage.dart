@@ -263,8 +263,8 @@ class _PromterTextAreaSettingPageState
 
   List<Widget> _createBackgroundColorSelections() {
     List<Widget> result = [];
-    for (int i = 0; i < listLength(Trifle().textColorStrings); i++) {
-      String colorString = Trifle().textColorStrings[i];
+    for (int i = 0; i < listLength(Trifle().backgroundColorStrings); i++) {
+      String colorString = Trifle().backgroundColorStrings[i];
       GestureDetector g = GestureDetector(
         child: Container(
           width: 18,

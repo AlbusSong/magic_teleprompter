@@ -6,14 +6,13 @@ import 'package:magic_teleprompter/others/tools/OrientationTool.dart';
 import 'package:camera/camera.dart';
 import 'package:magic_teleprompter/others/tools/HudTool.dart';
 import 'others/models/Trifle.dart';
+import 'others/models/CommonValues.dart';
 import 'models/PromterModel.dart';
 import 'others/models/TextAreaSettings.dart';
 import 'others/tools/NotificationCenter.dart';
 import 'package:sweetsheet/sweetsheet.dart';
-import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:speech_to_text_platform_interface/speech_to_text_platform_interface.dart';
 import 'others/third_party/Dart-Searchify/Dart_Searchify.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -49,9 +48,11 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   bool isBeingScrolled = false;
 
   // 文字区域
-  double textAreaLeft = 20;
-  double textAreaTop = 300;
-  double textAreaWidth = 300;
+  double textAreaMinWidth = 150;
+  double textAreaMinHeight = 80;
+  double textAreaLeft = 30;
+  double textAreaTop = CommonValues().statusHeight + 20;
+  double textAreaWidth = (CommonValues().screenWidth - 30 * 2);
   double textAreaHeight = 200;
 
   // 拖动偏移、点击事件
@@ -466,7 +467,13 @@ class _UsePrompterPageState extends State<UsePrompterPage>
                 this.initialLocalPanOffset.dy < 32) {
               // 更改尺寸
               this.textAreaWidth -= deltaX;
+              if (this.textAreaWidth < this.textAreaMinWidth) {
+                this.textAreaWidth = this.textAreaMinWidth;
+              }
               this.textAreaHeight -= deltaY;
+              if (this.textAreaHeight < this.textAreaMinHeight) {
+                this.textAreaHeight = this.textAreaMinHeight;
+              }
               this.textAreaLeft += deltaX;
               this.textAreaTop += deltaY;
             } else {

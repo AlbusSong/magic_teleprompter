@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:magic_teleprompter/others/models/Trifle.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:fsuper/fsuper.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -11,29 +12,17 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:magic_teleprompter/others/tools/HudTool.dart';
 
 class PromterTextAreaSettingPage extends StatefulWidget {
-  PromterTextAreaSettingPage(this.txtSettings);
-  final TextAreaSettings txtSettings;
+  PromterTextAreaSettingPage();
 
   @override
   _PromterTextAreaSettingPageState createState() =>
-      _PromterTextAreaSettingPageState(this.txtSettings);
+      _PromterTextAreaSettingPageState();
 }
 
 class _PromterTextAreaSettingPageState
     extends State<PromterTextAreaSettingPage> {
-  _PromterTextAreaSettingPageState(this.txtSettings);
-  final TextAreaSettings txtSettings;
+  final TextAreaSettings txtSettings = TextAreaSettings();
 
-  final List _textColorStrings = [
-    "FFFFFF",
-    "EDC055",
-    "27B3BF",
-    "BF27AA",
-    "E67366",
-    "EDC055",
-    "27B3BF",
-    "BF27AA"
-  ];
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -125,7 +114,9 @@ class _PromterTextAreaSettingPageState
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      avoidNull(TextAreaSettings().selectedLocaleName.name),
+                      (TextAreaSettings().selectedLocaleName != null
+                          ? TextAreaSettings().selectedLocaleName.name
+                          : ""),
                       style: TextStyle(color: Colors.white, fontSize: 11),
                     ),
                     Icon(
@@ -173,8 +164,8 @@ class _PromterTextAreaSettingPageState
 
   List<Widget> _createTextColorSelections() {
     List<Widget> result = [];
-    for (int i = 0; i < listLength(_textColorStrings); i++) {
-      String colorString = _textColorStrings[i];
+    for (int i = 0; i < listLength(Trifle().textColorStrings); i++) {
+      String colorString = Trifle().textColorStrings[i];
       GestureDetector g = GestureDetector(
         child: Container(
           width: 18,
@@ -195,8 +186,7 @@ class _PromterTextAreaSettingPageState
           setState(() {
             this.txtSettings.textHexColorString = colorString;
           });
-          NotificationCenter()
-              .postNotification("textAreaSettingsChanged", this.txtSettings);
+          NotificationCenter().postNotification("textAreaSettingsChanged");
         },
       );
       result.add(g);
@@ -236,8 +226,8 @@ class _PromterTextAreaSettingPageState
                   setState(() {
                     this.txtSettings.fontSize = v;
                   });
-                  NotificationCenter().postNotification(
-                      "textAreaSettingsChanged", this.txtSettings);
+                  NotificationCenter()
+                      .postNotification("textAreaSettingsChanged");
                 },
               ),
             ),
@@ -273,8 +263,8 @@ class _PromterTextAreaSettingPageState
 
   List<Widget> _createBackgroundColorSelections() {
     List<Widget> result = [];
-    for (int i = 0; i < listLength(_textColorStrings); i++) {
-      String colorString = _textColorStrings[i];
+    for (int i = 0; i < listLength(Trifle().textColorStrings); i++) {
+      String colorString = Trifle().textColorStrings[i];
       GestureDetector g = GestureDetector(
         child: Container(
           width: 18,
@@ -295,8 +285,7 @@ class _PromterTextAreaSettingPageState
           setState(() {
             this.txtSettings.backgroundHexColorString = colorString;
           });
-          NotificationCenter()
-              .postNotification("textAreaSettingsChanged", this.txtSettings);
+          NotificationCenter().postNotification("textAreaSettingsChanged");
         },
       );
       result.add(g);
@@ -337,8 +326,8 @@ class _PromterTextAreaSettingPageState
                   setState(() {
                     this.txtSettings.backgroundAlpha = v;
                   });
-                  NotificationCenter().postNotification(
-                      "textAreaSettingsChanged", this.txtSettings);
+                  NotificationCenter()
+                      .postNotification("textAreaSettingsChanged");
                 },
               ),
             ),
@@ -382,8 +371,7 @@ class _PromterTextAreaSettingPageState
                     this.txtSettings.textScrollingSpeed = v;
                   });
                   NotificationCenter().postNotification(
-                      "textAreaSettingsScrollingDurationChanged",
-                      this.txtSettings);
+                      "textAreaSettingsScrollingDurationChanged");
                 },
               ),
             ),

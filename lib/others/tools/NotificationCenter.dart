@@ -30,7 +30,7 @@ class NotificationCenter {
   }
 
   //发送通知传值
-  postNotification(String postName, dynamic obj) {
+  postNotification(String postName, [dynamic obj]) {
     //检索Map是否含有postName
     if (postNameMap.containsKey(postName)) {
       GetObjectFunction func = postNameMap[postName];

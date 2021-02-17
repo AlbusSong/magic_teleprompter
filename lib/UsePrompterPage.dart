@@ -154,11 +154,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
 
     // observer
     NotificationCenter().addObserver("textAreaSettingsChanged", (obj) {
-      TextAreaSettings newSettings = (obj as TextAreaSettings);
-      setState(() {
-        this.txtSettings = newSettings;
-        print("textAreaSettingsChanged: $newSettings");
-      });
+      // TextAreaSettings newSettings = (obj as TextAreaSettings);
+      setState(() {});
       this.txtSettings.cacheLocalSettings();
     });
 
@@ -166,8 +163,6 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     // observer
     NotificationCenter().addObserver("textAreaSettingsScrollingDurationChanged",
         (obj) {
-      TextAreaSettings newSettings = (obj as TextAreaSettings);
-      this.txtSettings = newSettings;
       if (this.isBeingScrolled == true) {
         this.startTimer();
       }
@@ -970,7 +965,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     PageRouteBuilder _router = PageRouteBuilder(
         opaque: false,
         pageBuilder: (context, animation, secondaryAnimation) =>
-            PromterTextAreaSettingPage(this.txtSettings),
+            PromterTextAreaSettingPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = Offset(0.0, 1.0);
           var end = Offset.zero;

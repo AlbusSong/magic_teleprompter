@@ -35,7 +35,7 @@ class Trifle {
 
   // 颜色
   // 首页颜色
-  List<String> homeColorList = [
+  final List<String> homeColorList = [
     "BFDB8D",
     "DD8383",
     "83D2DD",
@@ -44,5 +44,16 @@ class Trifle {
     "416ABF",
     "BF5741",
     "41BF47"
+  ];
+
+  final List<String> textColorStrings = [
+    "FFFFFF",
+    "EDC055",
+    "27B3BF",
+    "BF27AA",
+    "E67366",
+    "EDC055",
+    "27B3BF",
+    "BF27AA"
   ];
 }

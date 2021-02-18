@@ -10,6 +10,7 @@ import 'package:xlive_switch/xlive_switch.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:magic_teleprompter/others/tools/HudTool.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PromterTextAreaSettingPage extends StatefulWidget {
   PromterTextAreaSettingPage();
@@ -84,7 +85,7 @@ class _PromterTextAreaSettingPageState
         children: [
           FSuper(
             margin: EdgeInsets.only(right: 15),
-            text: "AI跟读模式",
+            text: "textarea_settings.ai_speech_mode".tr(),
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -142,7 +143,7 @@ class _PromterTextAreaSettingPageState
     List<Widget> widgets = [];
     FSuper title = FSuper(
       margin: EdgeInsets.only(right: 10),
-      text: "文字颜色",
+      text: "textarea_settings.text_color".tr(),
       style: TextStyle(
           color: Colors.white, fontSize: 12, decoration: TextDecoration.none),
     );
@@ -204,7 +205,7 @@ class _PromterTextAreaSettingPageState
         children: [
           FSuper(
             margin: EdgeInsets.only(right: 10),
-            text: "文字大小",
+            text: "textarea_settings.text_fontsize".tr(),
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -241,7 +242,7 @@ class _PromterTextAreaSettingPageState
     List<Widget> widgets = [];
     FSuper title = FSuper(
       margin: EdgeInsets.only(right: 10),
-      text: "背景颜色",
+      text: "textarea_settings.background_color".tr(),
       style: TextStyle(
           color: Colors.white, fontSize: 12, decoration: TextDecoration.none),
     );
@@ -303,7 +304,7 @@ class _PromterTextAreaSettingPageState
         children: [
           FSuper(
             margin: EdgeInsets.only(right: 10),
-            text: "背景alpha",
+            text: "textarea_settings.background_alpha".tr(),
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -347,7 +348,7 @@ class _PromterTextAreaSettingPageState
         children: [
           FSuper(
             margin: EdgeInsets.only(right: 10),
-            text: "滚动速度",
+            text: "textarea_settings.scrolling_speed".tr(),
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -391,7 +392,9 @@ class _PromterTextAreaSettingPageState
         builder: (context) => Material(
                 child: CupertinoPageScaffold(
               navigationBar: CupertinoNavigationBar(
-                  leading: Container(), middle: Text('选择语言')),
+                  leading: Container(),
+                  middle: Text(
+                      "textarea_settings.choose_ai_language_page_title".tr())),
               child: SafeArea(
                 bottom: false,
                 child: ListView.builder(
@@ -454,7 +457,8 @@ class _PromterTextAreaSettingPageState
     PermissionStatus speechStatus = await Permission.speech.status;
     print("speechStatus: $speechStatus");
     if (speechStatus.isGranted == false) {
-      HudTool.showErrorWithStatus("AI语音识别功能未开启");
+      HudTool.showErrorWithStatus(
+          "textarea_settings.hint_ai_function_unauthorized".tr());
       return;
     } else {
       NotificationCenter()
@@ -471,10 +475,12 @@ class _PromterTextAreaSettingPageState
 
   String _generateInteligientScrollingDurationText(int seconds) {
     if (seconds < 60) {
-      return '${seconds}秒滚完';
+      return "textarea_settings.will_finish_within_seconds"
+          .tr(args: ["$seconds"]);
     } else {
       int minutes = (seconds / 60.0).ceil().toInt();
-      return '${minutes}分钟内滚完';
+      return "textarea_settings.will_finish_within_minutes"
+          .tr(args: ["$minutes"]);
     }
   }
 }

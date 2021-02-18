@@ -13,6 +13,7 @@ import 'others/tools/NotificationCenter.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'others/third_party/Dart-Searchify/Dart_Searchify.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -648,7 +649,9 @@ class _UsePrompterPageState extends State<UsePrompterPage>
                 ),
                 onTap: () {
                   print("美颜滤镜");
-                  HudTool.showInfoWithStatus("美颜功能尚未开通\n敬请期待下一版本");
+                  HudTool.showInfoWithStatus(
+                      "textarea_settings.hint_beauty_effect_unavailable_now"
+                          .tr());
                 },
               ),
             ],
@@ -934,8 +937,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
   void _tryToGoBack() {
     _sweetSheet.show(
       context: context,
-      title: Text("退出拍摄？"),
-      description: Text('退出拍摄，重新选词'),
+      title: Text("camera_page.hint_quit_camera_title".tr()),
+      description: Text("camera_page.hint_quit_camera_desc".tr()),
       color: SweetSheetColor.WARNING,
       // icon: Icons.portable_wifi_off,
       positive: SweetSheetAction(
@@ -943,7 +946,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
           Navigator.of(context).pop();
           _goBack();
         },
-        title: "退出",
+        title: "camera_page.hint_quit_confimation_title".tr(),
       ),
     );
   }
@@ -1147,7 +1150,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
 
   void _tryToSwitchFlashLight() {
     if (this.isFrontCamera) {
-      HudTool.showInfoWithStatus("前置摄像头无闪光灯");
+      HudTool.showInfoWithStatus(
+          "camera_page.hint_front_camera_does_not_support_flash_light".tr());
       return;
     }
     setState(() {
@@ -1164,7 +1168,8 @@ class _UsePrompterPageState extends State<UsePrompterPage>
 
   Future _tryToFlipCamera() async {
     if (listLength(Trifle().cameras) == 1) {
-      HudTool.showErrorWithStatus("只有一个相机可用");
+      HudTool.showErrorWithStatus(
+          "camera_page.hint_only_one_camera_available".tr());
       return;
     }
 

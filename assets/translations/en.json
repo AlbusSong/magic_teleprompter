@@ -1,6 +1,58 @@
 {
     "app_name": "Magic Teleprompter",
-    "test_i18n": "Test i18n",
     "promter_example_title": "「Magical Teleprompter」Example of Usage",
-    "promter_example_content": "这样的荣誉是没有人不深受感动的。长期以来，我从事这个职业，又如此热爱这个民族，能获得这样的荣誉简直使我无法表达我的感情。然而，这种奖赏主要并不意味着对个人的尊崇，而是象征一个伟大的道德准则--捍卫这块可爱土地上的文化与古老传统的那些人的行为与品质的准则。这就是这个大奖章的意义。无论现在还是将来，它都是美国军人道德标准的一种体现。我一定要遵循这个标准，结合崇高的理想，唤起自豪感，同时始终保持谦虚……责任一荣誉一国家。这三个神圣的名词庄严地提醒你应该成为怎样的人，可能成为怎样的人，一定要成为怎样的人。它们将使你精神振奋，在你似乎丧失勇气时鼓起勇气，似乎没有理由相信时重建信念，几乎绝望时产生希望。遗憾得很，我既没有雄辩的词令、诗意的想象，也没有华丽的隐喻向你们说明它们的意义。怀疑者一定要说它们只不过是几个名词，一句口号，一个浮夸的短词。每一个迂腐的学究，每一个蛊惑人心的政客，每一个玩世不恭的人，每一个伪君子，每一个惹是生非之徒，很遗憾，还有其他个性不甚正常的人，一定企图贬低它们，甚至对它们进行愚弄和嘲笑。"
+    "promter_example_content": "这样的荣誉是没有人不深受感动的。长期以来，我从事这个职业，又如此热爱这个民族，能获得这样的荣誉简直使我无法表达我的感情。然而，这种奖赏主要并不意味着对个人的尊崇，而是象征一个伟大的道德准则--捍卫这块可爱土地上的文化与古老传统的那些人的行为与品质的准则。这就是这个大奖章的意义。无论现在还是将来，它都是美国军人道德标准的一种体现。我一定要遵循这个标准，结合崇高的理想，唤起自豪感，同时始终保持谦虚……责任一荣誉一国家。这三个神圣的名词庄严地提醒你应该成为怎样的人，可能成为怎样的人，一定要成为怎样的人。它们将使你精神振奋，在你似乎丧失勇气时鼓起勇气，似乎没有理由相信时重建信念，几乎绝望时产生希望。遗憾得很，我既没有雄辩的词令、诗意的想象，也没有华丽的隐喻向你们说明它们的意义。怀疑者一定要说它们只不过是几个名词，一句口号，一个浮夸的短词。每一个迂腐的学究，每一个蛊惑人心的政客，每一个玩世不恭的人，每一个伪君子，每一个惹是生非之徒，很遗憾，还有其他个性不甚正常的人，一定企图贬低它们，甚至对它们进行愚弄和嘲笑。",
+    "global": {
+        "confirmation_title": "CONFIRM",
+        "cancel_title": "CANCEL"
+    },
+    "home": {
+        "delete_this_item": "DELETE THIS ITEM?",
+        "cannot_delete_example_hint": "You can't delete example file"
+    },
+    "create_prompter": {
+        "title": "Title",
+        "content": "Content of Prompter",
+        "textfield_placeholder": "Input...",
+        "page_title_create": "Create",
+        "page_title_modify": "Modify",
+        "button_save": "Save",
+        "ask_to_save_this_item": "SAVE?",
+        "example_file_cannot_be_modified": "You can't modify example file",
+        "hint_input_title": "Input title please",
+        "hint_input_content": "Input content please",
+        "hint_input_title_length_too_short": "Minimum length for title: 7 charactors",
+        "hint_sucess_creation": "Create Success",
+        "hint_sucess_modification": "Modify Success"
+    },
+    "camera_page": {
+        "hint_quit_camera_title": "QUIT VIDEOING?",
+        "hint_quit_camera_desc": "Quit videoing and rechoose prompter",
+        "hint_quit_confimation_title": "QUIT",
+        "hint_front_camera_does_not_support_flash_light": "No flash light for front camera",
+        "hint_only_one_camera_available": "Only one camera available"
+    },
+    "textarea_settings": {
+        "text_color": "Text Color",
+        "text_fontsize": "Text Fontsize",
+        "background_color": "Back Color",
+        "background_alpha": "Back Alpha",
+        "scrolling_speed": "Speed",
+        "ai_speech_mode": "AI Dictation",
+        "will_finish_within_seconds": "{}Seconds Finished",
+        "will_finish_within_minutes": "{}Minute(s) Finished",
+        "choose_ai_language_page_title": "Choose Recognition Language",
+        "hint_ai_function_unauthorized": "AI Speech Mode Not Available",
+        "hint_beauty_effect_unavailable_now": "Beauty effect in development yet\nPlease look for it in next version"
+    },
+    "video_player": {
+        "btn_back": "Back\nRetake",
+        "btn_export": "Export\nVideo",
+        "hint_photoes_unauthorized": "Unauthorized to access to Photos",
+        "hint_exported_success": "Export Success",
+        "hint_exported_failure": "Export Failure. Please Try Again.",
+        "hint_quit_title": "QUIT TO RETAKE？",
+        "hint_quit_desc": "This video file will be deleted once you quit",
+        "hint_quit_confirmation": "QUIT TO RETAKE"
+    }
 }

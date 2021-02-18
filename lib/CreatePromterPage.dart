@@ -4,13 +4,14 @@ import 'package:magic_teleprompter/others/tools/SqliteTool.dart';
 import 'others/widgets/GradientText.dart';
 import 'others/tools/HudTool.dart';
 import 'models/PromterModel.dart';
-import 'others/tools/AlertTool.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 
 class CreatePromterPage extends StatefulWidget {
   CreatePromterPage({this.data});
 
-  PromterModel data;
+  final PromterModel data;
+
   @override
   State<StatefulWidget> createState() {
     return _CreatePromterPageState(data: this.data);
@@ -41,7 +42,9 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-            this.data == null ? "创建" : "修改",
+            this.data == null
+                ? "create_prompter.page_title_create".tr()
+                : "create_prompter.page_title_modify".tr(),
             style: TextStyle(
                 fontFamily: "PingFangSC-Regular",
                 fontSize: 22,
@@ -60,7 +63,7 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
                   _tryToSave();
                 },
                 child: Text(
-                  "保存",
+                  "create_prompter.button_save".tr(),
                   style: TextStyle(fontSize: 19, color: hexColor("819847")),
                 ))
           ]),
@@ -93,7 +96,7 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
                     .createShader(Offset.zero & bounds.size);
               },
               child: Text(
-                "标题",
+                "create_prompter.title".tr(),
                 style: TextStyle(
                     fontFamily: "PingFangTC-Regular",
                     fontSize: 30,
@@ -134,7 +137,7 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(10, 15, 10, 0),
                   border: InputBorder.none,
-                  hintText: "请输入...",
+                  hintText: "create_prompter.textfield_placeholder".tr(),
                   hintStyle: TextStyle(
                       fontFamily: "PingFangTC-Regular",
                       fontSize: 24,
@@ -146,7 +149,7 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
             margin: EdgeInsets.fromLTRB(15, 25, 15, 0),
             height: 39,
             child: GradientText(
-              "提词内容",
+              "create_prompter.content".tr(),
               gradient: LinearGradient(
                   colors: [hexColor("AA0D7D"), hexColor("C3BBA5")]),
               style: TextStyle(fontFamily: "PingFangTC-Regular", fontSize: 30),
@@ -185,7 +188,7 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(10, 15, 10, 10),
                   border: InputBorder.none,
-                  hintText: "请输入...",
+                  hintText: "create_prompter.textfield_placeholder".tr(),
                   hintStyle: TextStyle(
                       fontFamily: "PingFangTC-Regular",
                       fontSize: 20,
@@ -199,15 +202,21 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
 
   Future _tryToSave() async {
     if (this.data != null && this.data.status == 2) {
-      HudTool.showErrorWithStatus("示例文件不可更改");
+      HudTool.showErrorWithStatus(
+          "create_prompter.example_file_cannot_be_modified".tr());
       return;
     }
     if (isAvailable(this.title) == false) {
-      HudTool.showErrorWithStatus("请输入标题");
+      HudTool.showErrorWithStatus("create_prompter.hint_input_title".tr());
       return;
     }
     if (isAvailable(this.content) == false) {
-      HudTool.showErrorWithStatus("请输入内容");
+      HudTool.showErrorWithStatus("create_prompter.hint_input_content".tr());
+      return;
+    }
+    if (stringLength(this.title) < 7) {
+      HudTool.showErrorWithStatus(
+          "create_prompter.hint_input_title_length_too_short".tr());
       return;
     }
 
@@ -222,10 +231,10 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
             Navigator.of(context).pop();
             _confirmToSave();
           },
-          title: "确定",
+          title: "global.confirmation_title".tr(),
         ),
         negative: SweetSheetAction(
-          title: "取消",
+          title: "global.cancel_title".tr(),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -244,7 +253,9 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
       this.data.title = this.title;
       this.data.content = this.content;
     }
-    HudTool.showInfoWithStatus(isEmpty ? "创建成功" : "修改成功");
+    HudTool.showInfoWithStatus(isEmpty
+        ? "create_prompter.hint_sucess_creation".tr()
+        : "create_prompter.hint_sucess_modification".tr());
     Navigator.of(context).pop(this.data);
   }
 }

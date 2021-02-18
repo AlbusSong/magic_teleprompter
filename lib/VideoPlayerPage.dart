@@ -15,6 +15,7 @@ import 'package:sweetsheet/sweetsheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'others/tools/AdmobTool.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   VideoPlayerPage(this.localVideoPath);
@@ -127,7 +128,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
         ),
         child: FlatButton(
           child: Text(
-            "返回\n重拍",
+            "video_player.btn_back".tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: hexColor("ffffff"),
@@ -159,7 +160,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
         ),
         child: FlatButton(
           child: Text(
-            "导出\n相册",
+            "video_player.btn_export".tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: hexColor("ffffff"),
@@ -183,7 +184,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
         width: 80,
         height: 80,
         corner: FCorner.all(40),
-        text: "导出\n相册",
+        text: "video_player.btn_export".tr(),
         alignment: Alignment.center,
         style: TextStyle(
             color: hexColor("ffffff"),
@@ -209,7 +210,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     await [Permission.photosAddOnly].request();
     PermissionStatus photosStatus = await Permission.photos.status;
     if (photosStatus.isGranted == false) {
-      HudTool.showErrorWithStatus("相册写入权限未开启");
+      HudTool.showErrorWithStatus(
+          "video_player.hint_photoes_unauthorized".tr());
       return;
     }
 
@@ -225,28 +227,28 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   void _exportHandler() {
     if (this.exportSuccess) {
-      HudTool.showInfoWithStatus("保存成功");
+      HudTool.showInfoWithStatus("video_player.hint_exported_success".tr());
       _videoFile.deleteSync();
       Future.delayed(Duration(seconds: 1), () {
         Navigator.popUntil(context, ModalRoute.withName('/home'));
       });
     } else {
-      HudTool.showErrorWithStatus("保存失败请重试");
+      HudTool.showErrorWithStatus("video_player.hint_exported_failure".tr());
     }
   }
 
   void _tryToGoBackAndRetake() {
     _sweetSheet.show(
       context: context,
-      title: Text("退出重拍？"),
-      description: Text('您拍摄的此段视频文件将被删除。'),
+      title: Text("video_player.hint_quit_title".tr()),
+      description: Text("video_player.hint_quit_desc".tr()),
       color: SweetSheetColor.DANGER,
       positive: SweetSheetAction(
         onPressed: () {
           Navigator.of(context).pop();
           _goBackAndRetake();
         },
-        title: "退出重拍",
+        title: "video_player.hint_quit_confirmation".tr(),
       ),
     );
   }

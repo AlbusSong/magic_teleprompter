@@ -1,4 +1,3 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -9,7 +8,6 @@ import 'package:magic_teleprompter/others/tools/SqliteTool.dart';
 import 'CreatePromterPage.dart';
 import 'others/tools/HudTool.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'others/tools/AlertTool.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'UsePrompterPage.dart';
 import 'package:dough/dough.dart';
@@ -317,13 +315,13 @@ class _RealHomePageState extends State<RealHomePage> {
   void _tryToDelete(int index) {
     PromterModel m = this.arrOfData[index];
     if (m.status == 2) {
-      HudTool.showErrorWithStatus("示例文件不可删除");
+      HudTool.showErrorWithStatus("home.cannot_delete_example_hint".tr());
       return;
     }
 
     _sweetSheet.show(
         context: context,
-        title: Text("删除此项?"),
+        title: Text("home.delete_this_item".tr()),
         description: Text('${m.title}'),
         color: SweetSheetColor.DANGER,
         // icon: Icons.portable_wifi_off,
@@ -332,10 +330,10 @@ class _RealHomePageState extends State<RealHomePage> {
             Navigator.of(context).pop();
             _confirmToDelete(index);
           },
-          title: "确定",
+          title: "global.confirmation_title".tr(),
         ),
         negative: SweetSheetAction(
-          title: "取消",
+          title: "global.cancel_title".tr(),
           onPressed: () {
             Navigator.of(context).pop();
           },

@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'others/tools/GlobalTool.dart';
 import 'package:delayed_display/delayed_display.dart';
 import 'RealHomePage.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'others/models/CommonValues.dart';
 
 class SplashPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final _bottomMarginForLogin = (CommonValues().screenHeight - 80) / 2.0;
 
   @override
   Widget build(BuildContext context) {
@@ -22,36 +26,50 @@ class SplashPage extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
       color: Colors.white,
       child: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          DelayedDisplay(
-            slidingBeginOffset: Offset(0.35, 0),
-            delay: Duration(seconds: 1),
-            child: Text(
-              "工欲善其事",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  color: hexColor("666666"),
-                  decoration: TextDecoration.none),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              margin: EdgeInsets.only(bottom: this._bottomMarginForLogin),
+              clipBehavior: Clip.hardEdge,
+              child:
+                  Image.asset("assets/images/AppIcon.png", fit: BoxFit.contain),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
-          ),
-          DelayedDisplay(
-            slidingBeginOffset: Offset(-0.35, 0),
-            delay: Duration(seconds: 2),
-            child: Text(
-              "必先利其器",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  color: hexColor("666666"),
-                  decoration: TextDecoration.none),
+            DelayedDisplay(
+              slidingBeginOffset: Offset(0.35, 0),
+              delay: Duration(seconds: 1),
+              child: Text(
+                "splash_page.title1".tr(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: hexColor("666666"),
+                    decoration: TextDecoration.none),
+              ),
             ),
-          ),
-        ],
-      )),
+            DelayedDisplay(
+              slidingBeginOffset: Offset(-0.35, 0),
+              delay: Duration(seconds: 2),
+              child: Text(
+                "splash_page.title2".tr(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: hexColor("666666"),
+                    decoration: TextDecoration.none),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

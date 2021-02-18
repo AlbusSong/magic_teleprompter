@@ -54,5 +54,9 @@
         "hint_quit_title": "退出重拍？",
         "hint_quit_desc": "您拍摄的此段视频文件将被删除。",
         "hint_quit_confirmation": "退出重拍"
+    },
+    "splash_page": {
+        "title1": "工欲善其事",
+        "title2": "必先利其器"
     }
 }

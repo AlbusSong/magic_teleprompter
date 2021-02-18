@@ -54,5 +54,9 @@
         "hint_quit_title": "QUIT TO RETAKE？",
         "hint_quit_desc": "This video file will be deleted once you quit",
         "hint_quit_confirmation": "QUIT TO RETAKE"
+    },
+    "splash_page": {
+        "title1": "Before doing a good job,",
+        "title2": "a craftsmen should sharpen his ax"
     }
 }

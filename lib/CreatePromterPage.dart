@@ -222,7 +222,7 @@ class _CreatePromterPageState extends State<CreatePromterPage> {
 
     _sweetSheet.show(
         context: context,
-        title: Text("保存?"),
+        title: Text("create_prompter.ask_to_save_this_item".tr()),
         description: Text(''),
         color: SweetSheetColor.NICE,
         // icon: Icons.portable_wifi_off,

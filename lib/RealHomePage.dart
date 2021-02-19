@@ -14,6 +14,7 @@ import 'package:dough/dough.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:sweetsheet/sweetsheet.dart';
+// import 'others/tools/AdmobTool.dart';
 
 class RealHomePage extends StatefulWidget {
   static GlobalKey<ScaffoldState> globalKey;
@@ -360,6 +361,8 @@ class _RealHomePageState extends State<RealHomePage> {
       HudTool.showErrorWithStatus("麦克风权限未开启");
       return;
     }
+
+    // AdmobTool().interstitialAd.show();
 
     Navigator.push(context, _createUsePrompterPageRoute(index));
   }

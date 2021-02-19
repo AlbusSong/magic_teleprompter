@@ -392,7 +392,8 @@ class _PromterTextAreaSettingPageState
         builder: (context) => Material(
                 child: CupertinoPageScaffold(
               navigationBar: CupertinoNavigationBar(
-                  leading: Container(),
+                  // leading: Container(),
+                  automaticallyImplyLeading: false,
                   middle: Text(
                       "textarea_settings.choose_ai_language_page_title".tr())),
               child: SafeArea(

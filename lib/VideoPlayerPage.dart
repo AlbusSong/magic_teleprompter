@@ -98,7 +98,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
             ),
             Container(
               margin: EdgeInsets.fromLTRB(15, 15, 20, 15),
-              height: 80,
+              height: 90,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,14 +117,14 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   Widget _buildBackButton() {
     return PressableDough(
       child: Container(
-        width: 80,
-        height: 80,
+        width: 90,
+        height: 90,
         decoration: BoxDecoration(
           gradient: new LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.topRight,
               colors: [hexColor("D7D299"), hexColor("648842")]),
-          borderRadius: BorderRadius.circular(90),
+          borderRadius: BorderRadius.circular(90/2.0),
         ),
         child: FlatButton(
           child: Text(
@@ -137,7 +137,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           ),
           splashColor: Colors.white70,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(90.0/2.0)),
           onPressed: () {
             _tryToGoBackAndRetake();
           },
@@ -149,14 +149,14 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   Widget _buildExportButton() {
     return PressableDough(
       child: Container(
-        width: 80,
-        height: 80,
+        width: 90,
+        height: 90,
         decoration: BoxDecoration(
           gradient: new LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.topRight,
               colors: [hexColor("3583C2"), hexColor("88427D")]),
-          borderRadius: BorderRadius.circular(90),
+          borderRadius: BorderRadius.circular(90/2.0),
         ),
         child: FlatButton(
           child: Text(
@@ -169,7 +169,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           ),
           splashColor: Colors.white70,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(90/2.0)),
           onPressed: () {
             _tryToSaveVideo();
           },
@@ -181,9 +181,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   Widget _buildExportButton2() {
     return PressableDough(
       child: FButton(
-        width: 80,
-        height: 80,
-        corner: FCorner.all(40),
+        width: 90,
+        height: 90,
+        corner: FCorner.all(90/2.0),
         text: "video_player.btn_export".tr(),
         alignment: Alignment.center,
         style: TextStyle(
@@ -230,7 +230,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       HudTool.showInfoWithStatus("video_player.hint_exported_success".tr());
       _videoFile.deleteSync();
       Future.delayed(Duration(seconds: 1), () {
-        Navigator.popUntil(context, ModalRoute.withName('/home'));
+        // Navigator.popUntil(context, ModalRoute.withName('/home'));
+        Navigator.of(context).pop();
       });
     } else {
       HudTool.showErrorWithStatus("video_player.hint_exported_failure".tr());

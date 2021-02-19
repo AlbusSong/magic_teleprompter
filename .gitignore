@@ -40,4 +40,12 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-*.apk
+# Android related
+# **/android/**/gradle-wrapper.jar
+# **/android/.gradle
+# **/android/captures/
+# **/android/gradlew
+# **/android/gradlew.bat
+# **/android/local.properties
+# **/android/**/GeneratedPluginRegistrant.java
+android/app/release/

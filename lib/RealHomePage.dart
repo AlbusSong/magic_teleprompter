@@ -6,7 +6,6 @@ import 'models/PromterModel.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/SqliteTool.dart';
 import 'CreatePromterPage.dart';
-import 'others/tools/HudTool.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'UsePrompterPage.dart';
@@ -14,11 +13,10 @@ import 'package:dough/dough.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:sweetsheet/sweetsheet.dart';
+import 'others/tools/HudTool.dart';
 // import 'others/tools/AdmobTool.dart';
 
 class RealHomePage extends StatefulWidget {
-  static GlobalKey<ScaffoldState> globalKey;
-
   @override
   State<StatefulWidget> createState() {
     return _RealHomePageState();
@@ -72,8 +70,6 @@ class _RealHomePageState extends State<RealHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    HudTool.APP_CONTEXT = context;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: _buildBody(),

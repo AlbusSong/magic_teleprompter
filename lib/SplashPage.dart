@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'others/tools/GlobalTool.dart';
 import 'package:delayed_display/delayed_display.dart';
-import 'RealHomePage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'others/models/CommonValues.dart';
+import 'TabbarPage.dart';
 
 class SplashPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -83,7 +83,7 @@ class SplashPage extends StatelessWidget {
 
   void _pushHomePage() {
     PageRouteBuilder _router = PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => RealHomePage(),
+        pageBuilder: (context, animation, secondaryAnimation) => TabbarPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = Offset(0.0, 1.0);
           var end = Offset.zero;

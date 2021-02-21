@@ -1,0 +1,28 @@
+{
+    "files.exclude": {
+        "**/.gitignore": true,
+        "**/.gitattributes": true,
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.DS_Store": true,
+        "**/node_modules": true,
+        "**/iOS": true,
+        "**/.idea": true,
+        "**/.dart_tool": true,
+        "**/.gradle": true,
+        "**/.metadata": true,
+        "**/**.iml": true,
+        "**/.flutter-plugins": true,
+        "**/.flutter-plugins-dependencies": true,
+        "**/.packages": true,
+        "**/pubspec.lock": true,
+        "**/README.md": true,
+        "**/build": true,
+        "**/.symlinks": true,
+        "**/Pods": true
+    },
+    "search.exclude": {
+        "**/Pods": true,
+        "**/build": true
+    }
+}

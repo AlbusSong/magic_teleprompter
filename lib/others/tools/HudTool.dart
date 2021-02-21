@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/third_party/flutter_easyhub-0.3.5+0.5/lib/flutter_easy_hub.dart';
-import 'package:magic_teleprompter/RealHomePage.dart';
+import 'package:magic_teleprompter/TabbarPage.dart';
 
 typedef DissmissBlock = void Function();
 
@@ -41,7 +41,7 @@ class HudTool {
 
   static void showAction({BuildContext ctx}) {
     if (ctx == null) {
-      ctx = RealHomePage.globalKey.currentContext;
+      ctx = TabbarPage.globalKey.currentContext;
     }
     if (ctx == null) {
       ctx = APP_CONTEXT;

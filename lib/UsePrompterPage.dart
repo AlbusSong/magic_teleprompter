@@ -211,7 +211,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     print("this.sentenceList: ${this.sentenceList}");
     this.txtSettings.isAISpeechAvailable = await speech.initialize();
     this.txtSettings.localeNames = await speech.locales();
-    print("txtSettings.localeNames: ${txtSettings.localeNames}");
+    // print("txtSettings.localeNames: ${txtSettings.localeNames}");
     LocaleName systemLocale = await speech.systemLocale();
     this.txtSettings.systemLocaleName = systemLocale;
     this.txtSettings.selectedLocaleName = systemLocale;

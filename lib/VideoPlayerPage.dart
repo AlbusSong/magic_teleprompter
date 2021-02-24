@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:magic_teleprompter/others/models/Trifle.dart';
 import 'dart:io';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/HudTool.dart';
@@ -45,6 +44,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     _videoFile = File(this.localVideoPath);
 
     _initControllers();
+
+    if (mounted) {}
 
     AdmobTool().callback = (AdmobAdEvent e) {
       if (e == AdmobAdEvent.closed) {
@@ -124,7 +125,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
               begin: Alignment.topLeft,
               end: Alignment.topRight,
               colors: [hexColor("D7D299"), hexColor("648842")]),
-          borderRadius: BorderRadius.circular(90/2.0),
+          borderRadius: BorderRadius.circular(90 / 2.0),
         ),
         child: FlatButton(
           child: Text(
@@ -136,8 +137,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                 fontWeight: FontWeight.bold),
           ),
           splashColor: Colors.white70,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(90.0/2.0)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(90.0 / 2.0)),
           onPressed: () {
             _tryToGoBackAndRetake();
           },
@@ -156,7 +157,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
               begin: Alignment.topLeft,
               end: Alignment.topRight,
               colors: [hexColor("3583C2"), hexColor("88427D")]),
-          borderRadius: BorderRadius.circular(90/2.0),
+          borderRadius: BorderRadius.circular(90 / 2.0),
         ),
         child: FlatButton(
           child: Text(
@@ -168,8 +169,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                 fontWeight: FontWeight.bold),
           ),
           splashColor: Colors.white70,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(90/2.0)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(90 / 2.0)),
           onPressed: () {
             _tryToSaveVideo();
           },
@@ -183,7 +184,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       child: FButton(
         width: 90,
         height: 90,
-        corner: FCorner.all(90/2.0),
+        corner: FCorner.all(90 / 2.0),
         text: "video_player.btn_export".tr(),
         alignment: Alignment.center,
         style: TextStyle(

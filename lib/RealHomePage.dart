@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -9,12 +11,14 @@ import 'CreatePromterPage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'UsePrompterPage.dart';
+import 'UseIOSPrompterPage.dart';
 import 'package:dough/dough.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'others/tools/HudTool.dart';
 // import 'others/tools/AdmobTool.dart';
+import 'package:flutter/services.dart';
 
 class RealHomePage extends StatefulWidget {
   @override
@@ -24,6 +28,9 @@ class RealHomePage extends StatefulWidget {
 }
 
 class _RealHomePageState extends State<RealHomePage> {
+  static const _platform =
+      const MethodChannel('com.albus.magic_teleprompter/test');
+
   EasyRefreshController _refreshController = EasyRefreshController();
   List arrOfData = [];
   int page = 0;
@@ -359,6 +366,8 @@ class _RealHomePageState extends State<RealHomePage> {
     }
 
     // AdmobTool().interstitialAd.show();
+    String msg = await _platform.invokeMethod("justTest");
+    print("msg: $msg");
 
     Navigator.push(context, _createUsePrompterPageRoute(index));
   }
@@ -367,8 +376,13 @@ class _RealHomePageState extends State<RealHomePage> {
     PromterModel m = this.arrOfData[index];
     return PageRouteBuilder(
         fullscreenDialog: true,
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            UsePrompterPage(m),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          if (Platform.isIOS) {
+            return UseIOSPrompterPage();
+          } else {
+            return UsePrompterPage(m);
+          }
+        },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = Offset(0.0, 1.0);
           var end = Offset.zero;

@@ -46,9 +46,9 @@ Future main() async {
   SqliteTool();
 
   runApp(EasyLocalization(
-      supportedLocales: [Locale('en'), Locale('zh')],
+      supportedLocales: [Locale('zh')],
       path: 'assets/translations',
-      fallbackLocale: Locale('en'),
+      fallbackLocale: Locale('zh'),
       child: MyApp()));
 }
 

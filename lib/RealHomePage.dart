@@ -205,6 +205,7 @@ class _RealHomePageState extends State<RealHomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   child: Image.asset(
                     "assets/images/首页-删除按钮.png",
                     width: 22,
@@ -218,6 +219,7 @@ class _RealHomePageState extends State<RealHomePage> {
                 ),
                 Expanded(child: SizedBox()),
                 GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   child: Image.asset(
                     "assets/images/首页-使用按钮.png",
                     width: 22,
@@ -378,7 +380,7 @@ class _RealHomePageState extends State<RealHomePage> {
         fullscreenDialog: true,
         pageBuilder: (context, animation, secondaryAnimation) {
           if (Platform.isIOS) {
-            return UseIOSPrompterPage();
+            return UseIOSPrompterPage(m);
           } else {
             return UsePrompterPage(m);
           }

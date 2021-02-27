@@ -13,6 +13,7 @@ const String vType = "ios_camera_view";
 //   void resetSkinFilter() {}
 // }
 
+// ignore: must_be_immutable
 class IOSCameraView extends StatelessWidget {
   MethodChannel _channel;
 
@@ -48,5 +49,15 @@ class IOSCameraView extends StatelessWidget {
   void resetSkinFilter() {
     print("resetSkinFilter");
     _channel.invokeMethod("resetSkinFilter", {"value": 3});
+  }
+
+  void changeSkinEffect(String paramName, double argPercent) {
+    _channel.invokeMethod(
+        "changeSkinEffect", {"paramName": paramName, "argPercent": argPercent});
+  }
+
+  void changePlasticEffect(String paramName, double argPercent) {
+    _channel.invokeMethod("changePlasticEffect",
+        {"paramName": paramName, "argPercent": argPercent});
   }
 }

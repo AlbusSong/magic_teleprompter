@@ -24,6 +24,10 @@ class OrientationTool {
     _orientation = DeviceOrientation.portraitUp;
   }
 
+  DeviceOrientation currentOrientation() {
+    return this._orientation;
+  }
+
   void addOrientationChangeHandler(DeviceOrientationChangedCallback callback) {
     OrientationPlugin.onOrientationChange.listen((newOrien) {
       if (newOrien != _orientation) {

@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:ui';
+import 'dart:io';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:magic_teleprompter/others/models/Trifle.dart';
 import 'models/PromterModel.dart';
@@ -18,7 +18,6 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'others/tools/HudTool.dart';
 // import 'others/tools/AdmobTool.dart';
-import 'package:flutter/services.dart';
 
 class RealHomePage extends StatefulWidget {
   @override
@@ -28,9 +27,6 @@ class RealHomePage extends StatefulWidget {
 }
 
 class _RealHomePageState extends State<RealHomePage> {
-  static const _platform =
-      const MethodChannel('com.albus.magic_teleprompter/trifles');
-
   EasyRefreshController _refreshController = EasyRefreshController();
   List arrOfData = [];
   int page = 0;
@@ -38,6 +34,9 @@ class _RealHomePageState extends State<RealHomePage> {
       0, "promter_example_title".tr(), "promter_example_content".tr(), 2);
 
   final SweetSheet _sweetSheet = SweetSheet();
+
+  final MethodChannel _platform =
+      const MethodChannel('com.albus.magic_teleprompter/trifles');
 
   @override
   void initState() {
@@ -53,6 +52,13 @@ class _RealHomePageState extends State<RealHomePage> {
     ddds = ddds.replaceAll("?", "#&&&&#");
     List ewee = ddds.split("#&&&&#");
     print("ewee: $ewee");
+
+    _initVideoSDK();
+  }
+
+  void _initVideoSDK() async {
+    String msg = await _platform.invokeMethod("setupVideoSDK");
+    print("msg: $msg");
   }
 
   Future _getDataFromLocalDB() async {
@@ -73,9 +79,6 @@ class _RealHomePageState extends State<RealHomePage> {
     setState(() {});
 
     _refreshController.finishLoad();
-
-    String msg = await _platform.invokeMethod("setupVideoSDK");
-    print("msg: $msg");
   }
 
   @override

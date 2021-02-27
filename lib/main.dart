@@ -94,22 +94,23 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-          child: Container(
-        color: Colors.black,
-        child: BubbleLens(width: 300, height: 300, widgets: [
-          for (var i = 0; i < 7; i++)
-            GestureDetector(
-              child: Container(
-                width: 100,
-                height: 100,
-                color: [Colors.red, Colors.green, Colors.blue][i % 3],
-              ),
-              onTap: () {
-                print("llllllaaaaaaa");
-              },
-            )
-        ]),
-      )),
+        child: Container(
+          color: Colors.black,
+          child: BubbleLens(width: 300, height: 300, widgets: [
+            for (var i = 0; i < 7; i++)
+              GestureDetector(
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: [Colors.red, Colors.green, Colors.blue][i % 3],
+                ),
+                onTap: () {
+                  print("llllllaaaaaaa");
+                },
+              )
+          ]),
+        ),
+      ),
     );
   }
 }

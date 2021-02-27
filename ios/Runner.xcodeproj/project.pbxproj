@@ -184,14 +184,14 @@
 				4EEE64B725E6C9C500B899B6 /* CameraView.m */,
 				4EEB1F1925EA59E700E550C9 /* NSBundle+Build.h */,
 				4EEB1F1A25EA59E700E550C9 /* NSBundle+Build.m */,
+				4EEB1F2825EA68C000E550C9 /* NSBundle+Rel.h */,
+				4EEB1F2925EA68C000E550C9 /* NSBundle+Rel.m */,
 				4EEB1F1C25EA5A0500E550C9 /* NSString+Extra.h */,
 				4EEB1F1D25EA5A0500E550C9 /* NSString+Extra.m */,
 				4EEB1F1F25EA5AD400E550C9 /* Trifles.h */,
 				4EEB1F2025EA5AD400E550C9 /* Trifles.m */,
 				4EEB1F2225EA5D6700E550C9 /* AboutVideoSDK.h */,
 				4EEB1F2325EA5D6700E550C9 /* AboutVideoSDK.m */,
-				4EEB1F2825EA68C000E550C9 /* NSBundle+Rel.h */,
-				4EEB1F2925EA68C000E550C9 /* NSBundle+Rel.m */,
 			);
 			path = Runner;
 			sourceTree = "<group>";

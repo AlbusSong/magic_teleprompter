@@ -60,4 +60,16 @@ class IOSCameraView extends StatelessWidget {
     _channel.invokeMethod("changePlasticEffect",
         {"paramName": paramName, "argPercent": argPercent});
   }
+
+  void rotateCamera() {
+    _channel.invokeMethod("rotateCamera", null);
+  }
+
+  void turnFlashLight(bool on) {
+    _channel.invokeMethod("turnFlashLight", {"on": on});
+  }
+
+  void destoryCamera() {
+    _channel.invokeMethod("destoryCamera", null);
+  }
 }

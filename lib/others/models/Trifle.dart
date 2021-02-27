@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 
 class Trifle {
@@ -24,6 +26,9 @@ class Trifle {
   }
 
   Future _initCamera() async {
+    if (Platform.isIOS) {
+      return;
+    }
     cameras = await availableCameras();
     firstCamera = cameras.first;
     print("firstCamera: $firstCamera");

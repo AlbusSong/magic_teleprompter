@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/OrientationTool.dart';
 import 'package:camera/camera.dart';
@@ -226,6 +227,9 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   @override
   void dispose() {
     // Dispose of the controller when the widget is disposed.
+    if (_cameraView != null) {
+      _cameraView.destoryCamera();
+    }
     if (_txtController != null) {
       _txtController.dispose();
     }
@@ -302,16 +306,36 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   }
 
   Widget _buildCameraArea() {
+    Function decideQuarterTurns = () {
+      if (OrientationTool().currentOrientation() ==
+          DeviceOrientation.portraitUp) {
+        return 0;
+      } else if (OrientationTool().currentOrientation() ==
+          DeviceOrientation.landscapeLeft) {
+        return 1;
+      } else if (OrientationTool().currentOrientation() ==
+          DeviceOrientation.landscapeRight) {
+        return 3;
+      } else if (OrientationTool().currentOrientation() ==
+          DeviceOrientation.portraitDown) {
+        return 2;
+      }
+      return 0;
+    };
     return GestureDetector(
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: _cameraView,
+        child: RotatedBox(
+          quarterTurns: decideQuarterTurns(),
+          child: _cameraView,
+        ),
       ),
       onTapDown: (TapDownDetails details) {
         this.tapGlobalPanOffset = details.globalPosition;
       },
       onTap: () {
+        print("_tryToSetCameraFocus");
         _tryToSetCameraFocus();
       },
     );
@@ -932,6 +956,9 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   }
 
   void _goBack() {
+    if (_cameraView != null) {
+      _cameraView.destoryCamera();
+    }
     this.txtSettings.isAISpeechMode = false;
     this.txtSettings.selectedLocaleName = this.txtSettings.systemLocaleName;
     if (this.speech != null) {
@@ -1167,25 +1194,15 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
       this.isFlashLightOn = !this.isFlashLightOn;
     });
 
-    FlashMode m = FlashMode.torch;
-    if (this.isFlashLightOn == false) {
-      m = FlashMode.off;
-    }
-    // _cameraController.setFlashMode(m);
-    print("kkkkkk");
+    _cameraView.turnFlashLight(this.isFlashLightOn);
   }
 
   Future _tryToFlipCamera() async {
-    if (listLength(Trifle().cameras) == 1) {
-      HudTool.showErrorWithStatus(
-          "camera_page.hint_only_one_camera_available".tr());
-      return;
-    }
+    _cameraView.rotateCamera();
 
-    this.isFrontCamera = !this.isFrontCamera;
-    // await _resetCameraController();
-
-    setState(() {});
+    setState(() {
+      this.isFrontCamera = !this.isFrontCamera;
+    });
   }
 
   void _tryToChangeCameraRadio(int r) {

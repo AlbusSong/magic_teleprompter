@@ -36,7 +36,6 @@
     if (self) {
         self.preView = [[UIView alloc] init];
         self.preView.backgroundColor = [UIColor blackColor];
-//        [self.preView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onPreviewTapped:)]];
         
         self.focusView = [UIView new];
         self.focusView.frame = CGRectMake(0, 0, 50, 50);
@@ -70,6 +69,12 @@
                 [weakSelf rotateCamera];
             } else if ([call.method isEqualToString:@"turnFlashLight"]) {
                 [weakSelf turnFlashLight:[params[@"on"] boolValue]];
+            } else if ([call.method isEqualToString:@"resetCameraRatio"]) {
+                [weakSelf resetCameraRatio:[params objectForKey:@"ratio"]];
+            } else if ([call.method isEqualToString:@"startToRecord"]) {
+                [weakSelf startToRecord];
+            } else if ([call.method isEqualToString:@"finishRecording"]) {
+                [weakSelf finishRecording];
             }
         }];
     }
@@ -94,7 +99,13 @@
 }
 
 - (void)destroyCamera {
-    [self.camera destory];
+    if (_camera) {
+        // 取消录制状态
+        [_camera cancelRecording];
+        // 销毁并置空相机
+        [_camera destory];
+        _camera = nil;
+    }
 }
 
 - (void)rotateCamera {
@@ -105,25 +116,60 @@
     [self.camera flashWithMode:(on ? AVCaptureFlashModeOn : AVCaptureFlashModeOff)];
 }
 
-#pragma mark gestures
+- (void)resetCameraRatio:(NSString *)r {
+    CGFloat ratio = 0;
+    if ([r isEqualToString:@"0"]) {
+        ratio = 0;
+    } else if ([r isEqualToString:@"9:16"]) {
+        ratio = 9/16.0;
+    } else if ([r isEqualToString:@"3:4"]) {
+        ratio = 3/4.0;
+    } else if ([r isEqualToString:@"1:1"]) {
+        ratio = 1.0;
+    }
+    self.camera.cameraViewRatio = ratio;
+    [self.camera changeCameraViewRatio:ratio];
+    NSLog(@"resetCameraRatio: %@, %@", r, [NSThread currentThread]);
+}
 
-- (void)onPreviewTapped:(UITapGestureRecognizer *)sender {
-    if ([self.view.subviews containsObject:self.focusView] == NO) {
-        [self.view addSubview:self.focusView];
+- (void)startToRecord {
+    NSLog(@"startToRecord");
+    [self.camera startRecording];
+}
+
+- (void)finishRecording {
+    NSLog(@"finishRecording");
+    [self.camera finishRecording];
+}
+
+#pragma mark TuSDKRecordVideoCameraDelegate
+
+- (void)onVideoCamera:(TuSDKRecordVideoCamera *)camerea result:(TuSDKVideoResult *)result {
+    if (result.videoPath.length == 0) {
+        return;
     }
     
-    CGPoint p = [sender locationInView:self.view];
-    NSLog(@"onPreviewTapped: %f, %f", p.x, p.y);
-    CGRect frame = self.focusView.frame;
-    frame.origin.x = p.x - frame.size.width/2.0;
-    frame.origin.y = p.y - frame.size.height/2.0;
-    self.focusView.frame = frame;
+    NSLog(@"视频录制完成：%@", result.videoPath);
+    [self.channel invokeMethod:@"returnVideoRecordedPath" arguments:@{@"videoPath": result.videoPath}];
+}
+
+-(void)onVideoCamera:(TuSDKRecordVideoCamera *)camerea recordProgressChanged:(CGFloat)progress durationTime:(CGFloat)durationTime {
+    // 更新进度条 UI 信息
+    NSLog(@"durationTime: %f", durationTime);
+    [self.channel invokeMethod:@"updateRecordingDuration" arguments:@{@"duration": @(durationTime)}];
+}
+
+- (void)onVideoCamera:(TuSDKRecordVideoCamera *)camerea failedWithError:(NSError *)error {
+    if (error == nil) {
+        return;
+    }
     
-    [UIView animateWithDuration:0.5 animations:^{
-        self.focusView.alpha = 1.0;
-    } completion:^(BOOL finished) {
-        self.focusView.alpha = 0;
-    }];
+    NSLog(@"视频录制出错：%@", error);
+    NSString *errorDesc = error.localizedDescription;
+    if (errorDesc == nil) {
+        errorDesc = @"";
+    }
+    [self.channel invokeMethod:@"reportRecordingError" arguments:@{@"error": errorDesc}];
 }
 
 #pragma mark TuSDKCPFocusTouchViewDelegate
@@ -132,6 +178,11 @@
     if ([self.view.subviews containsObject:self.focusView] == NO) {
         [self.view addSubview:self.focusView];
     }
+    
+    if (p.x <= 1.0 || p.y <= 1.0) {
+        return;
+    }
+    
     NSLog(@"p: %f, %f", p.x, p.y);
     CGRect frame = self.focusView.frame;
     frame.origin.x = p.x - frame.size.width/2.0;
@@ -160,7 +211,9 @@
 //
     [self setupCamera];
     // 启动相机
-    [self.camera tryStartCameraCapture];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.camera tryStartCameraCapture];
+    });
 }
 
 - (void)addDefaultEffect {
@@ -192,7 +245,7 @@
     _camera.effectDelegate = self;
     _camera.focusTouchDelegate = self;
 //    _camera.delegate = self;
-//    _camera.regionHandler = [[CustomTuSDKCPRegionDefaultHandler alloc] init];
+//    _camera.regionHandler = [[TuSDKCPRegionDefaultHandler alloc] init];
     _camera.disableContinueFoucs = NO;
     _camera.disableTapFocus = NO;
     _camera.regionViewColor = [UIColor blackColor];
@@ -204,6 +257,7 @@
     _camera.minRecordingTime = 10;
 //    [_camera switchFilterWithCode:_videoFilters[1]];
     _camera.minAvailableSpaceBytes  = 1024.f*1024.f*50.f;
+    _camera.cameraViewRatio = 0;
     NSLog(@"setupCamera Ended");
 }
 

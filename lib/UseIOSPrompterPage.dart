@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/OrientationTool.dart';
-import 'package:camera/camera.dart';
 import 'package:magic_teleprompter/others/tools/HudTool.dart';
-import 'others/models/Trifle.dart';
 import 'others/models/CommonValues.dart';
 import 'models/PromterModel.dart';
 import 'others/models/TextAreaSettings.dart';
@@ -22,6 +20,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'PromterTextAreaSettingPage.dart';
 import 'IOSCameraView.dart';
 import 'PrompterBeautySettingsPage.dart';
+import 'VideoPlayerPage.dart';
 
 // ignore: must_be_immutable
 class UseIOSPrompterPage extends StatefulWidget {
@@ -41,10 +40,9 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
 
   final SweetSheet _sweetSheet = SweetSheet();
 
-  final IOSCameraView _cameraView = IOSCameraView();
+  IOSCameraView _cameraView;
 
   Timer timer;
-  Timer timerForRecording;
 
   TextEditingController _txtController;
   ScrollController _txtScrollController;
@@ -89,7 +87,7 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
 
   // 是否正在录制
   bool isRecording = false;
-  int startingRecordTimeStamp = 0;
+  double duration = 0;
   String recordingTimeString = "00:00";
   // 录制按钮的属性
   double recordBtnSize = 42;
@@ -113,6 +111,20 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   @override
   void initState() {
     super.initState();
+
+    CameraViewHandler resultHdl = (String videoPath, String error) {
+      if (error != null) {
+        HudTool.showErrorWithStatus(error);
+      } else {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => VideoPlayerPage(videoPath)));
+      }
+    };
+    CameraViewUpdateDurationHandler durationHdl = (double d) {
+      this.duration = d;
+      _showRecordingTime(d.toInt());
+    };
+    _cameraView = IOSCameraView(resultHdl, durationHdl);
 
     _animController =
         AnimationController(duration: Duration(milliseconds: 200), vsync: this)
@@ -229,6 +241,7 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
     // Dispose of the controller when the widget is disposed.
     if (_cameraView != null) {
       _cameraView.destoryCamera();
+      _cameraView.dispose();
     }
     if (_txtController != null) {
       _txtController.dispose();
@@ -241,11 +254,11 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
       _animController.dispose();
     }
     this.killTimer();
-    this.killTimerForRecording();
     if (this.speech != null) {
       this.speech.stop();
       this.speech = null;
     }
+
     super.dispose();
   }
 
@@ -253,34 +266,17 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   brightness: Brightness.dark,
-      //   automaticallyImplyLeading: false,
-      // ),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
     return WillPopScope(
-        child: _realBody(),
-        onWillPop: () async {
-          return false;
-        });
-    // return FutureBuilder<void>(
-    //   future: _initializeControllerFuture,
-    //   builder: (context, snapshot) {
-    //     return _realBody();
-    //     if (snapshot.connectionState == ConnectionState.done) {
-    //       // If the Future is complete, display the preview.
-    //       return _realBody();
-    //     } else {
-    //       // Otherwise, display a loading indicator.
-    //       return Center(child: CircularProgressIndicator());
-    //     }
-    //   },
-    // );
+      child: _realBody(),
+      onWillPop: () async {
+        return false;
+      },
+    );
   }
 
   Widget _realBody() {
@@ -322,23 +318,31 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
       }
       return 0;
     };
-    return GestureDetector(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: RotatedBox(
-          quarterTurns: decideQuarterTurns(),
-          child: _cameraView,
-        ),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: RotatedBox(
+        quarterTurns: decideQuarterTurns(),
+        child: _cameraView,
       ),
-      onTapDown: (TapDownDetails details) {
-        this.tapGlobalPanOffset = details.globalPosition;
-      },
-      onTap: () {
-        print("_tryToSetCameraFocus");
-        _tryToSetCameraFocus();
-      },
     );
+    // return GestureDetector(
+    //   child: Container(
+    //     width: MediaQuery.of(context).size.width,
+    //     height: MediaQuery.of(context).size.height,
+    //     child: RotatedBox(
+    //       quarterTurns: decideQuarterTurns(),
+    //       child: _cameraView,
+    //     ),
+    //   ),
+    //   onTapDown: (TapDownDetails details) {
+    //     this.tapGlobalPanOffset = details.globalPosition;
+    //   },
+    //   onTap: () {
+    //     print("_tryToSetCameraFocus");
+    //     _tryToSetCameraFocus();
+    //   },
+    // );
   }
 
   Widget _buildFocusRect() {
@@ -1053,34 +1057,6 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
     });
   }
 
-  void killTimerForRecording() {
-    if (this.timerForRecording != null) {
-      this.timerForRecording.cancel();
-      this.timerForRecording = null;
-    }
-
-    setState(() {
-      this.isRecording = false;
-      this.startingRecordTimeStamp = 0;
-      this.recordingTimeString = "00:00";
-    });
-  }
-
-  void startTimerForRecording() {
-    this.killTimerForRecording();
-
-    this.isRecording = true;
-    this.startingRecordTimeStamp = DateTime.now().millisecondsSinceEpoch;
-    this.timerForRecording = Timer.periodic(Duration(milliseconds: 100), (tm) {
-      if (tm.tick % 10 == 0) {
-        int newTimeStamp = DateTime.now().millisecondsSinceEpoch;
-        int diffSeconds = (newTimeStamp - startingRecordTimeStamp) ~/ 1000;
-        _showRecordingTime(diffSeconds);
-      }
-      // print("lssdkssk: ${tm.tick}");
-    });
-  }
-
   void _showRecordingTime(int d) {
     if (d < 10) {
       this.recordingTimeString = '00:0$d';
@@ -1159,6 +1135,12 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   }
 
   Future _tryToRecordVideo() async {
+    if (this.isRecording && this.duration < 10.0) {
+      // 如果正在录制并且录制时长小于10秒
+      HudTool.showErrorWithStatus("至少录制10秒");
+      return;
+    }
+
     setState(() {
       this.isRecording = !this.isRecording;
       if (this.isRecording) {
@@ -1172,16 +1154,14 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
       }
     });
 
-    // if (this.isRecording) {
-    //   _cameraController.startVideoRecording();
-    //   this.startTimerForRecording();
-    // } else {
-    //   this.killTimerForRecording();
-    //   XFile f = await _cameraController.stopVideoRecording();
-    //   Navigator.of(context).push(MaterialPageRoute(
-    //       builder: (BuildContext context) => VideoPlayerPage(f.path)));
-    //   print("path: ${f.path}");
-    // }
+    if (this.isRecording) {
+      _cameraView.startToRecord();
+    } else {
+      setState(() {
+        this.recordingTimeString = "00:00";
+      });
+      _cameraView.finishRecording();
+    }
   }
 
   void _tryToSwitchFlashLight() {
@@ -1206,31 +1186,42 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   }
 
   void _tryToChangeCameraRadio(int r) {
-    double screenW = MediaQuery.of(context).size.width;
-    double screenH = MediaQuery.of(context).size.height;
-    if (OrientationTool().isPortrait() == false) {
-      double tmp = screenH;
-      screenH = screenW;
-      screenW = tmp;
+    String ratio = "";
+    if (r == 0) {
+      ratio = "0";
+    } else if (r == 1) {
+      ratio = "9:16";
+    } else if (r == 2) {
+      ratio = "3:4";
+    } else if (r == 3) {
+      ratio = "1:1";
     }
-    double h = 0;
-    double showingAreaH = screenH;
-    if (r > 0) {
-      if (r == 1) {
-        showingAreaH = screenW * 16 / 9.0;
-      } else if (r == 2) {
-        showingAreaH = screenW * 4 / 3.0;
-      } else if (r == 3) {
-        showingAreaH = screenW;
-      }
-    }
-    h = (screenH - showingAreaH) / 2.0;
-    if (h < 0) {
-      h = 0;
-    }
+    _cameraView.resetCameraRatio(ratio);
+    // double screenW = MediaQuery.of(context).size.width;
+    // double screenH = MediaQuery.of(context).size.height;
+    // if (OrientationTool().isPortrait() == false) {
+    //   double tmp = screenH;
+    //   screenH = screenW;
+    //   screenW = tmp;
+    // }
+    // double h = 0;
+    // double showingAreaH = screenH;
+    // if (r > 0) {
+    //   if (r == 1) {
+    //     showingAreaH = screenW * 16 / 9.0;
+    //   } else if (r == 2) {
+    //     showingAreaH = screenW * 4 / 3.0;
+    //   } else if (r == 3) {
+    //     showingAreaH = screenW;
+    //   }
+    // }
+    // h = (screenH - showingAreaH) / 2.0;
+    // if (h < 0) {
+    //   h = 0;
+    // }
     setState(() {
       this.cameraRatio = r;
-      this.cameraRadioMaskAreaHeight = h;
+      // this.cameraRadioMaskAreaHeight = h;
     });
   }
 

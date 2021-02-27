@@ -3,19 +3,17 @@ import 'package:flutter/services.dart';
 
 const String vType = "ios_camera_view";
 
-// class IOSCameraView extends StatefulWidget {
-//   @override
-//   State<StatefulWidget> createState() {
-//     // TODO: implement createState
-//     return _IOSCameraViewState();
-//   }
-
-//   void resetSkinFilter() {}
-// }
+typedef CameraViewHandler = void Function(String videoPath, String error);
+typedef CameraViewUpdateDurationHandler = void Function(double duration);
 
 // ignore: must_be_immutable
 class IOSCameraView extends StatelessWidget {
+  IOSCameraView(this.resultHandler, this.updateDurationHandler);
+
   MethodChannel _channel;
+
+  final CameraViewHandler resultHandler;
+  final CameraViewUpdateDurationHandler updateDurationHandler;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +38,26 @@ class IOSCameraView extends StatelessWidget {
     //   return Future.value();
     // }
     print("_handleMethod: ${call.method}");
-    // switch (call.method) {
-    //   default:
-    //     throw UnsupportedError("Unrecognized method");
-    // }
+    Map params = call.arguments;
+    if (call.method == "returnVideoRecordedPath") {
+      String videoPath = params["videoPath"];
+      print("returnVideoRecordedPath: $videoPath");
+      if (this.resultHandler != null) {
+        this.resultHandler(videoPath, null);
+      }
+    } else if (call.method == "updateRecordingDuration") {
+      double duration = params["duration"];
+      print("updateRecordingDuration: $duration");
+      if (this.updateDurationHandler != null) {
+        this.updateDurationHandler(duration);
+      }
+    } else if (call.method == "reportRecordingError") {
+      String error = params["error"];
+      print('reportRecordingError: $error');
+      if (this.resultHandler != null) {
+        this.resultHandler(null, error);
+      }
+    }
   }
 
   void resetSkinFilter() {
@@ -69,7 +83,23 @@ class IOSCameraView extends StatelessWidget {
     _channel.invokeMethod("turnFlashLight", {"on": on});
   }
 
+  void resetCameraRatio(String ratio) {
+    _channel.invokeMethod("resetCameraRatio", {"ratio": ratio});
+  }
+
+  void startToRecord() {
+    _channel.invokeMethod("startToRecord", null);
+  }
+
+  void finishRecording() {
+    _channel.invokeMethod("finishRecording", null);
+  }
+
   void destoryCamera() {
     _channel.invokeMethod("destoryCamera", null);
+  }
+
+  void dispose() {
+    this._channel = null;
   }
 }

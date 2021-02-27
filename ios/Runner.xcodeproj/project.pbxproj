@@ -9,6 +9,21 @@
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		4EEB1F0A25EA58CE00E550C9 /* TuSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F0525EA58CE00E550C9 /* TuSDK.framework */; };
+		4EEB1F0B25EA58CE00E550C9 /* TuSDKFace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F0625EA58CE00E550C9 /* TuSDKFace.framework */; };
+		4EEB1F0C25EA58CE00E550C9 /* TuSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EEB1F0725EA58CE00E550C9 /* TuSDK.bundle */; };
+		4EEB1F0D25EA58CE00E550C9 /* libyuv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F0825EA58CE00E550C9 /* libyuv.framework */; };
+		4EEB1F0E25EA58CE00E550C9 /* TuSDKVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F0925EA58CE00E550C9 /* TuSDKVideo.framework */; };
+		4EEB1F1025EA58F600E550C9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F0F25EA58EA00E550C9 /* libz.tbd */; };
+		4EEB1F1225EA590500E550C9 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F1125EA58FF00E550C9 /* libc++.tbd */; };
+		4EEB1F1425EA591600E550C9 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F1325EA591100E550C9 /* libiconv.tbd */; };
+		4EEB1F1625EA592600E550C9 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F1525EA592000E550C9 /* libresolv.tbd */; };
+		4EEB1F1825EA593D00E550C9 /* libbz2.1.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F1725EA593600E550C9 /* libbz2.1.0.tbd */; };
+		4EEB1F1B25EA59E700E550C9 /* NSBundle+Build.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEB1F1A25EA59E700E550C9 /* NSBundle+Build.m */; };
+		4EEB1F1E25EA5A0500E550C9 /* NSString+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEB1F1D25EA5A0500E550C9 /* NSString+Extra.m */; };
+		4EEB1F2125EA5AD400E550C9 /* Trifles.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEB1F2025EA5AD400E550C9 /* Trifles.m */; };
+		4EEB1F2425EA5D6700E550C9 /* AboutVideoSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEB1F2325EA5D6700E550C9 /* AboutVideoSDK.m */; };
+		4EEB1F2A25EA68C000E550C9 /* NSBundle+Rel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEB1F2925EA68C000E550C9 /* NSBundle+Rel.m */; };
 		4EEE64B525E6C86100B899B6 /* CameraViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEE64B425E6C86100B899B6 /* CameraViewFactory.m */; };
 		4EEE64B825E6C9C500B899B6 /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEE64B725E6C9C500B899B6 /* CameraView.m */; };
 		73FD92D080C608DBD3B6EE6F /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0246FBAE436CB3220B8FABA9 /* Pods_Runner.framework */; };
@@ -36,6 +51,26 @@
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		4EEB1F0525EA58CE00E550C9 /* TuSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDK.framework; sourceTree = "<group>"; };
+		4EEB1F0625EA58CE00E550C9 /* TuSDKFace.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDKFace.framework; sourceTree = "<group>"; };
+		4EEB1F0725EA58CE00E550C9 /* TuSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TuSDK.bundle; sourceTree = "<group>"; };
+		4EEB1F0825EA58CE00E550C9 /* libyuv.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libyuv.framework; sourceTree = "<group>"; };
+		4EEB1F0925EA58CE00E550C9 /* TuSDKVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDKVideo.framework; sourceTree = "<group>"; };
+		4EEB1F0F25EA58EA00E550C9 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		4EEB1F1125EA58FF00E550C9 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		4EEB1F1325EA591100E550C9 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		4EEB1F1525EA592000E550C9 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		4EEB1F1725EA593600E550C9 /* libbz2.1.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.1.0.tbd; path = usr/lib/libbz2.1.0.tbd; sourceTree = SDKROOT; };
+		4EEB1F1925EA59E700E550C9 /* NSBundle+Build.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBundle+Build.h"; sourceTree = "<group>"; };
+		4EEB1F1A25EA59E700E550C9 /* NSBundle+Build.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+Build.m"; sourceTree = "<group>"; };
+		4EEB1F1C25EA5A0500E550C9 /* NSString+Extra.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Extra.h"; sourceTree = "<group>"; };
+		4EEB1F1D25EA5A0500E550C9 /* NSString+Extra.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extra.m"; sourceTree = "<group>"; };
+		4EEB1F1F25EA5AD400E550C9 /* Trifles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Trifles.h; sourceTree = "<group>"; };
+		4EEB1F2025EA5AD400E550C9 /* Trifles.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Trifles.m; sourceTree = "<group>"; };
+		4EEB1F2225EA5D6700E550C9 /* AboutVideoSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutVideoSDK.h; sourceTree = "<group>"; };
+		4EEB1F2325EA5D6700E550C9 /* AboutVideoSDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutVideoSDK.m; sourceTree = "<group>"; };
+		4EEB1F2825EA68C000E550C9 /* NSBundle+Rel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBundle+Rel.h"; sourceTree = "<group>"; };
+		4EEB1F2925EA68C000E550C9 /* NSBundle+Rel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+Rel.m"; sourceTree = "<group>"; };
 		4EEE64B325E6C86100B899B6 /* CameraViewFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraViewFactory.h; sourceTree = "<group>"; };
 		4EEE64B425E6C86100B899B6 /* CameraViewFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraViewFactory.m; sourceTree = "<group>"; };
 		4EEE64B625E6C9C500B899B6 /* CameraView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraView.h; sourceTree = "<group>"; };
@@ -60,7 +95,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EEB1F0A25EA58CE00E550C9 /* TuSDK.framework in Frameworks */,
+				4EEB1F1225EA590500E550C9 /* libc++.tbd in Frameworks */,
+				4EEB1F1425EA591600E550C9 /* libiconv.tbd in Frameworks */,
+				4EEB1F1025EA58F600E550C9 /* libz.tbd in Frameworks */,
+				4EEB1F0B25EA58CE00E550C9 /* TuSDKFace.framework in Frameworks */,
+				4EEB1F1625EA592600E550C9 /* libresolv.tbd in Frameworks */,
+				4EEB1F1825EA593D00E550C9 /* libbz2.1.0.tbd in Frameworks */,
 				73FD92D080C608DBD3B6EE6F /* Pods_Runner.framework in Frameworks */,
+				4EEB1F0E25EA58CE00E550C9 /* TuSDKVideo.framework in Frameworks */,
+				4EEB1F0D25EA58CE00E550C9 /* libyuv.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,9 +114,26 @@
 		06A40882305C8C4631086851 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4EEB1F1725EA593600E550C9 /* libbz2.1.0.tbd */,
+				4EEB1F1525EA592000E550C9 /* libresolv.tbd */,
+				4EEB1F1325EA591100E550C9 /* libiconv.tbd */,
+				4EEB1F1125EA58FF00E550C9 /* libc++.tbd */,
+				4EEB1F0F25EA58EA00E550C9 /* libz.tbd */,
 				0246FBAE436CB3220B8FABA9 /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4EEB1F0425EA587600E550C9 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				4EEB1F0825EA58CE00E550C9 /* libyuv.framework */,
+				4EEB1F0725EA58CE00E550C9 /* TuSDK.bundle */,
+				4EEB1F0525EA58CE00E550C9 /* TuSDK.framework */,
+				4EEB1F0625EA58CE00E550C9 /* TuSDKFace.framework */,
+				4EEB1F0925EA58CE00E550C9 /* TuSDKVideo.framework */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
@@ -108,6 +169,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				4EEB1F0425EA587600E550C9 /* Resource */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -120,6 +182,16 @@
 				4EEE64B425E6C86100B899B6 /* CameraViewFactory.m */,
 				4EEE64B625E6C9C500B899B6 /* CameraView.h */,
 				4EEE64B725E6C9C500B899B6 /* CameraView.m */,
+				4EEB1F1925EA59E700E550C9 /* NSBundle+Build.h */,
+				4EEB1F1A25EA59E700E550C9 /* NSBundle+Build.m */,
+				4EEB1F1C25EA5A0500E550C9 /* NSString+Extra.h */,
+				4EEB1F1D25EA5A0500E550C9 /* NSString+Extra.m */,
+				4EEB1F1F25EA5AD400E550C9 /* Trifles.h */,
+				4EEB1F2025EA5AD400E550C9 /* Trifles.m */,
+				4EEB1F2225EA5D6700E550C9 /* AboutVideoSDK.h */,
+				4EEB1F2325EA5D6700E550C9 /* AboutVideoSDK.m */,
+				4EEB1F2825EA68C000E550C9 /* NSBundle+Rel.h */,
+				4EEB1F2925EA68C000E550C9 /* NSBundle+Rel.m */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -198,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
+				4EEB1F0C25EA58CE00E550C9 /* TuSDK.bundle in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
@@ -282,8 +355,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				4EEB1F2125EA5AD400E550C9 /* Trifles.m in Sources */,
+				4EEB1F2A25EA68C000E550C9 /* NSBundle+Rel.m in Sources */,
 				4EEE64B525E6C86100B899B6 /* CameraViewFactory.m in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				4EEB1F1B25EA59E700E550C9 /* NSBundle+Build.m in Sources */,
+				4EEB1F1E25EA5A0500E550C9 /* NSString+Extra.m in Sources */,
+				4EEB1F2425EA5D6700E550C9 /* AboutVideoSDK.m in Sources */,
 				4EEE64B825E6C9C500B899B6 /* CameraView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -372,6 +450,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
+					"$(PROJECT_DIR)/Runner/Resource",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -509,6 +588,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
+					"$(PROJECT_DIR)/Runner/Resource",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -540,6 +620,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
+					"$(PROJECT_DIR)/Runner/Resource",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

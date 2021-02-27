@@ -19,7 +19,6 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'PromterTextAreaSettingPage.dart';
-import 'VideoPlayerPage.dart';
 import 'IOSCameraView.dart';
 import 'PrompterBeautySettingsPage.dart';
 

@@ -29,7 +29,7 @@ class RealHomePage extends StatefulWidget {
 
 class _RealHomePageState extends State<RealHomePage> {
   static const _platform =
-      const MethodChannel('com.albus.magic_teleprompter/test');
+      const MethodChannel('com.albus.magic_teleprompter/trifles');
 
   EasyRefreshController _refreshController = EasyRefreshController();
   List arrOfData = [];
@@ -73,6 +73,9 @@ class _RealHomePageState extends State<RealHomePage> {
     setState(() {});
 
     _refreshController.finishLoad();
+
+    String msg = await _platform.invokeMethod("setupVideoSDK");
+    print("msg: $msg");
   }
 
   @override
@@ -368,8 +371,6 @@ class _RealHomePageState extends State<RealHomePage> {
     }
 
     // AdmobTool().interstitialAd.show();
-    String msg = await _platform.invokeMethod("justTest");
-    print("msg: $msg");
 
     Navigator.push(context, _createUsePrompterPageRoute(index));
   }

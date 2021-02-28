@@ -76,8 +76,6 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   /// 2， 3:4
   /// 3， 1:1
   int cameraRatio = 0;
-  // 与宽高比相应的遮照高度
-  double cameraRadioMaskAreaHeight = 0;
 
   // 闪光灯是否开启
   bool isFlashLightOn = false;
@@ -288,8 +286,6 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
         children: [
           _buildCameraArea(),
           _buildFocusRect(),
-          _buildCameraEdgeArea1(),
-          _buildCameraEdgeArea2(),
           _buildTextArea(),
           _buildBackBtn(),
           _buildMenuBtn(),
@@ -367,46 +363,6 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
         ),
       ),
     );
-  }
-
-  Widget _buildCameraEdgeArea1() {
-    if (OrientationTool().isPortrait()) {
-      return Positioned(
-        left: 0,
-        top: 0,
-        width: MediaQuery.of(context).size.width,
-        height: this.cameraRadioMaskAreaHeight,
-        child: Container(color: Colors.black),
-      );
-    } else {
-      return Positioned(
-        left: 0,
-        top: 0,
-        width: this.cameraRadioMaskAreaHeight,
-        height: MediaQuery.of(context).size.height,
-        child: Container(color: Colors.black),
-      );
-    }
-  }
-
-  Widget _buildCameraEdgeArea2() {
-    if (OrientationTool().isPortrait()) {
-      return Positioned(
-        right: 0,
-        bottom: 0,
-        width: MediaQuery.of(context).size.width,
-        height: this.cameraRadioMaskAreaHeight,
-        child: Container(color: Colors.black),
-      );
-    } else {
-      return Positioned(
-        right: 0,
-        bottom: 0,
-        width: this.cameraRadioMaskAreaHeight,
-        height: MediaQuery.of(context).size.height,
-        child: Container(color: Colors.black),
-      );
-    }
   }
 
   Widget _buildTextArea() {
@@ -1191,7 +1147,7 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   }
 
   void _tryToChangeCameraRadio(int r) {
-    String ratio = "";
+    String ratio = "0";
     if (r == 0) {
       ratio = "0";
     } else if (r == 1) {
@@ -1202,45 +1158,9 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
       ratio = "1:1";
     }
     _cameraView.resetCameraRatio(ratio);
-    // double screenW = MediaQuery.of(context).size.width;
-    // double screenH = MediaQuery.of(context).size.height;
-    // if (OrientationTool().isPortrait() == false) {
-    //   double tmp = screenH;
-    //   screenH = screenW;
-    //   screenW = tmp;
-    // }
-    // double h = 0;
-    // double showingAreaH = screenH;
-    // if (r > 0) {
-    //   if (r == 1) {
-    //     showingAreaH = screenW * 16 / 9.0;
-    //   } else if (r == 2) {
-    //     showingAreaH = screenW * 4 / 3.0;
-    //   } else if (r == 3) {
-    //     showingAreaH = screenW;
-    //   }
-    // }
-    // h = (screenH - showingAreaH) / 2.0;
-    // if (h < 0) {
-    //   h = 0;
-    // }
     setState(() {
       this.cameraRatio = r;
-      // this.cameraRadioMaskAreaHeight = h;
     });
-  }
-
-  Future _tryToSetCameraFocus() async {
-    setState(() {
-      this._shouldAppearFocusRect = true;
-    });
-    _animController.forward();
-
-    double x = this.tapGlobalPanOffset.dx / MediaQuery.of(context).size.width;
-    double y = this.tapGlobalPanOffset.dy / MediaQuery.of(context).size.height;
-    Offset focusPoint = Offset(x, y);
-    print("focusPoint: $focusPoint");
-    // await _cameraController.setFocusPoint(focusPoint);
   }
 
   void _tryToHandleSpeechRecognitionResult(SpeechRecognitionResult result) {
@@ -1292,22 +1212,4 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
         duration: Duration(milliseconds: 300),
         curve: Curves.linear);
   }
-
-  // void _tryToRePositionTextArea(DeviceOrientation o1, DeviceOrientation o2) {
-  //   double oldScreenWidth = MediaQuery.of(context).size.width;
-  //   double oldScreenHeight = MediaQuery.of(context).size.height;
-  //   double newScreenWidth = MediaQuery.of(context).size.height;
-  //   double newScreenHeight = MediaQuery.of(context).size.width;
-  //   print(
-  //       "oldScreenWidth: $oldScreenWidth, oldScreenHeight: $oldScreenHeight, newScreenWidth: $newScreenWidth, newScreenHeight: $newScreenHeight");
-  //   if (OrientationTool().isPortrait(o2)) {
-  //   } else {
-  //     double oldRatioW = this.textAreaLeft / oldScreenWidth;
-  //     double oldRatioH = this.textAreaTop / oldScreenWidth;
-  //     setState(() {
-  //       this.textAreaLeft = oldRatioW * newScreenWidth;
-  //       this.textAreaTop = oldRatioH * newScreenHeight;
-  //     });
-  //   }
-  // }
 }

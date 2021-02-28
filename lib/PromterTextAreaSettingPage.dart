@@ -49,7 +49,7 @@ class _PromterTextAreaSettingPageState
               padding: EdgeInsets.only(bottom: 80),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                color: hexColor("ffffff", 0.5),
+                color: hexColor("000000", 0.5),
               ),
               child: SingleChildScrollView(
                 child: Column(
@@ -117,7 +117,7 @@ class _PromterTextAreaSettingPageState
                     Text(
                       (TextAreaSettings().selectedLocaleName != null
                           ? TextAreaSettings().selectedLocaleName.name
-                          : ""),
+                          : "Language"),
                       style: TextStyle(color: Colors.white, fontSize: 11),
                     ),
                     Icon(
@@ -277,7 +277,10 @@ class _PromterTextAreaSettingPageState
                         this.txtSettings.backgroundHexColorString.toLowerCase())
                     ? 2
                     : 0,
-                color: hexColor(i == 0 ? "f00000" : "ffffff")),
+                color: hexColor(
+                    i == (listLength(Trifle().backgroundColorStrings) - 1)
+                        ? "f00000"
+                        : "ffffff")),
             borderRadius: BorderRadius.all(Radius.circular(9)),
             color: hexColor(colorString),
           ),
@@ -442,6 +445,7 @@ class _PromterTextAreaSettingPageState
           ],
         ),
       ),
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
           TextAreaSettings().selectedLocaleName = m;

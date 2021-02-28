@@ -44,8 +44,8 @@ class _PrompterBeautySettingsPageState
   int selectedIndex1 = 1;
   int selectedIndex2 = 1;
 
-  Widget _optionsWidget1;
-  Widget _optionsWidget2;
+  // Widget _optionsWidget1;
+  // Widget _optionsWidget2;
 
   @override
   void initState() {
@@ -80,7 +80,7 @@ class _PrompterBeautySettingsPageState
               padding: EdgeInsets.only(bottom: 80),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                color: hexColor("ffffff", 0.5),
+                color: hexColor("000000", 0.5),
               ),
               child: SingleChildScrollView(
                 child: Column(
@@ -112,7 +112,7 @@ class _PrompterBeautySettingsPageState
 
   Widget _buildSegmentControl() {
     return Container(
-      margin: EdgeInsets.fromLTRB(20, 15, 20, 0),
+      margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
       // height: 45,
       // color: randomColor(),
       child: Center(
@@ -126,13 +126,13 @@ class _PrompterBeautySettingsPageState
             // TextStyle
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 15,
           ),
           inactiveStyle: TextStyle(
             // TextStyle
             color: Colors.white54,
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 15,
           ),
           sliderColor: hexColor("ea6135"),
           backgroundColor: hexColor("ef9a38"),
@@ -152,7 +152,7 @@ class _PrompterBeautySettingsPageState
   Widget _buildSlider() {
     return Container(
       // color: randomColor(),
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top: 5),
       child: SfSlider(
         min: 0.0,
         max: 100.0,
@@ -193,8 +193,8 @@ class _PrompterBeautySettingsPageState
     }
     widgetList.insert(1, _buildDottedLine());
     return Container(
-      height: 80,
-      margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+      height: 60,
+      margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
       width: MediaQuery.of(context).size.width,
       // color: Colors.white,
       child: SingleChildScrollView(
@@ -219,8 +219,8 @@ class _PrompterBeautySettingsPageState
     }
     widgetList.insert(1, _buildDottedLine());
     return Container(
-      height: 80,
-      margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+      height: 60,
+      margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
       width: MediaQuery.of(context).size.width,
       // color: Colors.white,
       child: SingleChildScrollView(
@@ -246,14 +246,14 @@ class _PrompterBeautySettingsPageState
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       child: Container(
-        constraints: BoxConstraints(minWidth: 70),
+        constraints: BoxConstraints(minWidth: 60),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: 50,
-              padding: EdgeInsets.all(5),
+              height: 40,
+              padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
               child: ColorFiltered(
                 colorFilter: ColorFilter.mode(
                     (isSelected ? hexColor("D92F2F") : hexColor("ffffff")),
@@ -267,7 +267,7 @@ class _PrompterBeautySettingsPageState
               title,
               style: TextStyle(
                   color: (isSelected ? hexColor("D92F2F") : hexColor("ffffff")),
-                  fontSize: 15),
+                  fontSize: 14),
             ),
           ],
         ),

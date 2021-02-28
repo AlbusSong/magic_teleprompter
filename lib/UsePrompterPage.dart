@@ -899,7 +899,6 @@ class _UsePrompterPageState extends State<UsePrompterPage>
             fit: BoxFit.contain,
           ),
           onPressed: () {
-            print("Go back");
             setState(() {
               this.isCameraSettingsShowing = !this.isCameraSettingsShowing;
               if (this.isCameraSettingsShowing == false) {

@@ -34,7 +34,7 @@
                   binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger {
     self = [super init];
     if (self) {
-        self.preView = [[UIView alloc] init];
+        self.preView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
         self.preView.backgroundColor = [UIColor blackColor];
         
         self.focusView = [UIView new];
@@ -128,8 +128,6 @@
         ratio = 1.0;
     }
     self.camera.cameraViewRatio = ratio;
-    [self.camera changeCameraViewRatio:ratio];
-    NSLog(@"resetCameraRatio: %@, %@", r, [NSThread currentThread]);
 }
 
 - (void)startToRecord {
@@ -198,22 +196,21 @@
 #pragma mark 相机
 
 - (void)tryToSetupCamera {
-//    WS(weakSelf)
-//    [TuSDKTSDeviceSettings checkAllowWithController:[UIApplication sharedApplication].delegate.window.rootViewController type:lsqDeviceSettingsCamera completed:^(lsqDeviceSettingsType type, BOOL openSetting) {
-//        NSLog(@"currentThread: %@", [NSThread currentThread]);
-//        [weakSelf setupCamera];
-//        // 启动相机
-//        [weakSelf.camera tryStartCameraCapture];
-//    }];
+    WS(weakSelf)
+    [TuSDKTSDeviceSettings checkAllowWithController:[UIApplication sharedApplication].delegate.window.rootViewController type:lsqDeviceSettingsCamera completed:^(lsqDeviceSettingsType type, BOOL openSetting) {
+        [weakSelf setupCamera];
+        // 启动相机
+        [weakSelf.camera tryStartCameraCapture];
+    }];
     
 //    NSString *b = [[NSBundle mainBundle] bundleIdentifier];
 //    NSLog(@"bundleIdentifier2: %@", b);
 //
-    [self setupCamera];
-    // 启动相机
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.camera tryStartCameraCapture];
-    });
+//    [self setupCamera];
+//    // 启动相机
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self.camera tryStartCameraCapture];
+//    });
 }
 
 - (void)addDefaultEffect {

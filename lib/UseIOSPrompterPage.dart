@@ -1004,6 +1004,11 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
     };
     ResetCallback rc = (String mode) {
       print("rc: $mode");
+      if (mode == "option1") {
+        _cameraView.resetSkinEffect();
+      } else if (mode == "option2") {
+        _cameraView.resetPlasticEffect();
+      }
     };
     PrompterBeautySettingsPage ts = PrompterBeautySettingsPage(sc, rc);
     PageRouteBuilder _router = PageRouteBuilder(

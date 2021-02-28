@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:magic_teleprompter/others/models/BeautyEffectSettings.dart';
 
 const String vType = "ios_camera_view";
 
@@ -93,6 +94,18 @@ class IOSCameraView extends StatelessWidget {
 
   void finishRecording() {
     _channel.invokeMethod("finishRecording", null);
+  }
+
+  void resetSkinEffect() {
+    for (String p in BeautyEffectSettings().beautyEffectParaNames1) {
+      this.changeSkinEffect(p, 0);
+    }
+  }
+
+  void resetPlasticEffect() {
+    for (String p in BeautyEffectSettings().beautyEffectParaNames2) {
+      this.changePlasticEffect(p, 0);
+    }
   }
 
   void destoryCamera() {

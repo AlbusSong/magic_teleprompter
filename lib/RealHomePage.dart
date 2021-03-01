@@ -63,7 +63,7 @@ class _RealHomePageState extends State<RealHomePage> {
 
   Future _getDataFromLocalDB() async {
     List rawArr = await SqliteTool().getPromterList(this.page, pageSize: 10);
-    print("rawArr: $rawArr");
+    // print("rawArr: $rawArr");
     if (listLength(rawArr) == 0 && this.page > 0) {
       _refreshController.finishLoad(noMore: true);
       return;

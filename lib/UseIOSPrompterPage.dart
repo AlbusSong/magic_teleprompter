@@ -114,6 +114,7 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
       if (error != null) {
         HudTool.showErrorWithStatus(error);
       } else {
+        print("videoPath: $videoPath");
         Navigator.of(context).push(MaterialPageRoute(
             builder: (BuildContext context) => VideoPlayerPage(videoPath)));
       }

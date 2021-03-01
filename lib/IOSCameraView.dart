@@ -42,19 +42,19 @@ class IOSCameraView extends StatelessWidget {
     Map params = call.arguments;
     if (call.method == "returnVideoRecordedPath") {
       String videoPath = params["videoPath"];
-      print("returnVideoRecordedPath: $videoPath");
+      debugPrint("returnVideoRecordedPath: $videoPath");
       if (this.resultHandler != null) {
         this.resultHandler(videoPath, null);
       }
     } else if (call.method == "updateRecordingDuration") {
       double duration = params["duration"];
-      print("updateRecordingDuration: $duration");
+      debugPrint("updateRecordingDuration: $duration");
       if (this.updateDurationHandler != null) {
         this.updateDurationHandler(duration);
       }
     } else if (call.method == "reportRecordingError") {
       String error = params["error"];
-      print('reportRecordingError: $error');
+      debugPrint('reportRecordingError: $error');
       if (this.resultHandler != null) {
         this.resultHandler(null, error);
       }

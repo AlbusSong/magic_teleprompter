@@ -1141,6 +1141,7 @@ class _UsePrompterPageState extends State<UsePrompterPage>
     } else {
       this.killTimerForRecording();
       XFile f = await _cameraController.stopVideoRecording();
+      print("_tryToRecordVideo: ${f.path}");
       Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => VideoPlayerPage(f.path)));
       print("path: ${f.path}");

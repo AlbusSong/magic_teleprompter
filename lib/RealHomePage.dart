@@ -156,17 +156,31 @@ class _RealHomePageState extends State<RealHomePage> {
       child: StaggeredGridView.countBuilder(
         padding: EdgeInsets.fromLTRB(24, 30, 24, 15),
         crossAxisCount: 4,
-        itemCount: listLength(this.arrOfData),
+        itemCount: listLength(this.arrOfData) + 1,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            child: _buildWaterflowItem(index),
+            child: ((idx) {
+              if (idx == 0) {
+                return _buildCarouselItem();
+              } else {
+                return _buildWaterflowItem(idx - 1);
+              }
+            })(index),
             onTap: () {
-              _tryToEnterDetailPage(index);
+              if (index == 0) {
+                _tryToPresentCourses();
+              } else {
+                _tryToEnterDetailPage(index - 1);
+              }
             },
           );
         },
         staggeredTileBuilder: (int index) {
-          return StaggeredTile.fit(2);
+          if (index == 0) {
+            return StaggeredTile.fit(4);
+          } else {
+            return StaggeredTile.fit(2);
+          }
         },
         mainAxisSpacing: 30.0,
         crossAxisSpacing: 24.0,
@@ -178,6 +192,50 @@ class _RealHomePageState extends State<RealHomePage> {
     ));
   }
 
+  Widget _buildCarouselItem() {
+    return Container(
+      height: 110,
+      decoration: BoxDecoration(
+        color: randomColor(),
+        borderRadius: BorderRadius.all(Radius.circular(13.0)),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 10,
+            offset: Offset(2, 2),
+            spreadRadius: 0,
+            color: Color(0x33000000),
+          ),
+        ],
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            child: Image.asset("assets/images/使用教程.png", fit: BoxFit.cover),
+          ),
+          BackdropFilter(
+            filter: new ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: new Container(
+              color: Colors.white.withOpacity(0.1),
+              width: 300,
+              height: 300,
+            ),
+          ),
+          Center(
+            child: Text(
+              "使用教程",
+              style: TextStyle(color: hexColor("E66565"), fontSize: 33),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget _buildWaterflowItem(int index) {
     PromterModel m = this.arrOfData[index];
     return Container(
@@ -185,6 +243,14 @@ class _RealHomePageState extends State<RealHomePage> {
         color: hexColor(
             Trifle().homeColorList[index % listLength(Trifle().homeColorList)]),
         borderRadius: BorderRadius.all(Radius.circular(13.0)),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 10,
+            offset: Offset(2, 2),
+            spreadRadius: 0,
+            color: Color(0x33000000),
+          ),
+        ],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -295,6 +361,10 @@ class _RealHomePageState extends State<RealHomePage> {
         ),
       ),
     );
+  }
+
+  void _tryToPresentCourses() {
+    print("_tryToPresentCourses");
   }
 
   Future _tryToEnterDetailPage(int index) async {

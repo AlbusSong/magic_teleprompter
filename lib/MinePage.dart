@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:magic_teleprompter/others/models/CommonValues.dart';
@@ -6,6 +7,8 @@ import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/HudTool.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sweetsheet/sweetsheet.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class MinePage extends StatefulWidget {
   MinePage({Key key}) : super(key: key);
@@ -24,6 +27,10 @@ class _MinePageState extends State<MinePage> {
 
   String cacheSize = "0M";
   String qqCode = "232838131";
+  String privacyUrl =
+      "https://magic-teleprompter-app.herokuapp.com/privacy.html";
+  String developmentStoryUrl =
+      "https://magic-teleprompter-app.herokuapp.com/privacy.html";
 
   final SweetSheet _sweetSheet = SweetSheet();
 
@@ -120,9 +127,38 @@ class _MinePageState extends State<MinePage> {
     if (index == 0) {
       _tryToClearCache();
     } else if (index == 1) {
+      _tryToEnterWebPage(this.privacyUrl);
     } else if (index == 2) {
       _tryToCopyQQCode();
-    } else {}
+    } else {
+      _tryToEnterWebPage(this.developmentStoryUrl);
+    }
+  }
+
+  void _tryToEnterWebPage(String url) {
+    showBarModalBottomSheet(
+      context: context,
+      expand: true,
+      backgroundColor: Colors.black,
+      builder: (context) => Material(
+        child: CupertinoPageScaffold(
+          // navigationBar: CupertinoNavigationBar(
+          //   // leading: Container(),
+          //   automaticallyImplyLeading: false,
+          //   middle: Text("1234"),
+          // ),
+          child: SafeArea(
+            bottom: false,
+            child: Container(
+              color: randomColor(),
+              child: WebView(
+                initialUrl: url,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void _tryToCopyQQCode() {

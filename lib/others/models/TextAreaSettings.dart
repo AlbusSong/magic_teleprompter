@@ -25,7 +25,7 @@ class TextAreaSettings {
     this.textHexColorString =
         (pref.getString("textHexColorString") ?? "FFFFFF");
     this.backgroundHexColorString =
-        (pref.getString("backgroundHexColorString") ?? "FFFFFF");
+        (pref.getString("backgroundHexColorString") ?? "000000");
     this.backgroundAlpha = (pref.getDouble("backgroundAlpha") ?? 0.3);
     this.textScrollingSpeed = (pref.getDouble("textScrollingSpeed") ?? 30.0);
   }

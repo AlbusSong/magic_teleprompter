@@ -173,12 +173,11 @@ class _PromterTextAreaSettingPageState
           height: 18,
           margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
           decoration: BoxDecoration(
-            border: new Border.all(
-                width: (colorString.toLowerCase() ==
-                        this.txtSettings.textHexColorString.toLowerCase())
-                    ? 2
-                    : 0,
-                color: hexColor(i == 0 ? "f00000" : "ffffff")),
+            border: (colorString.toLowerCase() ==
+                    this.txtSettings.textHexColorString.toLowerCase())
+                ? Border.all(
+                    width: 2, color: hexColor(i == 0 ? "f00000" : "ffffff"))
+                : null,
             borderRadius: BorderRadius.all(Radius.circular(9)),
             color: hexColor(colorString),
           ),
@@ -272,15 +271,15 @@ class _PromterTextAreaSettingPageState
           height: 18,
           margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
           decoration: BoxDecoration(
-            border: new Border.all(
-                width: (colorString.toLowerCase() ==
-                        this.txtSettings.backgroundHexColorString.toLowerCase())
-                    ? 2
-                    : 0,
-                color: hexColor(
-                    i == (listLength(Trifle().backgroundColorStrings) - 1)
-                        ? "f00000"
-                        : "ffffff")),
+            border: ((colorString.toLowerCase() ==
+                    this.txtSettings.backgroundHexColorString.toLowerCase())
+                ? Border.all(
+                    width: 2,
+                    color: hexColor(
+                        i == (listLength(Trifle().backgroundColorStrings) - 1)
+                            ? "f00000"
+                            : "ffffff"))
+                : null),
             borderRadius: BorderRadius.all(Radius.circular(9)),
             color: hexColor(colorString),
           ),

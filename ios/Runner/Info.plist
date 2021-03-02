@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>神奇提词器</string>
+	<string>魔法提词器</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -26,9 +26,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-8622528197740245~5642454123</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -37,13 +39,13 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Need to use your camera to record video</string>
+	<string>需要您的相机权限来拍摄视频</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Need to use your microphone to record video</string>
+	<string>需要您的麦克风权限来拍摄视频</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Need to access your Photos to save video</string>
+	<string>需要您的相册权限来导出视频</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Need to recognize your speech to match the words you are speaking</string>
+	<string>需要您的语音识别权限来实现自动跟读功能</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>This identifier will be used to deliver personalized ads to you.</string>
 	<key>SKAdNetworkItems</key>

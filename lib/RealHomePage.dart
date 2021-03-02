@@ -55,11 +55,23 @@ class _RealHomePageState extends State<RealHomePage> {
     print("ewee: $ewee");
 
     _initVideoSDK();
+
+    _checkIfContainsExampleData();
   }
 
   void _initVideoSDK() async {
     String msg = await _platform.invokeMethod("setupVideoSDK");
     print("msg: $msg");
+  }
+
+  void _checkIfContainsExampleData() {
+    Future.delayed(Duration(seconds: 3), () {
+      if (this.arrOfData.contains(this._exampleData) == false) {
+        setState(() {
+          this.arrOfData.add(_exampleData);
+        });
+      }
+    });
   }
 
   Future _getDataFromLocalDB() async {
@@ -197,7 +209,7 @@ class _RealHomePageState extends State<RealHomePage> {
     return Container(
       height: 110,
       decoration: BoxDecoration(
-        color: randomColor(),
+        color: Colors.white54,
         borderRadius: BorderRadius.all(Radius.circular(13.0)),
         boxShadow: [
           BoxShadow(

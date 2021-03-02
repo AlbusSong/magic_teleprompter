@@ -84,7 +84,7 @@ class _UsageCoursePageState extends State<UsageCoursePage> {
       );
     } else {
       return Container(
-        color: hexColor("000000"),
+        color: hexColor("f4fffb"),
         child: Chewie(
           controller: _chewieController,
         ),

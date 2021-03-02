@@ -8,7 +8,7 @@ import 'package:magic_teleprompter/others/tools/HudTool.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'CustomWebviewPage.dart';
 
 class MinePage extends StatefulWidget {
   MinePage({Key key}) : super(key: key);
@@ -127,37 +127,20 @@ class _MinePageState extends State<MinePage> {
     if (index == 0) {
       _tryToClearCache();
     } else if (index == 1) {
-      _tryToEnterWebPage(this.privacyUrl);
+      _tryToEnterWebPage(this.privacyUrl, "隐私条款");
     } else if (index == 2) {
       _tryToCopyQQCode();
     } else {
-      _tryToEnterWebPage(this.developmentStoryUrl);
+      _tryToEnterWebPage(this.developmentStoryUrl, "开发小传");
     }
   }
 
-  void _tryToEnterWebPage(String url) {
+  void _tryToEnterWebPage(String url, String title) {
     showBarModalBottomSheet(
       context: context,
       expand: true,
       backgroundColor: Colors.black,
-      builder: (context) => Material(
-        child: CupertinoPageScaffold(
-          // navigationBar: CupertinoNavigationBar(
-          //   // leading: Container(),
-          //   automaticallyImplyLeading: false,
-          //   middle: Text("1234"),
-          // ),
-          child: SafeArea(
-            bottom: false,
-            child: Container(
-              color: randomColor(),
-              child: WebView(
-                initialUrl: url,
-              ),
-            ),
-          ),
-        ),
-      ),
+      builder: (context) => CustomWebviewPage(url, title),
     );
   }
 
@@ -184,8 +167,9 @@ class _MinePageState extends State<MinePage> {
   }
 
   void _calculateCache() async {
-    Directory cacheDir = await getApplicationDocumentsDirectory();
+    Directory cacheDir = await getTemporaryDirectory();
     double value = await getTotalSizeOfFilesInDir(cacheDir);
+    print("_calculateCache: $value");
     setState(() {
       this.cacheSize = this._formatSize(value);
     });
@@ -209,10 +193,15 @@ class _MinePageState extends State<MinePage> {
   }
 
   String _formatSize(double value) {
-    if (null == value || value < (1024.0 * 1024.0)) {
+    if (null == value || value < (1024.0)) {
       return '0M';
     }
-    if (value < (1024 * 1024 * 1024.0)) {
+
+    if (value < (1024.0 * 1024.0)) {
+      double kValue = value / 1024.0;
+      int k = kValue.toInt();
+      return "${k}K";
+    } else if (value < (1024 * 1024 * 1024.0)) {
       double mValue = value / (1024 * 1024.0);
       int m = mValue.toInt();
       return "${m}M";
@@ -226,7 +215,8 @@ class _MinePageState extends State<MinePage> {
   /// 删除缓存
   void _clearApplicationCache() async {
     HudTool.show();
-    Directory directory = await getApplicationDocumentsDirectory();
+    Directory directory = await getTemporaryDirectory();
+    print("directory: $directory");
     //删除缓存目录
     await _deleteDirectory(directory);
     HudTool.showInfoWithStatus("已清理");
@@ -241,9 +231,12 @@ class _MinePageState extends State<MinePage> {
     if (file is Directory) {
       final List<FileSystemEntity> children = file.listSync();
       for (final FileSystemEntity child in children) {
-        await _deleteDirectory(child);
+        // await _deleteDirectory(child);
+        if (child is File) {
+          await child.delete();
+        }
       }
     }
-    await file.delete();
+    // await file.delete();
   }
 }

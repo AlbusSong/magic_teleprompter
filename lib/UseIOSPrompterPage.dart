@@ -115,6 +115,7 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
         HudTool.showErrorWithStatus(error);
       } else {
         print("videoPath: $videoPath");
+        HudTool.dismiss();
         Navigator.of(context).push(MaterialPageRoute(
             builder: (BuildContext context) => VideoPlayerPage(videoPath)));
       }
@@ -1122,6 +1123,7 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
       setState(() {
         this.recordingTimeString = "00:00";
       });
+      HudTool.showWithStatus("正在合成视频");
       _cameraView.finishRecording();
     }
   }

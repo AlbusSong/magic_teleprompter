@@ -17,6 +17,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'others/tools/HudTool.dart';
+import 'UsageCoursePage.dart';
 // import 'others/tools/AdmobTool.dart';
 
 class RealHomePage extends StatefulWidget {
@@ -365,6 +366,8 @@ class _RealHomePageState extends State<RealHomePage> {
 
   void _tryToPresentCourses() {
     print("_tryToPresentCourses");
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => UsageCoursePage()));
   }
 
   Future _tryToEnterDetailPage(int index) async {

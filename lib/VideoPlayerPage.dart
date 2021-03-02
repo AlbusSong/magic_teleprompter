@@ -54,7 +54,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     };
   }
 
-  Future _initControllers() async {
+  void _initControllers() async {
     _videoController = VideoPlayerController.file(_videoFile);
     await _videoController.initialize();
     this._chewieController = ChewieController(

@@ -26,7 +26,7 @@ class _MinePageState extends State<MinePage> {
   ];
 
   String cacheSize = "0M";
-  String qqCode = "232838131";
+  String qqCode = "724907020";
   String privacyUrl =
       "https://magic-teleprompter-app.herokuapp.com/privacy.html";
   String developmentStoryUrl =

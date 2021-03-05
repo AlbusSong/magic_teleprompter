@@ -299,7 +299,21 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
     );
   }
 
+  /*
+  https://cdn.pixabay.com/photo/2021/02/26/19/31/snowdrop-6052942_1280.jpg
+  https://cdn.pixabay.com/photo/2017/09/01/12/52/girl-2704119_1280.jpg
+  */
+
   Widget _buildCameraArea() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      color: randomColor(),
+      child: Image.network(
+        "https://cdn.pixabay.com/photo/2021/02/26/19/31/snowdrop-6052942_1280.jpg",
+        fit: BoxFit.cover,
+      ),
+    );
     Function decideQuarterTurns = () {
       if (OrientationTool().currentOrientation() ==
           DeviceOrientation.portraitUp) {

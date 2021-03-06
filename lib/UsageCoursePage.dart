@@ -15,8 +15,7 @@ class _UsageCoursePageState extends State<UsageCoursePage> {
   VideoPlayerController _videoController;
   ChewieController _chewieController;
 
-  String videoUrl =
-      "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
+  String videoUrl = "http://qpk6w2j5r.hn-bkt.clouddn.com/video_course.mp4";
 
   @override
   void initState() {
@@ -84,7 +83,8 @@ class _UsageCoursePageState extends State<UsageCoursePage> {
       );
     } else {
       return Container(
-        color: hexColor("f4fffb"),
+        // padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        color: hexColor("000000"),
         child: Chewie(
           controller: _chewieController,
         ),

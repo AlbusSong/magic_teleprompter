@@ -1140,7 +1140,9 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
     } else {
       setState(() {
         this.recordingTimeString = "00:00";
+        this.isBeingScrolled = false;
       });
+      this.killTimer();
       HudTool.showWithStatus("正在合成视频");
       _cameraView.finishRecording();
     }

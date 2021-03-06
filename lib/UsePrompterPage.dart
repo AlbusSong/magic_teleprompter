@@ -1139,7 +1139,11 @@ class _UsePrompterPageState extends State<UsePrompterPage>
       _cameraController.startVideoRecording();
       this.startTimerForRecording();
     } else {
+      setState(() {
+        this.isBeingScrolled = false;
+      });
       this.killTimerForRecording();
+      this.killTimer();
       XFile f = await _cameraController.stopVideoRecording();
       print("_tryToRecordVideo: ${f.path}");
       Navigator.of(context).push(MaterialPageRoute(

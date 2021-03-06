@@ -30,7 +30,7 @@ class _MinePageState extends State<MinePage> {
   String privacyUrl =
       "https://magic-teleprompter-app.herokuapp.com/privacy.html";
   String developmentStoryUrl =
-      "https://magic-teleprompter-app.herokuapp.com/privacy.html";
+      "https://magic-teleprompter-app.herokuapp.com/app_story.html";
 
   final SweetSheet _sweetSheet = SweetSheet();
 

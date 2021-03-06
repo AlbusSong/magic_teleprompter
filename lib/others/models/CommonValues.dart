@@ -23,10 +23,12 @@ class CommonValues {
     screenWidth = window.physicalSize.width / dpr;
     screenHeight = window.physicalSize.height / dpr;
     statusHeight = window.padding.top / dpr;
+    xBottomHeight = window.padding.bottom / dpr;
   }
 
   final dpr = window.devicePixelRatio;
   double screenWidth;
   double screenHeight;
   double statusHeight;
+  double xBottomHeight;
 }

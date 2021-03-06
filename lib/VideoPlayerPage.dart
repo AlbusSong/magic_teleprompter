@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:magic_teleprompter/others/models/CommonValues.dart';
 import 'dart:io';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/HudTool.dart';
@@ -93,12 +94,14 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
             Expanded(
               child: Container(
                 height: 200,
-                margin: EdgeInsets.fromLTRB(15, 30, 15, 0),
+                margin: EdgeInsets.fromLTRB(
+                    15, 30 + (CommonValues().statusHeight / 2.0), 15, 0),
                 child: Chewie(controller: _chewieController),
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(15, 15, 20, 15),
+              margin: EdgeInsets.fromLTRB(
+                  15, 15, 20, 15 + (CommonValues().xBottomHeight / 2.0)),
               height: 90,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

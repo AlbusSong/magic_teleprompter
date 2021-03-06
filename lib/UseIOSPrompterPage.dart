@@ -302,18 +302,19 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   /*
   https://cdn.pixabay.com/photo/2021/02/26/19/31/snowdrop-6052942_1280.jpg
   https://cdn.pixabay.com/photo/2017/09/01/12/52/girl-2704119_1280.jpg
+  https://cdn.pixabay.com/photo/2011/09/27/18/52/bird-9950_1280.jpg
   */
 
   Widget _buildCameraArea() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      color: randomColor(),
-      child: Image.network(
-        "https://cdn.pixabay.com/photo/2021/02/26/19/31/snowdrop-6052942_1280.jpg",
-        fit: BoxFit.cover,
-      ),
-    );
+    // return Container(
+    //   width: MediaQuery.of(context).size.width,
+    //   height: MediaQuery.of(context).size.height,
+    //   color: randomColor(),
+    //   child: Image.network(
+    //     "https://cdn.pixabay.com/photo/2011/09/27/18/52/bird-9950_1280.jpg",
+    //     fit: BoxFit.cover,
+    //   ),
+    // );
     Function decideQuarterTurns = () {
       if (OrientationTool().currentOrientation() ==
           DeviceOrientation.portraitUp) {
@@ -809,7 +810,7 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
 
   Widget _buildRecordBtnArea() {
     return Positioned(
-      bottom: 5,
+      bottom: 5 + (CommonValues().xBottomHeight / 2.0),
       child: Container(
         // color: randomColor(),
         child: Column(
@@ -848,6 +849,9 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
         ),
       ),
       onTap: () {
+        // Navigator.of(context).push(MaterialPageRoute(
+        //     builder: (BuildContext context) => VideoPlayerPage(
+        //         "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4")));
         _tryToRecordVideo();
       },
     );
@@ -868,7 +872,7 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   Widget _buildMenuBtn() {
     return Positioned(
       right: 5,
-      bottom: 5,
+      bottom: 5 + (CommonValues().xBottomHeight / 2.0),
       child: Container(
         child: IconButton(
           splashRadius: 25,
@@ -895,7 +899,7 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
   Widget _buildBackBtn() {
     return Positioned(
       left: 5,
-      bottom: 5,
+      bottom: 5 + (CommonValues().xBottomHeight / 2.0),
       child: Container(
         child: IconButton(
           splashRadius: 25,

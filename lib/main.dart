@@ -43,7 +43,7 @@ Future main() async {
 
   Trifle();
   TextAreaSettings();
-  AdmobTool();
+  // AdmobTool();
   SqliteTool();
 
   FlutterBugly.init(androidAppId: "2827cefc38", iOSAppId: "907467ede5");

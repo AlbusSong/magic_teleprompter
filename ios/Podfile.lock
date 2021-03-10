@@ -1,7 +1,4 @@
 PODS:
-  - admob_flutter (1.0.0):
-    - Flutter
-    - Google-Mobile-Ads-SDK (~> 7.64)
   - Bugly (2.5.71)
   - camera (0.0.1):
     - Flutter
@@ -17,7 +14,10 @@ PODS:
   - Google-Mobile-Ads-SDK (7.69.0):
     - GoogleAppMeasurement (~> 7.0)
     - GoogleUserMessagingPlatform (~> 1.1)
-  - GoogleAppMeasurement (7.6.0):
+  - google_mobile_ads (0.0.1):
+    - Flutter
+    - Google-Mobile-Ads-SDK (= 7.69.0)
+  - GoogleAppMeasurement (7.7.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
     - GoogleUtilities/MethodSwizzler (~> 7.0)
     - GoogleUtilities/Network (~> 7.0)
@@ -72,11 +72,11 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - admob_flutter (from `.symlinks/plugins/admob_flutter/ios`)
   - camera (from `.symlinks/plugins/camera/ios`)
   - Flutter (from `Flutter`)
   - flutter_bugly (from `.symlinks/plugins/flutter_bugly/ios`)
   - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
+  - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
   - orientation (from `.symlinks/plugins/orientation/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
@@ -101,8 +101,6 @@ SPEC REPOS:
     - Try
 
 EXTERNAL SOURCES:
-  admob_flutter:
-    :path: ".symlinks/plugins/admob_flutter/ios"
   camera:
     :path: ".symlinks/plugins/camera/ios"
   Flutter:
@@ -111,6 +109,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_bugly/ios"
   gallery_saver:
     :path: ".symlinks/plugins/gallery_saver/ios"
+  google_mobile_ads:
+    :path: ".symlinks/plugins/google_mobile_ads/ios"
   orientation:
     :path: ".symlinks/plugins/orientation/ios"
   path_provider:
@@ -133,7 +133,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
-  admob_flutter: 370023e0bc3f49a44ba94f14009e0728bffe43e8
   Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   camera: a0ca5080336f7af47b88436e5e26da3dee5568f0
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
@@ -141,7 +140,8 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
   Google-Mobile-Ads-SDK: 2f288748a42920d1c744946a460896a95b0e9110
-  GoogleAppMeasurement: c542a2feaac9ab98fd074e8f1a02c3585bbfbd47
+  google_mobile_ads: 126e0785d3b0bd36d52ff331c19b8d8162407843
+  GoogleAppMeasurement: 0c3b134b2c0a90c4c24833873894bfe0e42a0384
   GoogleUserMessagingPlatform: b168e8c46cd8f92aa3e34b584c4ca78a411ce367
   GoogleUtilities: 31c5b01f978a70c6cff2afc6272b3f1921614b43
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e

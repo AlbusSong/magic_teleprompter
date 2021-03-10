@@ -13,7 +13,6 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:fbutton/fbutton.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:admob_flutter/admob_flutter.dart';
 import 'others/tools/AdmobTool.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -48,8 +47,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
     if (mounted) {}
 
-    AdmobTool().callback = (AdmobAdEvent e) {
-      if (e == AdmobAdEvent.closed) {
+    AdmobTool().callback = (AdEvent e) {
+      if (e == AdEvent.closed) {
         this._exportHandler();
       }
     };
@@ -219,14 +218,16 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       return;
     }
 
-    bool isLoaded = await AdmobTool().interstitialAd.isLoaded;
-    if (isLoaded) {
-      AdmobTool().interstitialAd.show();
-      this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
-    } else {
-      this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
-      this._exportHandler();
-    }
+    // bool isLoaded = await AdmobTool().interstitialAd.isLoaded();
+    // if (isLoaded) {
+    //   AdmobTool().interstitialAd.show();
+    //   this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+    // } else {
+    //   this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+    //   this._exportHandler();
+    // }
+    this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+    this._exportHandler();
   }
 
   void _exportHandler() {

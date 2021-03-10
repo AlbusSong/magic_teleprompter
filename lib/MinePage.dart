@@ -139,6 +139,7 @@ class _MinePageState extends State<MinePage> {
     showBarModalBottomSheet(
       context: context,
       expand: true,
+      enableDrag: false,
       backgroundColor: Colors.black,
       builder: (context) => CustomWebviewPage(url, title),
     );

@@ -342,6 +342,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.3+8"
+  flutter_bugly:
+    dependency: "direct main"
+    description:
+      name: flutter_bugly
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1"
   flutter_easyrefresh:
     dependency: "direct main"
     description:
@@ -1028,5 +1035,5 @@ packages:
     source: hosted
     version: "2.2.1"
 sdks:
-  dart: ">=2.10.2 <2.11.0"
+  dart: ">=2.10.3 <2.11.0"
   flutter: ">=1.22.2 <2.0.0"

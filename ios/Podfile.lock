@@ -2,9 +2,13 @@ PODS:
   - admob_flutter (1.0.0):
     - Flutter
     - Google-Mobile-Ads-SDK (~> 7.64)
+  - Bugly (2.5.71)
   - camera (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - flutter_bugly (0.0.1):
+    - Bugly
+    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -71,6 +75,7 @@ DEPENDENCIES:
   - admob_flutter (from `.symlinks/plugins/admob_flutter/ios`)
   - camera (from `.symlinks/plugins/camera/ios`)
   - Flutter (from `Flutter`)
+  - flutter_bugly (from `.symlinks/plugins/flutter_bugly/ios`)
   - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
   - orientation (from `.symlinks/plugins/orientation/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
@@ -85,6 +90,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Bugly
     - FMDB
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
@@ -101,6 +107,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/camera/ios"
   Flutter:
     :path: Flutter
+  flutter_bugly:
+    :path: ".symlinks/plugins/flutter_bugly/ios"
   gallery_saver:
     :path: ".symlinks/plugins/gallery_saver/ios"
   orientation:
@@ -126,8 +134,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   admob_flutter: 370023e0bc3f49a44ba94f14009e0728bffe43e8
+  Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   camera: a0ca5080336f7af47b88436e5e26da3dee5568f0
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_bugly: c9800f4d5bc5bdc27ffdde3417a26ba44266e0c3
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
   Google-Mobile-Ads-SDK: 2f288748a42920d1c744946a460896a95b0e9110
@@ -148,6 +158,6 @@ SPEC CHECKSUMS:
   wakelock: bfc7955c418d0db797614075aabbc58a39ab5107
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 
-PODFILE CHECKSUM: 36f4b8132e0105b7d1fa2946eba0846556836af4
+PODFILE CHECKSUM: 1f2db1b9cb84e688d87f3619466275b089ba5eb0
 
 COCOAPODS: 1.10.1

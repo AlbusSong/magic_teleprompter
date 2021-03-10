@@ -11,6 +11,7 @@ import 'package:bubble_lens/bubble_lens.dart';
 import 'others/third_party/Dart-Searchify/Dart_Searchify.dart';
 import 'others/tools/AdmobTool.dart';
 import 'SplashPage.dart';
+import 'package:flutter_bugly/flutter_bugly.dart';
 
 Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
@@ -44,6 +45,8 @@ Future main() async {
   TextAreaSettings();
   AdmobTool();
   SqliteTool();
+
+  FlutterBugly.init(androidAppId: "2827cefc38", iOSAppId: "907467ede5");
 
   runApp(EasyLocalization(
       supportedLocales: [Locale('zh')],

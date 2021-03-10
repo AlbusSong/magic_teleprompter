@@ -5,6 +5,7 @@ typedef DeviceOrientationChangedCallback = void Function(
     DeviceOrientation oldOrien, DeviceOrientation newOrien);
 
 class OrientationTool {
+  DeviceOrientation _previousOrientation;
   DeviceOrientation _orientation;
 
   // 单例公开访问点
@@ -28,13 +29,18 @@ class OrientationTool {
     return this._orientation;
   }
 
+  DeviceOrientation previousOrientation() {
+    return this._previousOrientation;
+  }
+
   void addOrientationChangeHandler(DeviceOrientationChangedCallback callback) {
     OrientationPlugin.onOrientationChange.listen((newOrien) {
       if (newOrien != _orientation) {
-        if (callback != null) {
-          callback(_orientation, newOrien);
-        }
+        _previousOrientation = _orientation;
         _orientation = newOrien;
+        if (callback != null) {
+          callback(_previousOrientation, newOrien);
+        }
       }
     });
   }

@@ -327,7 +327,13 @@ class _UseIOSPrompterPageState extends State<UseIOSPrompterPage>
         return 3;
       } else if (OrientationTool().currentOrientation() ==
           DeviceOrientation.portraitDown) {
-        return 2;
+        if (OrientationTool().previousOrientation() ==
+            DeviceOrientation.landscapeLeft) {
+          return 1;
+        } else if (OrientationTool().previousOrientation() ==
+            DeviceOrientation.landscapeRight) {
+          return 3;
+        }
       }
       return 0;
     };

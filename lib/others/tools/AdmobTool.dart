@@ -66,10 +66,10 @@ class AdmobTool {
       onApplicationExit: (Ad ad) => print('Left application.'),
     );
     // 广告
-    MobileAds.instance.initialize();
+    await MobileAds.instance.initialize();
     interstitialAd = InterstitialAd(
       adUnitId: getInterstitialAdUnitId(),
-      request: AdRequest(),
+      request: AdRequest(keywords: ["相机", "美颜", "自拍", "短视频", "vlog"]),
       listener: listener,
     );
     // interstitialAd = AdmobInterstitial(

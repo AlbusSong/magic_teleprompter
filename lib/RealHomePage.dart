@@ -38,6 +38,7 @@ class _RealHomePageState extends State<RealHomePage> {
 
   final MethodChannel _platform =
       const MethodChannel('com.albus.magic_teleprompter/trifles');
+  bool _videoSDKInited = false;
 
   @override
   void initState() {
@@ -54,12 +55,16 @@ class _RealHomePageState extends State<RealHomePage> {
     List ewee = ddds.split("#&&&&#");
     print("ewee: $ewee");
 
-    _initVideoSDK();
-
     _checkIfContainsExampleData();
   }
 
   void _initVideoSDK() async {
+    if (_videoSDKInited == true) {
+      return;
+    }
+
+    _videoSDKInited = true;
+
     String msg = await _platform.invokeMethod("setupVideoSDK");
     print("msg: $msg");
   }
@@ -446,6 +451,8 @@ class _RealHomePageState extends State<RealHomePage> {
   }
 
   Future _tryToUse(int index) async {
+    _initVideoSDK();
+
     await [Permission.camera, Permission.microphone].request();
     PermissionStatus cameraStatus = await Permission.camera.status;
     if (cameraStatus.isGranted == false) {

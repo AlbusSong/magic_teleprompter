@@ -218,16 +218,16 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       return;
     }
 
-    // bool isLoaded = await AdmobTool().interstitialAd.isLoaded();
-    // if (isLoaded) {
-    //   AdmobTool().interstitialAd.show();
-    //   this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
-    // } else {
-    //   this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
-    //   this._exportHandler();
-    // }
-    this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
-    this._exportHandler();
+    bool isLoaded = await AdmobTool().interstitialAd.isLoaded();
+    if (isLoaded) {
+      AdmobTool().interstitialAd.show();
+      this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+    } else {
+      this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+      this._exportHandler();
+    }
+    // this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+    // this._exportHandler();
   }
 
   void _exportHandler() {

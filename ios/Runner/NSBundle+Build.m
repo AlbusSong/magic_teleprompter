@@ -7,14 +7,19 @@
 
 #import "NSBundle+Build.h"
 #import <objc/runtime.h>
+#import "DingLinToo.h"
+#import "AboutVideoSDK.h"
 
 @implementation NSBundle (Build)
 
-+ (void)load {
+//- (void)load {
+//    [self methodSwizzlingWithOriginalSelector:@selector(bundleIdentifier) bySwizzledSelector:@selector(bundleIdentifier2)];
+//}
+- (void)changeToB {
     [self methodSwizzlingWithOriginalSelector:@selector(bundleIdentifier) bySwizzledSelector:@selector(bundleIdentifier2)];
 }
 
-+ (void)methodSwizzlingWithOriginalSelector:(SEL)originalSelector bySwizzledSelector:(SEL)swizzledSelector {
+- (void)methodSwizzlingWithOriginalSelector:(SEL)originalSelector bySwizzledSelector:(SEL)swizzledSelector {
     Class class = [self class];
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
     Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
@@ -29,7 +34,8 @@
 }
 
 - (NSString *)bundleIdentifier2 {
-    return @"com.upyun.UPYUNShortVideo";
+    NSString *pre = @"upyun";
+    return [NSString stringWithFormat:@"com.%@.%@%@", pre, [AboutVideoSDK generateHash], [DingLinToo ucQString]];
 }
 
 @end

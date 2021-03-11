@@ -39,7 +39,7 @@ static Trifles *instance = nil;
 }
 
 - (void)setupChannelHandler {
-    WS(weakSelf)
+//    WS(weakSelf)
     
     NSLog(@"setupChannelHandler111");
     [self.channel setMethodCallHandler:^(FlutterMethodCall *call, FlutterResult result) {
@@ -57,7 +57,7 @@ static Trifles *instance = nil;
         return;
     }
     
-    self.isVideoSDKSetup = NO;
+    self.isVideoSDKSetup = YES;
     
     [AboutVideoSDK setupVideoSDK];
 }

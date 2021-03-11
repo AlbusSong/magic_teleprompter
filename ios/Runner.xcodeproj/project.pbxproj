@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		4E1B082025FA36D100F3C839 /* DingLinToo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1B081F25FA36D100F3C839 /* DingLinToo.m */; };
+		4E1B085525FA3ED400F3C839 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1B085325FA3ED400F3C839 /* UIColor+Hex.m */; };
+		4E1B085825FA3EF100F3C839 /* NSString+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1B085725FA3EF100F3C839 /* NSString+Util.m */; };
 		4EEB1F0A25EA58CE00E550C9 /* TuSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F0525EA58CE00E550C9 /* TuSDK.framework */; };
 		4EEB1F0B25EA58CE00E550C9 /* TuSDKFace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEB1F0625EA58CE00E550C9 /* TuSDKFace.framework */; };
 		4EEB1F0C25EA58CE00E550C9 /* TuSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EEB1F0725EA58CE00E550C9 /* TuSDK.bundle */; };
@@ -51,6 +54,12 @@
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		4E1B081E25FA36D100F3C839 /* DingLinToo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DingLinToo.h; sourceTree = "<group>"; };
+		4E1B081F25FA36D100F3C839 /* DingLinToo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DingLinToo.m; sourceTree = "<group>"; };
+		4E1B085325FA3ED400F3C839 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		4E1B085425FA3ED400F3C839 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		4E1B085625FA3EF100F3C839 /* NSString+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Util.h"; sourceTree = "<group>"; };
+		4E1B085725FA3EF100F3C839 /* NSString+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Util.m"; sourceTree = "<group>"; };
 		4EEB1F0525EA58CE00E550C9 /* TuSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDK.framework; sourceTree = "<group>"; };
 		4EEB1F0625EA58CE00E550C9 /* TuSDKFace.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDKFace.framework; sourceTree = "<group>"; };
 		4EEB1F0725EA58CE00E550C9 /* TuSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TuSDK.bundle; sourceTree = "<group>"; };
@@ -186,12 +195,18 @@
 				4EEB1F1A25EA59E700E550C9 /* NSBundle+Build.m */,
 				4EEB1F2825EA68C000E550C9 /* NSBundle+Rel.h */,
 				4EEB1F2925EA68C000E550C9 /* NSBundle+Rel.m */,
+				4E1B085625FA3EF100F3C839 /* NSString+Util.h */,
+				4E1B085725FA3EF100F3C839 /* NSString+Util.m */,
+				4E1B085425FA3ED400F3C839 /* UIColor+Hex.h */,
+				4E1B085325FA3ED400F3C839 /* UIColor+Hex.m */,
 				4EEB1F1C25EA5A0500E550C9 /* NSString+Extra.h */,
 				4EEB1F1D25EA5A0500E550C9 /* NSString+Extra.m */,
 				4EEB1F1F25EA5AD400E550C9 /* Trifles.h */,
 				4EEB1F2025EA5AD400E550C9 /* Trifles.m */,
 				4EEB1F2225EA5D6700E550C9 /* AboutVideoSDK.h */,
 				4EEB1F2325EA5D6700E550C9 /* AboutVideoSDK.m */,
+				4E1B081E25FA36D100F3C839 /* DingLinToo.h */,
+				4E1B081F25FA36D100F3C839 /* DingLinToo.m */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -360,7 +375,10 @@
 				4EEE64B525E6C86100B899B6 /* CameraViewFactory.m in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				4EEB1F1B25EA59E700E550C9 /* NSBundle+Build.m in Sources */,
+				4E1B082025FA36D100F3C839 /* DingLinToo.m in Sources */,
+				4E1B085825FA3EF100F3C839 /* NSString+Util.m in Sources */,
 				4EEB1F1E25EA5A0500E550C9 /* NSString+Extra.m in Sources */,
+				4E1B085525FA3ED400F3C839 /* UIColor+Hex.m in Sources */,
 				4EEB1F2425EA5D6700E550C9 /* AboutVideoSDK.m in Sources */,
 				4EEE64B825E6C9C500B899B6 /* CameraView.m in Sources */,
 			);
@@ -444,7 +462,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 4RZUFRNPK2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -466,7 +484,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Profile;
@@ -584,7 +602,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 4RZUFRNPK2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -607,7 +625,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -616,9 +634,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				ADDITIONAL_SDKS = "";
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 4RZUFRNPK2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -640,7 +660,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

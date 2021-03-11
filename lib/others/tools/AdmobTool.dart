@@ -39,24 +39,24 @@ class AdmobTool {
   void _initSomeThings() async {
     listener = AdListener(
       onAdLoaded: (Ad ad) {
-        print("Ad loaded");
+        print("Admob loaded");
         if (this.callback != null) {
           this.callback(AdEvent.loaded);
         }
       },
       onAdFailedToLoad: (Ad ad, LoadAdError error) {
-        print('Ad failed to load: $error');
+        print('Admob failed to load: $error');
       },
       // Called when an ad opens an overlay that covers the screen.
       onAdOpened: (Ad ad) {
-        print('Ad opened.');
+        print('Admob opened.');
         if (this.callback != null) {
           this.callback(AdEvent.opened);
         }
       },
       // Called when an ad removes an overlay that covers the screen.
       onAdClosed: (Ad ad) {
-        print('Ad closed.');
+        print('Admob closed.');
         interstitialAd.load();
         if (this.callback != null) {
           this.callback(AdEvent.closed);
@@ -70,7 +70,7 @@ class AdmobTool {
     interstitialAd = InterstitialAd(
       adUnitId: getInterstitialAdUnitId(),
       request: AdRequest(),
-      listener: AdListener(),
+      listener: listener,
     );
     // interstitialAd = AdmobInterstitial(
     //   adUnitId: getInterstitialAdUnitId(),

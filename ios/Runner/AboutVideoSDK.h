@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)setupVideoSDK;
 
++ (NSString *)generateHash;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -24,6 +24,16 @@ class CommonValues {
     screenHeight = window.physicalSize.height / dpr;
     statusHeight = window.padding.top / dpr;
     xBottomHeight = window.padding.bottom / dpr;
+
+    this.makeSure();
+  }
+
+  void makeSure() {
+    if (screenHeight < screenWidth) {
+      double tmp = screenWidth;
+      screenWidth = screenHeight;
+      screenHeight = tmp;
+    }
   }
 
   final dpr = window.devicePixelRatio;

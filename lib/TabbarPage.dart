@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
+import 'package:magic_teleprompter/others/tools/NotificationCenter.dart';
 import 'package:rolling_nav_bar/rolling_nav_bar.dart';
 import 'RealHomePage.dart';
 import 'MinePage.dart';
@@ -56,6 +57,9 @@ class _TabbarPageState extends State<TabbarPage> {
               setState(() {
                 this._selectedIndex = idx;
               });
+              if (idx == 1) {
+                NotificationCenter().postNotification("MineTabbarClicked");
+              }
             },
           ),
         ));

@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:magic_teleprompter/others/models/CommonValues.dart';
 import 'package:magic_teleprompter/others/tools/GlobalTool.dart';
 import 'package:magic_teleprompter/others/tools/HudTool.dart';
+import 'package:magic_teleprompter/others/tools/NotificationCenter.dart';
+import 'package:magic_teleprompter/others/tools/OrientationTool.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -36,12 +38,46 @@ class _MinePageState extends State<MinePage> {
 
   final SweetSheet _sweetSheet = SweetSheet();
 
+  double itemRadio = 1.0;
+
   @override
   void initState() {
     super.initState();
 
+    NotificationCenter().addObserver("MineTabbarClicked", (params) {
+      print("MineTabbarClicked");
+      _calculateCache();
+      _calculateVideoCount();
+    });
+
+    OrientationTool().addOrientationChangeHandler((o1, o2) {
+      print("o1: $o1, o2: $o2");
+      if (o2 == DeviceOrientation.portraitDown ||
+          o2 == DeviceOrientation.portraitUp) {
+        CommonValues().makeSure();
+        this.itemRadio = ((CommonValues().screenWidth - 3 * 20.0) /
+            (CommonValues().screenHeight - 50 * 4.0 - 20));
+      } else {
+        this.itemRadio = 1.0;
+      }
+      setState(() {});
+    });
+
+    if (OrientationTool().isPortrait()) {
+      this.itemRadio = ((CommonValues().screenWidth - 3 * 20.0) /
+          (CommonValues().screenHeight - 50 * 4.0 - 20));
+    } else {
+      this.itemRadio = 1.0;
+    }
+
     _calculateCache();
     _calculateVideoCount();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("didChangeDependencies");
   }
 
   @override
@@ -59,8 +95,7 @@ class _MinePageState extends State<MinePage> {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
-          childAspectRatio: ((CommonValues().screenWidth - 3 * 20.0) /
-              (CommonValues().screenHeight - 50 * 4.0 - 20)),
+          childAspectRatio: this.itemRadio,
           crossAxisCount: 2,
         ),
         padding: EdgeInsets.fromLTRB(20, 50, 20, 50),

@@ -17,17 +17,15 @@ import 'others/tools/AdmobTool.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class VideoPlayerPage extends StatefulWidget {
-  VideoPlayerPage(this.localVideoPath);
+  VideoPlayerPage(this.localVideoPath, {this.shouldDeleteVideo = true});
   final String localVideoPath;
+  final bool shouldDeleteVideo;
 
   @override
-  State createState() => _VideoPlayerPageState(this.localVideoPath);
+  State createState() => _VideoPlayerPageState();
 }
 
 class _VideoPlayerPageState extends State<VideoPlayerPage> {
-  _VideoPlayerPageState(this.localVideoPath);
-  final String localVideoPath;
-
   final SweetSheet _sweetSheet = SweetSheet();
 
   VideoPlayerController _videoController;
@@ -41,7 +39,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   void initState() {
     super.initState();
 
-    _videoFile = File(this.localVideoPath);
+    _videoFile = File(widget.localVideoPath);
 
     _initControllers();
 
@@ -68,7 +66,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   @override
   void dispose() {
     if (_videoFile.existsSync()) {
-      _videoFile.deleteSync();
+      if (widget.shouldDeleteVideo) {
+        _videoFile.deleteSync();
+      }
     }
 
     _chewieController.pause();
@@ -131,7 +131,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
         ),
         child: FlatButton(
           child: Text(
-            "video_player.btn_back".tr(),
+            widget.shouldDeleteVideo ? "video_player.btn_back".tr() : "返回",
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: hexColor("ffffff"),
@@ -221,9 +221,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     bool isLoaded = await AdmobTool().interstitialAd.isLoaded();
     if (isLoaded) {
       AdmobTool().interstitialAd.show();
-      this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+      this.exportSuccess = await GallerySaver.saveVideo(widget.localVideoPath);
     } else {
-      this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
+      this.exportSuccess = await GallerySaver.saveVideo(widget.localVideoPath);
       this._exportHandler();
     }
     // this.exportSuccess = await GallerySaver.saveVideo(this.localVideoPath);
@@ -233,7 +233,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   void _exportHandler() {
     if (this.exportSuccess) {
       HudTool.showInfoWithStatus("video_player.hint_exported_success".tr());
-      _videoFile.deleteSync();
+      if (widget.shouldDeleteVideo) {
+        _videoFile.deleteSync();
+      }
       Future.delayed(Duration(seconds: 1), () {
         // Navigator.popUntil(context, ModalRoute.withName('/home'));
         Navigator.of(context).pop();
@@ -244,24 +246,30 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   }
 
   void _tryToGoBackAndRetake() {
-    _sweetSheet.show(
-      context: context,
-      title: Text("video_player.hint_quit_title".tr()),
-      description: Text("video_player.hint_quit_desc".tr()),
-      color: SweetSheetColor.DANGER,
-      positive: SweetSheetAction(
-        onPressed: () {
-          Navigator.of(context).pop();
-          _goBackAndRetake();
-        },
-        title: "video_player.hint_quit_confirmation".tr(),
-      ),
-    );
+    if (widget.shouldDeleteVideo == false) {
+      Navigator.of(context).pop();
+    } else {
+      _sweetSheet.show(
+        context: context,
+        title: Text("video_player.hint_quit_title".tr()),
+        description: Text("video_player.hint_quit_desc".tr()),
+        color: SweetSheetColor.DANGER,
+        positive: SweetSheetAction(
+          onPressed: () {
+            Navigator.of(context).pop();
+            _goBackAndRetake();
+          },
+          title: "video_player.hint_quit_confirmation".tr(),
+        ),
+      );
+    }
   }
 
   void _goBackAndRetake() {
     _chewieController.pause();
-    _videoFile.deleteSync();
+    if (widget.shouldDeleteVideo) {
+      _videoFile.deleteSync();
+    }
 
     Navigator.pop(context);
   }

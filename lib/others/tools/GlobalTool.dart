@@ -5,6 +5,11 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
+import 'package:path/path.dart';
+
+String getFileNameByPath(String p) {
+  return basename(p);
+}
 
 // 获取一个字符串的所有子字符串
 List<String> getAllSubStrings(String fatherStr,

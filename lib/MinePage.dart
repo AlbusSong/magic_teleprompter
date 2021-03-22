@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'CustomWebviewPage.dart';
+import 'RemainingVideoListPage.dart';
 
 class MinePage extends StatefulWidget {
   MinePage({Key key}) : super(key: key);
@@ -31,6 +32,7 @@ class _MinePageState extends State<MinePage> {
       "https://magic-teleprompter-app.herokuapp.com/privacy.html";
   String developmentStoryUrl =
       "https://magic-teleprompter-app.herokuapp.com/app_story.html";
+  int unhandledVideoCount = 0;
 
   final SweetSheet _sweetSheet = SweetSheet();
 
@@ -39,6 +41,7 @@ class _MinePageState extends State<MinePage> {
     super.initState();
 
     _calculateCache();
+    _calculateVideoCount();
   }
 
   @override
@@ -65,7 +68,8 @@ class _MinePageState extends State<MinePage> {
           _buildMineItem(0, "我的-清理缓存", "清理缓存", "当前缓存：${this.cacheSize}\n点击清理"),
           _buildMineItem(1, "我的-隐私条款", "隐私条款", "关于您的数据的隐私条款"),
           _buildMineItem(2, "我的-问题反馈", "问题反馈", "请加QQ群：\n${this.qqCode}"),
-          _buildMineItem(3, "我的-开发小传", "开发小传", "一路走来的开发历程"),
+          _buildMineItem(
+              3, "我的-视频列表", "未导视频", "尚未导出的视频列表(${this.unhandledVideoCount})"),
         ],
       ),
     );
@@ -97,6 +101,7 @@ class _MinePageState extends State<MinePage> {
               "assets/images/$imageName.png",
               width: 45,
               height: 45,
+              fit: BoxFit.contain,
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 15, 0, 10),
@@ -131,8 +136,20 @@ class _MinePageState extends State<MinePage> {
     } else if (index == 2) {
       _tryToCopyQQCode();
     } else {
-      _tryToEnterWebPage(this.developmentStoryUrl, "开发小传");
+      // _tryToEnterWebPage(this.developmentStoryUrl, "开发小传");
+      _tryToEnterVideoListPage();
     }
+  }
+
+  void _tryToEnterVideoListPage() async {
+    if (this.unhandledVideoCount == 0) {
+      HudTool.showErrorWithStatus("尚无未导出的视频");
+      _calculateVideoCount();
+      return;
+    }
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => RemainingVideoListPage()));
+    _calculateVideoCount();
   }
 
   void _tryToEnterWebPage(String url, String title) {
@@ -165,6 +182,29 @@ class _MinePageState extends State<MinePage> {
         title: "确定",
       ),
     );
+  }
+
+  void _calculateVideoCount() async {
+    Directory cacheDir = await getTemporaryDirectory();
+    Directory videoDir = new Directory('${cacheDir.path}/lsqTempDir');
+    final List<FileSystemEntity> children = videoDir.listSync();
+    int result = 0;
+    for (final FileSystemEntity fse in children) {
+      if (fse is Directory) {
+        continue;
+      }
+
+      if (fse.path.endsWith(".mp4") || fse.path.endsWith(".MP4")) {
+        print("paththt: ${fse.path}");
+        String videoName = getFileNameByPath(fse.path);
+        print("videoName: $videoName");
+        result++;
+      }
+    }
+
+    setState(() {
+      this.unhandledVideoCount = result;
+    });
   }
 
   void _calculateCache() async {

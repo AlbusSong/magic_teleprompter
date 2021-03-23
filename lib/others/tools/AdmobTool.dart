@@ -67,9 +67,15 @@ class AdmobTool {
     );
     // 广告
     await MobileAds.instance.initialize();
+    List<String> testDevices = [];
+    if (DateTime.now().difference(DateTime.parse('2021-03-26')).isNegative) {
+      testDevices = ["23b800c6781e8bcaaba570f94192fde3"];
+    }
     interstitialAd = InterstitialAd(
       adUnitId: getInterstitialAdUnitId(),
-      request: AdRequest(keywords: ["相机", "美颜", "自拍", "短视频", "vlog"]),
+      request: AdRequest(
+          keywords: ["相机", "美颜", "自拍", "短视频", "vlog"],
+          testDevices: testDevices),
       listener: listener,
     );
     // interstitialAd = AdmobInterstitial(

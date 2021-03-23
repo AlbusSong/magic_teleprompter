@@ -53,7 +53,7 @@ dependencies:
   # smart_select: ^4.3.2
   modal_bottom_sheet: ^1.0.0+1
   # admob_flutter: ^1.0.1
-  google_mobile_ads: ^0.11.0+3
+  google_mobile_ads: ^0.11.0+4
   delayed_display: ^1.1.0
   bubble_lens: ^1.0.3
   rolling_nav_bar: ^0.0.4

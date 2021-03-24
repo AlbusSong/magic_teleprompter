@@ -15,6 +15,7 @@ import 'package:sweetsheet/sweetsheet.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'others/tools/AdmobTool.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   VideoPlayerPage(this.localVideoPath, {this.shouldDeleteVideo = true});
@@ -218,6 +219,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       return;
     }
 
+    await AppTrackingTransparency.requestTrackingAuthorization();
     bool isLoaded = await AdmobTool().interstitialAd.isLoaded();
     if (isLoaded) {
       AdmobTool().interstitialAd.show();

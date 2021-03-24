@@ -45,6 +45,7 @@ class AdmobTool {
         }
       },
       onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        // interstitialAd.dispose();
         print('Admob failed to load: $error');
       },
       // Called when an ad opens an overlay that covers the screen.
@@ -57,6 +58,7 @@ class AdmobTool {
       // Called when an ad removes an overlay that covers the screen.
       onAdClosed: (Ad ad) {
         print('Admob closed.');
+        // interstitialAd.dispose();
         interstitialAd.load();
         if (this.callback != null) {
           this.callback(AdEvent.closed);

@@ -29,6 +29,8 @@
 		4EEB1F2A25EA68C000E550C9 /* NSBundle+Rel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEB1F2925EA68C000E550C9 /* NSBundle+Rel.m */; };
 		4EEE64B525E6C86100B899B6 /* CameraViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEE64B425E6C86100B899B6 /* CameraViewFactory.m */; };
 		4EEE64B825E6C9C500B899B6 /* CameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EEE64B725E6C9C500B899B6 /* CameraView.m */; };
+		4EFB84EA261C7CA700579229 /* TestNetProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFB84E9261C7CA700579229 /* TestNetProtocol.m */; };
+		4EFB84ED261C84A300579229 /* NSJSONSerialization+AvoidNull.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFB84EC261C84A300579229 /* NSJSONSerialization+AvoidNull.m */; };
 		73FD92D080C608DBD3B6EE6F /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0246FBAE436CB3220B8FABA9 /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -84,6 +86,10 @@
 		4EEE64B425E6C86100B899B6 /* CameraViewFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraViewFactory.m; sourceTree = "<group>"; };
 		4EEE64B625E6C9C500B899B6 /* CameraView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraView.h; sourceTree = "<group>"; };
 		4EEE64B725E6C9C500B899B6 /* CameraView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraView.m; sourceTree = "<group>"; };
+		4EFB84E8261C7CA700579229 /* TestNetProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestNetProtocol.h; sourceTree = "<group>"; };
+		4EFB84E9261C7CA700579229 /* TestNetProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestNetProtocol.m; sourceTree = "<group>"; };
+		4EFB84EB261C84A300579229 /* NSJSONSerialization+AvoidNull.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSJSONSerialization+AvoidNull.h"; sourceTree = "<group>"; };
+		4EFB84EC261C84A300579229 /* NSJSONSerialization+AvoidNull.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSJSONSerialization+AvoidNull.m"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7995B4A3BE98D96408B62D24 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
@@ -207,6 +213,10 @@
 				4EEB1F2325EA5D6700E550C9 /* AboutVideoSDK.m */,
 				4E1B081E25FA36D100F3C839 /* DingLinToo.h */,
 				4E1B081F25FA36D100F3C839 /* DingLinToo.m */,
+				4EFB84E8261C7CA700579229 /* TestNetProtocol.h */,
+				4EFB84E9261C7CA700579229 /* TestNetProtocol.m */,
+				4EFB84EB261C84A300579229 /* NSJSONSerialization+AvoidNull.h */,
+				4EFB84EC261C84A300579229 /* NSJSONSerialization+AvoidNull.m */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -375,9 +385,11 @@
 				4EEE64B525E6C86100B899B6 /* CameraViewFactory.m in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				4EEB1F1B25EA59E700E550C9 /* NSBundle+Build.m in Sources */,
+				4EFB84ED261C84A300579229 /* NSJSONSerialization+AvoidNull.m in Sources */,
 				4E1B082025FA36D100F3C839 /* DingLinToo.m in Sources */,
 				4E1B085825FA3EF100F3C839 /* NSString+Util.m in Sources */,
 				4EEB1F1E25EA5A0500E550C9 /* NSString+Extra.m in Sources */,
+				4EFB84EA261C7CA700579229 /* TestNetProtocol.m in Sources */,
 				4E1B085525FA3ED400F3C839 /* UIColor+Hex.m in Sources */,
 				4EEB1F2425EA5D6700E550C9 /* AboutVideoSDK.m in Sources */,
 				4EEE64B825E6C9C500B899B6 /* CameraView.m in Sources */,
@@ -462,7 +474,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 4RZUFRNPK2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -602,7 +614,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 4RZUFRNPK2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -638,7 +650,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 4RZUFRNPK2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

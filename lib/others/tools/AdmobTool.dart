@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 enum AdEvent {
   loaded,
@@ -68,6 +69,7 @@ class AdmobTool {
       onApplicationExit: (Ad ad) => print('Left application.'),
     );
     // 广告
+    // await AppTrackingTransparency.requestTrackingAuthorization();
     await MobileAds.instance.initialize();
     List<String> testDevices = [];
     if (DateTime.now().difference(DateTime.parse('2021-03-26')).isNegative) {

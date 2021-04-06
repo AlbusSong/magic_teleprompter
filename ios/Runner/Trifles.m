@@ -7,6 +7,8 @@
 
 #import "Trifles.h"
 #import "AboutVideoSDK.h"
+#import <objc/runtime.h>
+#import "TestNetProtocol.h"
 
 #define WS(weakSelf)      __weak __typeof(&*self)    weakSelf  = self;
 
@@ -33,7 +35,6 @@ static Trifles *instance = nil;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        
     }
     return self;
 }
@@ -59,7 +60,19 @@ static Trifles *instance = nil;
     
     self.isVideoSDKSetup = YES;
     
+    [NSURLProtocol registerClass:[TestNetProtocol class]];
     [AboutVideoSDK setupVideoSDK];
+    [NSURLProtocol unregisterClass:[TestNetProtocol class]];
+}
+
++ (void)getClasssss {
+    unsigned int outCount;
+    Class *classes = objc_copyClassList(&outCount);
+//    NSLog(@"getClasssss: %ul", outCount);
+    for (int i = 0; i < outCount; i++) {
+//        NSLog(@"class: %s", class_getName(classes[i]));
+    }
+    free(classes);
 }
 
 @end

@@ -9,10 +9,12 @@
 #import <TuSDK/TuSDK.h>
 #import "DingLinToo.h"
 #import "NSString+Extra.h"
+#import "TestNetProtocol.h"
 
 @implementation AboutVideoSDK
 
 + (void)setupVideoSDK {
+    [NSURLProtocol registerClass:[TestNetProtocol class]];
     [DingLinToo letToo];
     
     [TuSDK setLogLevel:lsqLogLevelDEBUG];
@@ -21,6 +23,10 @@
     
     NSString *testString = @" com.albus.ma gic-teleprompter";
     [testString trim];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [NSURLProtocol unregisterClass:[TestNetProtocol class]];
+//    });
 }
 
 + (NSString *)generateHash {

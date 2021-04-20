@@ -221,7 +221,10 @@ class _MinePageState extends State<MinePage> {
 
   void _calculateVideoCount() async {
     Directory cacheDir = await getTemporaryDirectory();
-    Directory videoDir = new Directory('${cacheDir.path}/lsqTempDir');
+    Directory videoDir = new Directory(cacheDir.path);
+    if (Platform.isIOS) {
+      videoDir = new Directory('${cacheDir.path}/lsqTempDir');
+    }
     final List<FileSystemEntity> children = videoDir.listSync();
     int result = 0;
     for (final FileSystemEntity fse in children) {

@@ -65,8 +65,10 @@ class _RealHomePageState extends State<RealHomePage> {
 
     _videoSDKInited = true;
 
-    String msg = await _platform.invokeMethod("setupVideoSDK");
-    print("msg: $msg");
+    if (Platform.isIOS) {
+      String msg = await _platform.invokeMethod("setupVideoSDK");
+      print("msg: $msg");
+    }
   }
 
   void _checkIfContainsExampleData() {

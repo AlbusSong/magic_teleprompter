@@ -15,7 +15,7 @@ class _UsageCoursePageState extends State<UsageCoursePage> {
   VideoPlayerController _videoController;
   ChewieController _chewieController;
 
-  String videoUrl = "http://qpk6w2j5r.hn-bkt.clouddn.com/video_course.mp4";
+  String videoUrl = "http://qr56ltiat.hn-bkt.clouddn.com/video_course.mp4";
 
   @override
   void initState() {

@@ -45,11 +45,11 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
     if (mounted) {}
 
-    AdmobTool().callback = (AdEvent e) {
-      if (e == AdEvent.closed) {
-        this._exportHandler();
-      }
-    };
+    // AdmobTool().callback = (AdEvent e) {
+    //   if (e == AdEvent.closed) {
+    //     this._exportHandler();
+    //   }
+    // };
   }
 
   void _initControllers() async {
@@ -218,9 +218,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       return;
     }
 
-    bool isLoaded = await AdmobTool().interstitialAd.isLoaded();
-    if (isLoaded) {
-      AdmobTool().interstitialAd.show();
+    // bool isLoaded = await AdmobTool().interstitialAd.isLoaded();
+    if (1 == 1) {
+      // AdmobTool().interstitialAd.show();
       this.exportSuccess = await GallerySaver.saveVideo(widget.localVideoPath);
     } else {
       this.exportSuccess = await GallerySaver.saveVideo(widget.localVideoPath);

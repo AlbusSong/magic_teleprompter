@@ -31,6 +31,8 @@ dependencies:
   bot_toast: ^3.0.5
   flutter_easyrefresh: ^2.1.8
   flustars: ^0.3.3
+  # admob_flutter: ^1.0.1
+  # google_mobile_ads: ^0.12.1+1
   camera: ^0.7.0+2
   fsuper: ^2.0.2
   fdottedline: ^1.0.1
@@ -51,9 +53,7 @@ dependencies:
   # getwidget: ^1.2.4
   xlive_switch: ^1.0.5
   # smart_select: ^4.3.2
-  modal_bottom_sheet: ^1.0.0+1
-  # admob_flutter: ^1.0.1
-  google_mobile_ads: ^0.11.0+4
+  modal_bottom_sheet: ^1.0.0+1  
   # app_tracking_transparency: ^2.0.0
   delayed_display: ^1.1.0
   bubble_lens: ^1.0.3

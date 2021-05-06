@@ -72,7 +72,7 @@ class AdmobTool {
     // await AppTrackingTransparency.requestTrackingAuthorization();
     await MobileAds.instance.initialize();
     List<String> testDevices = [];
-    if (DateTime.now().difference(DateTime.parse('2021-03-26')).isNegative) {
+    if (DateTime.now().difference(DateTime.parse('2021-05-16')).isNegative) {
       testDevices = ["23b800c6781e8bcaaba570f94192fde3"];
     }
     interstitialAd = InterstitialAd(

@@ -12,7 +12,7 @@ static NSString *const TestInitKey = @"TestInitKey";
 
 @interface TestNetProtocol ()
 
-@property (nonatomic,strong) NSURLSessionDataTask *dataTask;
+@property (nonatomic, strong) NSURLSessionDataTask *dataTask;
 
 @end
 

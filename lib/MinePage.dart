@@ -225,6 +225,9 @@ class _MinePageState extends State<MinePage> {
     if (Platform.isIOS) {
       videoDir = new Directory('${cacheDir.path}/lsqTempDir');
     }
+    if (videoDir.existsSync() == false) {
+      videoDir.createSync();
+    }
     final List<FileSystemEntity> children = videoDir.listSync();
     int result = 0;
     for (final FileSystemEntity fse in children) {

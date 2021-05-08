@@ -220,9 +220,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
     // 弹出广告追踪权限弹窗
     AdmobTool().popOutAppTrackingWindow();
-    bool isLoaded = await AdmobTool().interstitialAd.isLoaded();
+    bool isLoaded = await AdmobTool().isAdmobLoaded();
     if (isLoaded) {
-      AdmobTool().interstitialAd.show();
+      AdmobTool().showAd();
       this.exportSuccess = await GallerySaver.saveVideo(widget.localVideoPath);
     } else {
       this.exportSuccess = await GallerySaver.saveVideo(widget.localVideoPath);

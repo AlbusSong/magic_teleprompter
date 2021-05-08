@@ -103,6 +103,14 @@ class AdmobTool {
     AppTrackingTransparency.requestTrackingAuthorization();
   }
 
+  Future<bool> isAdmobLoaded() async {
+    return await this.interstitialAd.isLoaded();
+  }
+
+  void showAd() {
+    this.interstitialAd.show();
+  }
+
   String getInterstitialAdUnitId() {
     if (Platform.isIOS) {
       return 'ca-app-pub-8622528197740245/9525202279';

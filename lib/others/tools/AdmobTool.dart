@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-// import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 enum AdEvent {
   loaded,
@@ -97,6 +97,10 @@ class AdmobTool {
     // );
     interstitialAd.load();
     print("interstitialAd: $interstitialAd");
+  }
+
+  void popOutAppTrackingWindow() {
+    AppTrackingTransparency.requestTrackingAuthorization();
   }
 
   String getInterstitialAdUnitId() {

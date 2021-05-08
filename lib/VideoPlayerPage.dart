@@ -218,6 +218,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       return;
     }
 
+    // 弹出广告追踪权限弹窗
+    AdmobTool().popOutAppTrackingWindow();
     bool isLoaded = await AdmobTool().interstitialAd.isLoaded();
     if (isLoaded) {
       AdmobTool().interstitialAd.show();

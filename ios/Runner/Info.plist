@@ -46,6 +46,8 @@
 	<string>需要您的相册权限来导出视频</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>需要您的语音识别权限来实现自动跟读功能</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>需要广告跟踪权限来展示符合您口味的广告信息</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>

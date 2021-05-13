@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 enum AdEvent {
   loaded,
@@ -16,8 +16,8 @@ enum AdEvent {
 }
 
 class AdmobTool {
-  InterstitialAd interstitialAd;
-  AdListener listener;
+  // InterstitialAd interstitialAd;
+  // AdListener listener;
   Function(AdEvent e) callback;
 
   // 单例公开访问点
@@ -38,50 +38,52 @@ class AdmobTool {
   }
 
   void _initSomeThings() async {
-    listener = AdListener(
-      onAdLoaded: (Ad ad) {
-        print("Admob loaded");
-        if (this.callback != null) {
-          this.callback(AdEvent.loaded);
-        }
-      },
-      onAdFailedToLoad: (Ad ad, LoadAdError error) {
-        // interstitialAd.dispose();
-        print('Admob failed to load: $error');
-      },
-      // Called when an ad opens an overlay that covers the screen.
-      onAdOpened: (Ad ad) {
-        print('Admob opened.');
-        if (this.callback != null) {
-          this.callback(AdEvent.opened);
-        }
-      },
-      // Called when an ad removes an overlay that covers the screen.
-      onAdClosed: (Ad ad) {
-        print('Admob closed.');
-        // interstitialAd.dispose();
-        interstitialAd.load();
-        if (this.callback != null) {
-          this.callback(AdEvent.closed);
-        }
-      },
-      // Called when an ad is in the process of leaving the application.
-      onApplicationExit: (Ad ad) => print('Left application.'),
-    );
+    // listener = AdListener(
+    //   onAdLoaded: (Ad ad) {
+    //     print("Admob loaded");
+    //     if (this.callback != null) {
+    //       this.callback(AdEvent.loaded);
+    //     }
+    //   },
+    //   onAdFailedToLoad: (Ad ad, LoadAdError error) {
+    //     // interstitialAd.dispose();
+    //     print('Admob failed to load: $error');
+    //   },
+    //   // Called when an ad opens an overlay that covers the screen.
+    //   onAdOpened: (Ad ad) {
+    //     print('Admob opened.');
+    //     if (this.callback != null) {
+    //       this.callback(AdEvent.opened);
+    //     }
+    //   },
+    //   // Called when an ad removes an overlay that covers the screen.
+    //   onAdClosed: (Ad ad) {
+    //     print('Admob closed.');
+    //     // interstitialAd.dispose();
+    //     interstitialAd.load();
+    //     if (this.callback != null) {
+    //       this.callback(AdEvent.closed);
+    //     }
+    //   },
+    //   // Called when an ad is in the process of leaving the application.
+    //   onApplicationExit: (Ad ad) => print('Left application.'),
+    // );
     // 广告
     // await AppTrackingTransparency.requestTrackingAuthorization();
-    await MobileAds.instance.initialize();
-    List<String> testDevices = [];
-    if (DateTime.now().difference(DateTime.parse('2021-05-16')).isNegative) {
-      testDevices = ["23b800c6781e8bcaaba570f94192fde3"];
-    }
-    interstitialAd = InterstitialAd(
-      adUnitId: getInterstitialAdUnitId(),
-      request: AdRequest(
-          keywords: ["相机", "美颜", "自拍", "短视频", "vlog"],
-          testDevices: testDevices),
-      listener: listener,
-    );
+    // await MobileAds.instance.initialize();
+    // List<String> testDevices = [];
+    // if (DateTime.now().difference(DateTime.parse('2021-05-16')).isNegative) {
+    //   testDevices = ["23b800c6781e8bcaaba570f94192fde3"];
+    // }
+    // interstitialAd = InterstitialAd(
+    //   adUnitId: getInterstitialAdUnitId(),
+    //   request: AdRequest(
+    //       keywords: ["相机", "美颜", "自拍", "短视频", "vlog"],
+    //       testDevices: testDevices),
+    //   listener: listener,
+    // );
+
+    /* No Need Codes
     // interstitialAd = AdmobInterstitial(
     //   adUnitId: getInterstitialAdUnitId(),
     //   listener: (AdmobAdEvent event, Map<String, dynamic> args) {
@@ -95,20 +97,23 @@ class AdmobTool {
     //     }
     //   },
     // );
-    interstitialAd.load();
-    print("interstitialAd: $interstitialAd");
+    */
+
+    // interstitialAd.load();
+    // print("interstitialAd: $interstitialAd");
   }
 
   void popOutAppTrackingWindow() {
-    AppTrackingTransparency.requestTrackingAuthorization();
+    // AppTrackingTransparency.requestTrackingAuthorization();
   }
 
   Future<bool> isAdmobLoaded() async {
-    return await this.interstitialAd.isLoaded();
+    // return await this.interstitialAd.isLoaded();
+    return false;
   }
 
   void showAd() {
-    this.interstitialAd.show();
+    // this.interstitialAd.show();
   }
 
   String getInterstitialAdUnitId() {

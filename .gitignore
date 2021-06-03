@@ -49,6 +49,7 @@ android/gradlew.bat
 android/local.properties
 android/**/GeneratedPluginRegistrant.java
 android/app/release/
+*.apk
 
 # iOS/XCode related
 ios/DerivedData/

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'RealHomePage.dart';
 import 'others/tools/SqliteTool.dart';
@@ -21,16 +22,14 @@ Future main() async {
   // ignore: await_only_futures
   await EasyLocalization.ensureInitialized();
 
-  // RegExp re = new RegExp(r"(\w|\s|,|')+[，,。.?!]*\s*");
-  // // get all the matches:
-  // Iterable matches = re.allMatches(ddds);
-  // // print("matches: $matches");
-  // for (Match m in matches) {
-  //   String match = m.group(0);
-  //   print("match: $match");
-  // }
-  // List allSubStrings = getAllSubStrings("我爱你", 2, true);
-  // print("allSubStrings: $allSubStrings");
+  if (Platform.isAndroid) {
+    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+    );
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+  }
 
   Pattern pattern = Pattern("ABC");
   String testString = "ABCABCDEFGABC";

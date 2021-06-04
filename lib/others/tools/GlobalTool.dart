@@ -80,7 +80,7 @@ List<String> splitStringByPunctuation(String ori) {
 
 // kmp算法
 List computeLPS(String pattern) {
-  List lps = new List(pattern.length);
+  List lps = [];
   lps[0] = 0;
   int m = pattern.length;
   int j = 0;
@@ -104,7 +104,7 @@ List computeLPS(String pattern) {
 }
 
 List<int> kmp(String text, String pattern) {
-  List<int> foundIndexes = new List<int>();
+  List<int> foundIndexes = [];
   int n = text.length;
   int m = pattern.length;
 
